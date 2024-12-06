@@ -2,8 +2,9 @@
 theme: ["wide"]
 ---
 
-
+<link rel="stylesheet" href="custom.css">
 <link rel="stylesheet" href="assets/shoelace-light.css">
+
 <script defer src="assets/fontawesome/fontawesome.js"></script>
 <script defer src="assets/fontawesome/solid.js"></script>
 
@@ -28,14 +29,11 @@ data.measures = aq.from(await FileAttachment('data/measures.csv').csv());
 ```
 
 ```js
-
+// store row (=item) count of tables
 const item_count = {}
-
-// [sector].map((table) => item_count[])
-
+_.forEach(data, (v, k) => item_count[k] = v.numRows())
 
 ```
-
 
 
 
@@ -44,32 +42,35 @@ const item_count = {}
 <strong>A truly mindboggling adaptation machine by the Wolves and the Danes</strong>
 
 
-
-## Pick your poison
-
-
 ```js
 const table_options = {columns: ["description"], height: "15rem"}
 ```
 
 
-<div id="settings" class="card grid grid-cols-2" style="grid-auto-rows: auto;">
 
+
+<div  class="grid grid-cols-2" style="grid-auto-rows: auto;">
+
+<sl-details id="settings" class="grid-colspan-2">
+
+<div slot="summary"><i class="fa fa-filter"></i> Filter</div>
 
 <sl-tab-group>
-    <sl-tab slot="nav" panel="sectors">Sectors</sl-tab>
-    <sl-tab slot="nav" panel="topics">Topics</sl-tab>
-    <sl-tab slot="nav" panel="phases">Phases</sl-tab>
-    <sl-tab slot="nav" panel="gaps">Gaps</sl-tab>
-
-<sl-tab-panel name="sectors">
+    <sl-tab slot="nav" panel="sectors"> Sectors (${selected_sectors.length}/${item_count.sectors})</sl-tab>
+    <sl-tab slot="nav" panel="topics">Topics  (${selected_topics.length}/${item_count.topics})</sl-tab>
+    <sl-tab slot="nav" panel="phases">Phases  (${selected_phases.length}/${item_count.phases})</sl-tab>
+    <sl-tab slot="nav" panel="gaps">Gaps  (${selected_gaps.length}/${item_count.gaps})</sl-tab>
+    
+<sl-tab-panel name="sectors" active>
 
 ```js
     const searched_sectors = view(Inputs.search(data.sectors));
 ```
 ```js
     const selected_sectors = view(Inputs.table(searched_sectors, table_options));
-```  
+
+```
+
 </sl-tab-panel>
 <sl-tab-panel name="topics">
 
@@ -80,7 +81,7 @@ const table_options = {columns: ["description"], height: "15rem"}
     const selected_topics = view(Inputs.table(searched_topics, table_options));
 ```
 </sl-tab-panel>
-  <sl-tab-panel name="phases">
+<sl-tab-panel name="phases">
 
 ```js
     const searched_phases = view(Inputs.search(data.phases));
@@ -89,8 +90,8 @@ const table_options = {columns: ["description"], height: "15rem"}
     const selected_phases = view(Inputs.table(searched_phases, table_options));
 ```  
 
-  </sl-tab-panel>
-  <sl-tab-panel name="gaps">
+</sl-tab-panel>
+<sl-tab-panel name="gaps">
 
 ```js
     const searched_gaps = view(Inputs.search(data.gaps));
@@ -101,6 +102,7 @@ const table_options = {columns: ["description"], height: "15rem"}
 
   </sl-tab-panel>
 </sl-tab-group>
+</sl-details>
 
 
 
