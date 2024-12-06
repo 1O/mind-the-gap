@@ -1,3 +1,7 @@
+---
+theme: "wide"
+---
+
 # Mind The Gap
 
 <link rel="stylesheet" href="assets/shoelace-light.css">
@@ -24,9 +28,13 @@ const gaps = aq.from(await FileAttachment('data/gaps.csv').csv());
 const measures = aq.from(await FileAttachment('data/measures.csv').csv());
 ```
 
-## Pick your poison!
+## Pick your poison
 
-<div class="grid grid-cols-2" style="grid-auto-rows: auto;">
+<div class="card grid grid-cols-2" style="grid-auto-rows: auto;">
+
+<div class="grid-colspan-2">That's right. Filter away...
+
+</div>
 
 <sl-details class="">
   <div slot="summary"><i class="fa fa-filter mr-3"></i> Sectors</div>
@@ -38,10 +46,9 @@ const measures = aq.from(await FileAttachment('data/measures.csv').csv());
 ```js
     const selected_sectors = view(Inputs.table(searched_sectors, {select: true}))
 ```
-
-
-
 </sl-details>
+
+
 
 <sl-details class="">
   <div slot="summary"><i class="fa fa-filter mr-3"></i> Topics</div>
@@ -79,16 +86,20 @@ const measures = aq.from(await FileAttachment('data/measures.csv').csv());
 
 </sl-details>
 
+
+
 </div>
 
-## Measure for measure
 
+
+## Behold! Those wonderful results!
+
+<div class="grid grid-cols-2" style="grid-auto-rows: auto;">
 
 
 These measures will cater to your most exquisite needs:
 
-
-
+<div class="grid-colspan-2">
 ${display(Inputs.table(
     measures
         .filter(aq.escape(d => {
@@ -103,3 +114,34 @@ ${display(Inputs.table(
         ))
     , {multiple: false, select: false, columns: ["description"] }))
     }
+
+</div>
+  
+
+</div>
+
+
+
+<div class="card grid grid-cols-2" style="grid-auto-rows: auto;">
+
+<strong class="grid-colspan-2">These are the raw data.</strong>
+<div class="grid-colspan-2">
+
+```js
+display(Inputs.table(measures
+            .rename({ description: 'measure'})
+            .lookup(sectors, ['sector_id', 'id'], 'description')
+            .rename({ description: 'sector'})
+            .lookup(topics, ['topic_id', 'id'], 'description')
+            .rename({ description: 'topic'})
+            .lookup(gaps, ['gap_id', 'id'], 'description')
+            .rename({ description: 'gap'})
+            .lookup(phases, ['phase_id', 'id'], 'description')
+            .rename({ description: 'phase'}),
+            {columns: ['measure', 'sector', 'topic', 'phase', 'gap']}
+            )
+)
+```
+
+</div>
+</div>
