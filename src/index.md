@@ -1,8 +1,10 @@
 ---
-theme: "wide"
+theme: ["wide"]
 ---
 
 # Mind The Gap
+
+<strong>A truly mindboggling adaptation machine by the Wolves and the Danes</strong>
 
 <link rel="stylesheet" href="assets/shoelace-light.css">
 
@@ -96,9 +98,6 @@ const measures = aq.from(await FileAttachment('data/measures.csv').csv());
 
 <div class="grid grid-cols-2" style="grid-auto-rows: auto;">
 
-
-These measures will cater to your most exquisite needs:
-
 <div class="grid-colspan-2">
 ${display(Inputs.table(
     measures
@@ -124,8 +123,11 @@ ${display(Inputs.table(
 
 <div class="card grid grid-cols-2" style="grid-auto-rows: auto;">
 
-<strong class="grid-colspan-2">These are the raw data.</strong>
 <div class="grid-colspan-2">
+
+<sl-details>
+
+<div slot="summary">Here's the gory details ...</div>
 
 ```js
 display(Inputs.table(measures
@@ -142,6 +144,8 @@ display(Inputs.table(measures
             )
 )
 ```
+
+</sl-details>
 
 </div>
 </div>
