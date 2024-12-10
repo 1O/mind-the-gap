@@ -1,5 +1,5 @@
 ---
-theme: ["wide"]
+theme: []
 ---
 
 <link rel="stylesheet" href="custom.css">
@@ -53,7 +53,12 @@ const table_options = {columns: ["description"], height: "15rem"}
 
 <sl-details id="settings" class="grid-colspan-2">
 
-<div slot="summary"><i class="fa fa-filter"></i> Filter</div>
+<div slot="summary">
+<sl-tag size="large" variant="primary" pill>${matches.numRows()} suggestions</sl-tag> <i class="fa fa-filter"></i> Filter
+
+
+
+</div>
 
 <sl-tab-group>
     <sl-tab slot="nav" panel="sectors"> Sectors (${selected_sectors.length}/${item_count.sectors})</sl-tab>
@@ -67,9 +72,11 @@ const table_options = {columns: ["description"], height: "15rem"}
     const searched_sectors = view(Inputs.search(data.sectors));
 ```
 ```js
-    const selected_sectors = view(Inputs.table(searched_sectors, table_options));
-
+    const selected_sectors = view(Inputs.table(searched_sectors, table_options));   
 ```
+
+
+
 
 </sl-tab-panel>
 <sl-tab-panel name="topics">
@@ -112,7 +119,6 @@ const table_options = {columns: ["description"], height: "15rem"}
 
 
 
-## Behold! ${matches.numRows()} sweet match(es)
 
 ```js
 const matches = data.measures
@@ -128,20 +134,21 @@ const matches = data.measures
         ))
 ```
 
-<div class="grid grid-cols-2" style="grid-auto-rows: auto;">
+<div class="grid grid-cols-3">
+<div></div>
+<div class="two" style="grid-column: 2 / 3;">
 
-<div class="grid-colspan-2">
-${display(Inputs.table(matches, {
-        multiple: false, select: false, columns: ["description"] 
-    }))
-    }
+
+
+<sl-carousel navigation mouse-dragging loop>
+${display(
+matches.array('description').map(m => html`<sl-carousel-item class="card">${m}</sl-carousel-item>`)
+)}
+
+</sl-carousel>
 
 </div>
-  
-
 </div>
-
-
 
 <div class="card grid grid-cols-2" style="grid-auto-rows: auto;">
 
@@ -161,13 +168,17 @@ display(Inputs.table(data.measures
             .lookup(data.gaps, ['gap_id', 'id'], 'description')
             .rename({ description: 'gap'})
             .lookup(data.phases, ['phase_id', 'id'], 'description')
-            .rename({ description: 'phase'}),
-            {columns: ['measure', 'sector', 'topic', 'phase', 'gap']}
+            .rename({ description: 'phase'})
+            .derive({no: aq.op.row_number()}),
+            {columns: ['no', 'measure', 'sector', 'topic', 'phase', 'gap'],
+             header: {no: '#'},
+             rows: 5,
+             width: 'auto', layout: 'auto' // don't truncate text content
+            }
             )
 )
 ```
 
 </sl-details>
-
 </div>
 </div>
