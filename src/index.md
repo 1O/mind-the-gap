@@ -47,24 +47,17 @@ const table_options = {columns: ["description"], height: "15rem"}
 ```
 
 
-
-
-<div  class="grid grid-cols-2" style="grid-auto-rows: auto;">
-
-<sl-details id="settings" class="grid-colspan-2">
-
-<div slot="summary">
-<sl-tag size="large" variant="primary" pill>${matches.numRows()} suggestions</sl-tag> <i class="fa fa-filter"></i> Filter
-
-
-
-</div>
+<sl-drawer label="Filter settings" id = "drawer-filters" class="drawer-custom-size" style="--size: 50vw;">
+  <!-- <sl-input autofocus placeholder="I will have focus when the drawer is opened"></sl-input> -->
+  <sl-button slot="header" variant="primary">Close</sl-button>
 
 <sl-tab-group>
     <sl-tab slot="nav" panel="sectors"> Sectors (${selected_sectors.length}/${item_count.sectors})</sl-tab>
     <sl-tab slot="nav" panel="topics">Topics  (${selected_topics.length}/${item_count.topics})</sl-tab>
     <sl-tab slot="nav" panel="phases">Phases  (${selected_phases.length}/${item_count.phases})</sl-tab>
     <sl-tab slot="nav" panel="gaps">Gaps  (${selected_gaps.length}/${item_count.gaps})</sl-tab>
+    <sl-tab slot="nav" panel="measures">Measures  (${selected_measures.length}/${item_count.measures})</sl-tab>
+
     
 <sl-tab-panel name="sectors" active>
 
@@ -74,11 +67,8 @@ const table_options = {columns: ["description"], height: "15rem"}
 ```js
     const selected_sectors = view(Inputs.table(searched_sectors, table_options));   
 ```
-
-
-
-
 </sl-tab-panel>
+
 <sl-tab-panel name="topics">
 
 ```js
@@ -108,16 +98,51 @@ const table_options = {columns: ["description"], height: "15rem"}
 ```
 
   </sl-tab-panel>
+<sl-tab-panel name="measures">  
+
+```js
+    const searched_measures = view(Inputs.search(data.measures));
+```
+```js
+    const selected_measures = view(Inputs.table(searched_measures, table_options));   
+```
+</sl-tab-panel>
+
+
 </sl-tab-group>
-</sl-details>
 
 
 
 
+</sl-drawer>
 
-</div>
+<sl-tag size="large" variant="primary" pill>${matches.numRows()} suggestions</sl-tag>
+
+<sl-dropdown>
+  <sl-button slot="trigger" caret><i class="fa fa-filter"></i> Filters</sl-button>
+  <sl-menu id="filter-menu">
+    <sl-menu-item value="set">Set</sl-menu-item>
+    <sl-menu-item value="clear">Clear</sl-menu-item>
+  </sl-menu>
+</sl-dropdown>
+
+```js
+const filter_menu = document.querySelector('#filter-menu')
+filter_menu.addEventListener('sl-select',
+ (e) => {const choice = e.detail.item.value
+    if (choice == "set") {drawer.show()}
+ })
+
+```
 
 
+
+```js
+  const drawer = document.querySelector('#drawer-filters');
+  
+  drawer.querySelector('sl-button[variant="primary"]')
+    .addEventListener('click', () => drawer.hide());
+```
 
 
 ```js
@@ -135,14 +160,14 @@ const matches = data.measures
 ```
 
 <div class="grid grid-cols-3">
-<div></div>
-<div class="two" style="grid-column: 2 / 3;">
+
+<div  class="grid-colspan-2">
 
 
 
-<sl-carousel navigation mouse-dragging loop>
+<sl-carousel navigation mouse-dragging loop class="carousel">
 ${display(
-matches.array('description').map(m => html`<sl-carousel-item class="card">${m}</sl-carousel-item>`)
+matches.array('description').map(m => html`<sl-carousel-item class="card"> <p class="quote"> ${m}</p></sl-carousel-item>`)
 )}
 
 </sl-carousel>
@@ -172,7 +197,6 @@ display(Inputs.table(data.measures
             .derive({no: aq.op.row_number()}),
             {columns: ['no', 'measure', 'sector', 'topic', 'phase', 'gap'],
              header: {no: '#'},
-             rows: 5,
              width: 'auto', layout: 'auto' // don't truncate text content
             }
             )
