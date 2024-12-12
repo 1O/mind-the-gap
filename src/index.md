@@ -11,10 +11,11 @@ theme: []
 ```js   
 import * as aq from "npm:arquero";
 
-import { setBasePath } from "npm:@shoelace-style/shoelace";
+
 import "@shoelace-style/shoelace/dist/components/drawer/drawer.js";
 import "@shoelace-style/shoelace/dist/components/button/button.js";
 // Set base path for assets
+import { setBasePath } from "npm:@shoelace-style/shoelace";
 setBasePath("/node_modules/@shoelace-style/shoelace/dist");
 ```
 
@@ -104,7 +105,8 @@ const table_options = {columns: ["description"], height: "15rem"}
     const searched_measures = view(Inputs.search(data.measures));
 ```
 ```js
-    const selected_measures = view(Inputs.table(searched_measures, table_options));   
+    const selected_measures = view(Inputs.table(searched_measures, table_options));
+    const match_count = matches.numRows()
 ```
 </sl-tab-panel>
 
@@ -116,13 +118,13 @@ const table_options = {columns: ["description"], height: "15rem"}
 
 </sl-drawer>
 
-<sl-tag size="large" variant="primary" pill>${matches.numRows()} suggestions</sl-tag>
+
 
 <sl-dropdown>
-  <sl-button slot="trigger" caret><i class="fa fa-filter"></i> Filters</sl-button>
+  <sl-button slot="trigger" size="large" pill caret>${match_count} Suggestions</sl-button>
   <sl-menu id="filter-menu">
-    <sl-menu-item value="set">Set</sl-menu-item>
-    <sl-menu-item value="clear">Clear</sl-menu-item>
+    <sl-menu-item value="set"><i class="fa fa-filter"></i> Filter</sl-menu-item>
+    <sl-menu-item value="clear"><i class="fa-solid fa-filter-circle-xmark"></i> Clear filter</sl-menu-item>
   </sl-menu>
 </sl-dropdown>
 
@@ -147,30 +149,27 @@ filter_menu.addEventListener('sl-select',
 
 ```js
 const matches = data.measures
-        .filter(aq.escape(d => {
-            const is_match = (   
+        .filter(aq.escape(d =>             
             _.findIndex(selected_sectors, ['id', d.sector_id]) > -1 &
             _.findIndex(selected_topics, ['id', d.topic_id]) > -1 &
             _.findIndex(selected_phases, ['id', d.phase_id]) > -1 &
             _.findIndex(selected_gaps, ['id', d.gap_id]) > -1
-            )
-            return is_match
-        }
-        ))
+        ))                    
+        .derive({no: aq.op.row_number()});
+        
+        
 ```
 
 <div class="grid grid-cols-3">
 
 <div  class="grid-colspan-2">
-
-
-
 <sl-carousel navigation mouse-dragging loop class="carousel">
 ${display(
-matches.array('description').map(m => html`<sl-carousel-item class="card"> <p class="quote"> ${m}</p></sl-carousel-item>`)
+matches.array('description').map((m, i) => html`<sl-carousel-item class="card">${i + 1} / ${match_count}<hr/><p class="quote">${m}</p></sl-carousel-item>`)
 )}
-
 </sl-carousel>
+
+
 
 </div>
 </div>
