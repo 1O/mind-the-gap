@@ -110,13 +110,7 @@ const table_options = {columns: ["description"], height: "15rem"}
     const match_count = matches.numRows()
 ```
 </sl-tab-panel>
-
-
 </sl-tab-group>
-
-
-
-
 </sl-drawer>
 
 
@@ -130,14 +124,8 @@ filter_menu.addEventListener('sl-select',
     if (choice == "set") {drawer.show()}
  })
 
-```
-
-
-
-```js
-  const drawer = document.querySelector('#drawer-filters');
-  
-  drawer.querySelector('sl-button[variant="primary"]')
+const drawer = document.querySelector('#drawer-filters');
+drawer.querySelector('sl-button[variant="primary"]')
     .addEventListener('click', () => drawer.hide());
 ```
 
