@@ -150,55 +150,45 @@ const set_index = (i) => suggestion_index.value = i
 ```
 
 
-
-<div class="grid grid-cols-3">
-
-<div  class="grid-colspan-2">
-
-<sl-dropdown>
-  <sl-button slot="trigger" size="large" pill caret>${match_count} Suggestions</sl-button>
-  <sl-menu id="filter-menu">
-    <sl-menu-item value="set"><i class="fa fa-filter"></i> Filter</sl-menu-item>
-    <sl-menu-item value="clear"><i class="fa-solid fa-filter-circle-xmark"></i> Clear filter</sl-menu-item>
-  </sl-menu>
-</sl-dropdown>
-
-
-
-<sl-carousel id="carousel" navigation mouse-dragging loop class="carousel">
-${display(
-matches.array('description').map((m, i) => html`<sl-carousel-item class="card"><p class="quote">${m}</p></sl-carousel-item>`)
-)}
-</sl-carousel>
-
+<div class="grid grid-cols-1" style="grid-auto-rows: auto;">
+    <div>
+        <sl-dropdown>
+        <sl-button slot="trigger" size="large" pill caret>${match_count} Suggestions</sl-button>
+        <sl-menu id="filter-menu">
+            <sl-menu-item value="set"><i class="fa fa-filter"></i> Filter</sl-menu-item>
+            <sl-menu-item value="clear"><i class="fa-solid fa-filter-circle-xmark"></i> Clear filter</sl-menu-item>
+        </sl-menu>
+        </sl-dropdown>
+    </div>
+    <div>
+        <sl-carousel id="carousel" navigation mouse-dragging loop class="carousel">
+        ${display(
+        matches.array('description').map((m, i) => html`<sl-carousel-item class="card"><p class="quote">${m}</p></sl-carousel-item>`)
+        )}
+        </sl-carousel>
+    </div>
+<div>
+<div class="grid grid-cols-1">    
+    <div style="text-align:center">
+        ${display(html`<sl-progress-bar value=${100*(1+suggestion_index)/match_count} style="--height: 2px;"></sl-progress-bar>`)}
+        ${suggestion_index + 1} / ${match_count}
+    </div>
+</div>
+<div class="grid grid-cols-1">
+    <div style="text-align:center">
+        ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" download="result" circle><i class="fa fa-download"></i></sl-button>`)}
+    </div>
+</div>
 
 ```js
 const carousel = document.querySelector("#carousel")
 carousel.addEventListener("sl-slide-change", (e) => set_index(e.detail.index))
 ```
 
-
-
 ```js
 const blob = new Blob([matches.toCSV()], { type: 'text/csv;charset=utf-8,' });
 const obj_url = URL.createObjectURL(blob);
 ```
-
-
-
-
-</div>
-</div>
-
-<div class="card grid grid-cols-2">
-
-<div>${suggestion_index + 1} / ${match_count}</div>
-<div>
-${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" download="result" circle>
-<i class="fa fa-download"></i></sl-button>
-`)}
-</div>
-
 
 
 <!--
@@ -229,7 +219,5 @@ display(Inputs.table(data.measures
 </sl-details>
 
 -->
-</div>
-</div>
 
 
