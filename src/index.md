@@ -48,9 +48,10 @@ const table_options = {columns: ["description"], height: "15rem"}
 ```
 
 
-<sl-drawer label="Filter settings" id = "drawer-filters" class="drawer-custom-size" style="--size: 50vw;">
+<sl-drawer label="Filter suggestions by sector, topic, phase of risk management or adaptation gap:" id = "drawer-filters" class="drawer-custom-size" style="--size: 50vw;">
   <!-- <sl-input autofocus placeholder="I will have focus when the drawer is opened"></sl-input> -->
   <sl-button slot="header" variant="primary">Close</sl-button>
+
 
 <sl-tab-group>
     <sl-tab slot="nav" panel="sectors"> Sectors (${selected_sectors.length}/${item_count.sectors})</sl-tab>
@@ -120,13 +121,7 @@ const table_options = {columns: ["description"], height: "15rem"}
 
 
 
-<sl-dropdown>
-  <sl-button slot="trigger" size="large" pill caret>${match_count} Suggestions</sl-button>
-  <sl-menu id="filter-menu">
-    <sl-menu-item value="set"><i class="fa fa-filter"></i> Filter</sl-menu-item>
-    <sl-menu-item value="clear"><i class="fa-solid fa-filter-circle-xmark"></i> Clear filter</sl-menu-item>
-  </sl-menu>
-</sl-dropdown>
+
 
 ```js
 const filter_menu = document.querySelector('#filter-menu')
@@ -163,12 +158,34 @@ const matches = data.measures
 <div class="grid grid-cols-3">
 
 <div  class="grid-colspan-2">
+
+<sl-dropdown>
+  <sl-button slot="trigger" size="large" pill caret>${match_count} Suggestions</sl-button>
+  <sl-menu id="filter-menu">
+    <sl-menu-item value="set"><i class="fa fa-filter"></i> Filter</sl-menu-item>
+    <sl-menu-item value="clear"><i class="fa-solid fa-filter-circle-xmark"></i> Clear filter</sl-menu-item>
+  </sl-menu>
+</sl-dropdown>
+
+
 <sl-carousel navigation mouse-dragging loop class="carousel">
 ${display(
 matches.array('description').map((m, i) => html`<sl-carousel-item class="card">${i + 1} / ${match_count}<hr/><p class="quote">${m}</p></sl-carousel-item>`)
 )}
 </sl-carousel>
 
+
+
+```js
+const blob = new Blob([matches.toCSV()], { type: 'text/csv;charset=utf-8,' });
+const obj_url = URL.createObjectURL(blob);
+```
+
+<div style="text-align:right">
+${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" download="result" circle>
+<i class="fa fa-download"></i></sl-button>
+`)}
+</div>
 
 
 </div>
@@ -178,6 +195,9 @@ matches.array('description').map((m, i) => html`<sl-carousel-item class="card">$
 
 <div class="grid-colspan-2">
 
+
+
+<!--
 <sl-details>
 
 <div slot="summary" >Here's the gory details ...</div>
@@ -203,5 +223,9 @@ display(Inputs.table(data.measures
 ```
 
 </sl-details>
+
+-->
 </div>
 </div>
+
+
