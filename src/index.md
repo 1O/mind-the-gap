@@ -48,7 +48,16 @@ const table_options = {columns: ["description"], height: "15rem"}
 ```
 
 
-<sl-drawer label="Filter suggestions by sector, topic, phase of risk management or adaptation gap:" id = "drawer-filters" class="drawer-custom-size" style="--size: 50vw;">
+<sl-drawer label="Filter suggestions by sector, topic, phase of risk management or adaptation gap:" id="drawer-filters" class="drawer-custom-size" style="--size: 50vw;">
+  <!-- <sl-input autofocus placeholder="I will have focus when the drawer is opened"></sl-input> -->
+  <sl-button slot="header" variant="primary">Close</sl-button>
+  asdfasfd
+<sl-drawer>
+
+
+
+
+<sl-drawer label="Filter suggestions by sector, topic, phase of risk management or adaptation gap:" id="drawer-filters" class="drawer-custom-size" style="--size: 50vw;">
   <!-- <sl-input autofocus placeholder="I will have focus when the drawer is opened"></sl-input> -->
   <sl-button slot="header" variant="primary">Close</sl-button>
 
