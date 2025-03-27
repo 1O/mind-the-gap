@@ -47,21 +47,16 @@ _.forEach(data, (v, k) => item_count[k] = v.numRows())
 const table_options = {columns: ["description"], height: "15rem"}
 ```
 
-
-<sl-drawer label="Filter suggestions by sector, topic, phase of risk management or adaptation gap:" id="drawer-filters" class="drawer-custom-size" style="--size: 50vw;">
+<!-- <sl-drawer label="Filter suggestions by sector, topic, phase of risk management or adaptation gap:" id="drawer-filters" class="drawer-custom-size" style="--size: 50vw;">
   <!-- <sl-input autofocus placeholder="I will have focus when the drawer is opened"></sl-input> -->
   <sl-button slot="header" variant="primary">Close</sl-button>
-  asdfasfd
-<sl-drawer>
-
-
-
+<sl-drawer> -->
 
 <sl-drawer label="Filter suggestions by sector, topic, phase of risk management or adaptation gap:" id="drawer-filters" class="drawer-custom-size" style="--size: 50vw;">
   <!-- <sl-input autofocus placeholder="I will have focus when the drawer is opened"></sl-input> -->
   <sl-button slot="header" variant="primary">Close</sl-button>
 
-
+Blubb
 <sl-tab-group>
     <sl-tab slot="nav" panel="sectors"> Sectors (${selected_sectors.length}/${item_count.sectors})</sl-tab>
     <sl-tab slot="nav" panel="topics">Topics  (${selected_topics.length}/${item_count.topics})</sl-tab>
@@ -171,8 +166,7 @@ const set_index = (i) => suggestion_index.value = i
     </div>
     <div>
         <sl-carousel id="carousel" navigation mouse-dragging loop class="carousel">
-        ${display(
-        matches.array('description').map((m, i) => html`<sl-carousel-item class="card"><p class="quote">${m}</p></sl-carousel-item>`)
+        ${display(matches.array('description').map((m, i) => html`<sl-carousel-item class="card"><p class="quote">${m}</p></sl-carousel-item>`)
         )}
         </sl-carousel>
     </div>
@@ -199,6 +193,7 @@ const blob = new Blob([matches.toCSV()], { type: 'text/csv;charset=utf-8,' });
 const obj_url = URL.createObjectURL(blob);
 ```
 
+dBlubb
 
 <!--
 <sl-details>
