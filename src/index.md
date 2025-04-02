@@ -24,6 +24,8 @@ import "@shoelace-style/shoelace/dist/components/button/button.js";
 
 ```js
 const data2 = aq.from(await FileAttachment('data/data.csv').csv())
+// convert 0/1 in csv data to false/true
+.derive({"validated": aq.escape(d => d.validated == 1)})
 ```
 
 
@@ -61,9 +63,7 @@ const table_options = {height: "15rem"}
 const row_count = (colname) => {return unique_entries[colname].numRows()}
 ```
 
-
 ```js
-
 const matches = data2.filter(
    aq.escape(d => aq.op.indexof(selected_sectors.map(x => x.choices), d.sector) > -1 &
                   aq.op.indexof(selected_clusters.map(x => x.choices), d.cluster) > -1 &
@@ -71,7 +71,8 @@ const matches = data2.filter(
                    aq.op.indexof(selected_phase_categories.map(x => x.choices), 
                     d.phase_category) > -1 &
                   aq.op.indexof(selected_gaps.map(x => x.choices), d.gap) > -1 &
-                //   Boolean(d.validated) == Boolean(validated_only) &
+                  // filter on "locally validation", depending on user's choice (switch)
+                  aq.op.indexof([true, validated_only], d.validated) > -1 &
                   true
                   )
 )
@@ -91,7 +92,13 @@ const match_count = matches.numRows()
 
 ```
 
+```js
+// things that should be triggered when "matches" (the filtered data)
+// changes
+const refresh_views = (matches) => {reset_slider_val(); return("")}
+```
 
+${refresh_views(matches)}
 
 <div style="display:grid;
     grid-template-columns: 20% 50% 20%;
@@ -99,14 +106,9 @@ const match_count = matches.numRows()
     <div><!-- first row, left column --></div>
     <!-- center column: -->
     <div>
-
-
-
 </div>
-<!-- right column -->
-<div></div>
 
-
+<div></div><!-- first row, right column -->
 
 
 <!-- second row, left column: -->
@@ -160,22 +162,18 @@ const match_count = matches.numRows()
 </sl-details>
 
 <!-- <div class="note" label="Validated?">Show only locally validated measures.</div> -->
-<sl-switch id="switch_validated"><small>locally validated measures only</small>
-<small style="color:red">funktioniert noch nicht</small>
-
-</sl-switch>
+<sl-switch help-text="locally validated measures only" id="switch_validation"></sl-switch>
 
 ```js
 const validated_only = Mutable(false)
-const set_validated_only = (x) => {validated_only.value = x}
-
+const set_validated_only = (x) => {validated_only.value = x;}
 ```
 
 ```js
-const dummy = document.querySelector("#switch_validated")
-     .addEventListener("click", (e) => {        
-        e.target.checked ? set_validated_only(true) : set_validated_only(false)
-        })
+{
+document.querySelector("#switch_validation").addEventListener("sl-change", e => {set_validated_only(e.target.checked); return ("")}
+)
+}
 ```
 
 </div>
@@ -189,7 +187,7 @@ const dummy = document.querySelector("#switch_validated")
                     <dt>gaps:</dt><dd>${matches.get("gaps", slide)}</dd>
                     <dt>phases:</dt><dd>${matches.get("phases", slide).join(", ")}</dd>
                     <dt>phase categories:</dt><dd>${matches.get("phase_categories", slide).join(",  ")}</dd>
-                    <dt>locally validated:</dt><dd>${["no", "yes"][matches.get("validated", slide)]}</dd>    
+                    <dt>locally validated:</dt><dd>${["no", "yes"][Boolean(matches.get("validated", slide))]}</dd>    
                 </dl>  
             </div> -->
         </div>
@@ -197,7 +195,7 @@ const dummy = document.querySelector("#switch_validated")
         <div><strong>gaps:</strong> ${matches.get("gaps", slide-1).join(", ")}</div>
         <div><strong>phases:</strong> ${matches.get("phases", slide-1).join(", ")}</div>
         <div><strong>phase categories:</strong> ${matches.get("phase_categories", slide-1).join(", ")}</div>
-        <div><strong>locally validated:</strong> ${["no", "yes"][matches.get("validated", slide-1)]}</div>
+        <div><strong>locally validated:</strong> ${["no", "yes"][1*matches.get("validated", slide-1)]}</div>
         </div>
     <hr/>
     ${html`<div class="note" label="# ${slide}"> ${matches.get("measure", slide-1)}</div>`}
@@ -208,7 +206,9 @@ const dummy = document.querySelector("#switch_validated")
     <h3>browse matches</h3>
 
 ```js
-const slide = view(Inputs.range([1, match_count], {step: 1}))
+const slider_val = Mutable(1)
+const reset_slider_val = () => slider_val.value = 1
+const slide = view(Inputs.range([1, match_count], {value: slider_val.value, step: 1}))
 ```
 
 
