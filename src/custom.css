@@ -1,11 +1,18 @@
 #observablehq-center{width: 100em; margin:0px}
 
-#settings::part(header) {border: solid 2px rgba(213, 219, 255, 1); background-color: rgba(213, 219, 255, 0.1);}
+#settings::part(header) {border: solid 2px rgba(213, 219, 255, 1);
+     background-color: rgba(213, 219, 255, 0.1);
+    }
 
 
-.carousel{height:25rem}
 .quote{font-size: 1.1rem;}
 .quote::first-line{font-weight:bolder}
 
+.tag{background-color: grey; color:white;
+    padding:.2em .4em; 
+    margin-right:.2em
+}
 
 
+
+.brief{font-size: .8rem;}

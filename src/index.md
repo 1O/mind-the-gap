@@ -1,5 +1,5 @@
 ---
-theme: []
+theme: ['air']
 ---
 
 <link rel="stylesheet" href="custom.css">
@@ -11,37 +11,27 @@ theme: []
 ```js   
 import * as aq from "npm:arquero";
 
-
-import "@shoelace-style/shoelace/dist/components/drawer/drawer.js";
-import "@shoelace-style/shoelace/dist/components/button/button.js";
 // Set base path for assets
 import { setBasePath } from "npm:@shoelace-style/shoelace";
 setBasePath("/node_modules/@shoelace-style/shoelace/dist");
+
+
+import '@shoelace-style/shoelace/dist/components/badge/badge.js';
+import "@shoelace-style/shoelace/dist/components/drawer/drawer.js";
+import "@shoelace-style/shoelace/dist/components/button/button.js";
+
 ```
 
 ```js
-const data = {}
-
-data.sectors = aq.from(await FileAttachment('data/sectors.csv').csv());
-data.topics = aq.from(await FileAttachment('./data/topics.csv').csv());    
-data.phases = aq.from(await FileAttachment('data/phases.csv').csv());
-data.gaps = aq.from(await FileAttachment('data/gaps.csv').csv());
-data.measures = aq.from(await FileAttachment('data/measures.csv').csv());
-
 const data2 = aq.from(await FileAttachment('data/data.csv').csv())
-
-```
-
-```js
-// store row (=item) count of tables
-const item_count = {}
-_.forEach(data, (v, k) => item_count[k] = v.numRows())
-
 ```
 
 
-
-# Mind The Gap
+<div class="grid grid-cols-4" style="width:90%; font-family:sans; align-items:start">
+  <div class="grid-colspan-2"><h1>Policy gap explorer</h1></div>
+  <div style="text-align:right"><h1 style="align:middle">X-Risk-CC</h1></div>
+  <div style="text-align:right"><img src="assets/ASP_21-27_Logo-Standard.png" width="300"></div>
+</div>
 
 
 ```js
@@ -54,10 +44,10 @@ const unique_entries = _.zipObject(
     data2.columnNames().map(x => aq.table({"choices": _.uniq(data2.array(x))}))
 )
 
+const choices_sector = Mutable(unique_entries.sector)
+
+
 ```
-
-
-<strong>A truly mindboggling adaptation machine by the Wolves and the Danes</strong>
 
 
 
@@ -66,88 +56,10 @@ const table_options = {height: "15rem"}
 ```
 
 
-<sl-drawer label="Filter suggestions by sector, topic, phase of risk management or adaptation gap:" id="drawer-filters" class="drawer-custom-size" style="--size: 50vw;">
-
-  <sl-button slot="header" variant="primary">Close</sl-button>
 
 ```js
 const row_count = (colname) => {return unique_entries[colname].numRows()}
 ```
-
-<sl-tab-group>
-    <sl-tab slot="nav" panel="sectors"> Sectors (${selected_sectors.length} / ${row_count("sector")})</sl-tab>
-    <sl-tab slot="nav" panel="clusters">Clusters (${selected_clusters.length} / ${row_count("cluster")})</sl-tab>
-    <sl-tab slot="nav" panel="phases">Phases (${selected_phases.length}/${row_count("phase")})</sl-tab>
-    <sl-tab slot="nav" panel="gaps">Gaps (${selected_gaps.length}/${row_count("gap")})</sl-tab>
-    
-
-    
-<sl-tab-panel name="sectors" active>
-
-```js
-    const selected_sectors = view(Inputs.table(unique_entries.sector))        
-```
-
-</sl-tab-panel>
-
-<sl-tab-panel name="clusters">
-
-```js
-    const searched_clusters = view(Inputs.search(unique_entries.cluster));
-```
-
-```js
-    const selected_clusters = view(Inputs.table(searched_clusters, table_options));
-```
-
-</sl-tab-panel>
-<sl-tab-panel name="phases">
-
-
-<div class="grid grid-cols-2">
-
-<div>
-
-```js
-    const selected_phases = view(Inputs.table(unique_entries.phase), table_options);
-```  
-</div>
-<div>
-
-```js
-    const selected_phase_categories = view(Inputs.table(data2.dedupe('phase_category').select('phase_category')));
-```  
-</div>
-</div>
-
-
-</sl-tab-panel>
-<sl-tab-panel name="gaps">
-
-```js
-    const selected_gaps = view(Inputs.table(unique_entries.gap, table_options));
-```
-
-  </sl-tab-panel>
-</sl-tab-group>
-</sl-drawer>
-
-```js
-const drawer = document.querySelector('#drawer-filters');
-```
-
-```js
-const filter_menu = document.querySelector('#filter-menu')
-filter_menu.addEventListener('sl-select',
- (e) => {const choice = e.detail.item.value
-    if (choice == "set") {drawer.show()}
- })
-
-drawer.querySelector('sl-button[variant="primary"]')
-    .addEventListener('click', () => drawer.hide());
-```
-
-${display(Array.isArray(selected_sectors.map(x => x.choices   )))}
 
 
 ```js
@@ -156,61 +68,169 @@ const matches = data2.filter(
    aq.escape(d => aq.op.indexof(selected_sectors.map(x => x.choices), d.sector) > -1 &
                   aq.op.indexof(selected_clusters.map(x => x.choices), d.cluster) > -1 &
                   aq.op.indexof(selected_phases.map(x => x.choices), d.phase) > -1 &
-                //   aq.op.indexof(selected_phase_categories.map(x => x.choices), 
-                //    d.phase_category) > -1 &
+                   aq.op.indexof(selected_phase_categories.map(x => x.choices), 
+                    d.phase_category) > -1 &
                   aq.op.indexof(selected_gaps.map(x => x.choices), d.gap) > -1 &
-                  true                  
+                //   Boolean(d.validated) == Boolean(validated_only) &
+                  true
                   )
 )
-.groupby('measure').rollup({ measure: d => aq.op.any(d.measure)})
-.derive({no: aq.op.row_number()});
+.groupby('measure')
+.rollup({
+    sector: d => aq.op.any(d.sector),
+    measure: d => aq.op.any(d.measure),
+    cluster: d => aq.op.any(d.cluster),
+    validated: d => aq.op.any(d.validated),
+    gaps: d => aq.op.array_agg_distinct(d.gap),
+    phases: d => aq.op.array_agg_distinct(d.phase),
+    phase_categories: d => aq.op.array_agg_distinct(d.phase_category)
+    })
+.derive({no: aq.op.row_number()})
 
 const match_count = matches.numRows()
+
+```
+
+
+
+<div style="display:grid;
+    grid-template-columns: 20% 50% 20%;
+    gap:1em;">
+    <div><!-- first row, left column --></div>
+    <!-- center column: -->
+    <div>
+
+
+
+</div>
+<!-- right column -->
+<div></div>
+
+
+
+
+<!-- second row, left column: -->
+<div class="card" style="height:40rem">
+<sl-badge variant="success" pill>${match_count}</sl-badge> matches
+
+<div class="note" label="Filter">Narrow your search with the filters below.</div>
+
+<sl-details>
+    <div slot="summary">Sectors (${selected_sectors.length} / ${row_count('sector')})</div>
     
-        
+
+```js
+    const selected_sectors = view(Inputs.table(choices_sector, {required: true})); 
+```
+    
+
+  </sl-details>
+  <sl-details>
+    <div slot="summary">Clusters (${selected_clusters.length} / ${row_count('cluster')})</div>
+
+```js
+    const searched_clusters = view(Inputs.search(unique_entries.cluster));
 ```
 
 ```js
-const suggestion_index = Mutable(0)
-const set_index = (i) => suggestion_index.value = i
+    const selected_clusters = view(Inputs.table(searched_clusters));
+```
+
+</sl-details>
+<sl-details>
+<div slot="summary">Phases (${selected_phases.length} / ${row_count('phase')})</div>
+    <div class="grid-cols-2">
+
+```js
+    const selected_phases = view(Inputs.table(unique_entries.phase));  
+```
+
+```js
+    const selected_phase_categories = view(Inputs.table(unique_entries.phase_category));
+```  
+
+</div>
+</sl-details>
+<sl-details>
+    <div slot="summary">Gaps (${selected_gaps.length} / ${row_count('gap')})</div>   
+
+```js
+    const selected_gaps = view(Inputs.table(unique_entries.gap, table_options));
+```
+</sl-details>
+
+<!-- <div class="note" label="Validated?">Show only locally validated measures.</div> -->
+<sl-switch id="switch_validated"><small>locally validated measures only</small>
+<small style="color:red">funktioniert noch nicht</small>
+
+</sl-switch>
+
+```js
+const validated_only = Mutable(false)
+const set_validated_only = (x) => {validated_only.value = x}
 
 ```
 
+```js
+const dummy = document.querySelector("#switch_validated")
+     .addEventListener("click", (e) => {        
+        e.target.checked ? set_validated_only(true) : set_validated_only(false)
+        })
+```
 
-<div class="grid grid-cols-1" style="grid-auto-rows: auto;">
-    <div>
-        <sl-dropdown>
-        <sl-button slot="trigger" size="large" pill caret>${match_count} Suggestions</sl-button>
-        <sl-menu id="filter-menu">
-            <sl-menu-item value="set"><i class="fa fa-filter"></i> Filter</sl-menu-item>
-            <sl-menu-item value="clear"><i class="fa-solid fa-filter-circle-xmark"></i> Clear filter</sl-menu-item>
-        </sl-menu>
-        </sl-dropdown>
-    </div>
-    <div>
-        ${display(match_count)}
-        <sl-carousel id="carousel" navigation mouse-dragging loop class="carousel">
-            ${display(matches.array('measure').map((m, i) => html`<sl-carousel-item class="card"><p class="quote">${m}</p></sl-carousel-item>`)
-            )}
-        </sl-carousel>
-    </div>
+</div>
+  <!-- center column -->
+
+  <div>
+        <div class="grid grid-cols-2">
+            <div><h3>Sector: ${matches.get("sector", slide-1)}</h3></div>
+            <!-- <div class="brief">
+                <dl>    
+                    <dt>gaps:</dt><dd>${matches.get("gaps", slide)}</dd>
+                    <dt>phases:</dt><dd>${matches.get("phases", slide).join(", ")}</dd>
+                    <dt>phase categories:</dt><dd>${matches.get("phase_categories", slide).join(",  ")}</dd>
+                    <dt>locally validated:</dt><dd>${["no", "yes"][matches.get("validated", slide)]}</dd>    
+                </dl>  
+            </div> -->
+        </div>
+        <div class="grid grid-cols-4 brief">
+        <div><strong>gaps:</strong> ${matches.get("gaps", slide-1).join(", ")}</div>
+        <div><strong>phases:</strong> ${matches.get("phases", slide-1).join(", ")}</div>
+        <div><strong>phase categories:</strong> ${matches.get("phase_categories", slide-1).join(", ")}</div>
+        <div><strong>locally validated:</strong> ${["no", "yes"][matches.get("validated", slide-1)]}</div>
+        </div>
+    <hr/>
+    ${html`<div class="note" label="# ${slide}"> ${matches.get("measure", slide-1)}</div>`}
+  </div>
+<!-- right column -->
 <div>
-<div class="grid grid-cols-1">    
-    <div style="text-align:center">
-        ${display(html`<sl-progress-bar value=${100*(1+suggestion_index)/match_count} style="--height: 2px;"></sl-progress-bar>`)}
-        ${suggestion_index + 1} / ${match_count}
-    </div>
+    <div class="card">
+    <h3>browse matches</h3>
+
+```js
+const slide = view(Inputs.range([1, match_count], {step: 1}))
+```
+
+
 </div>
-<div class="grid grid-cols-1">
-    <div style="text-align:center">
-        ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" download="result" circle><i class="fa fa-download"></i></sl-button>`)}
+    <div class="card">
+        <h3>download matches</h3>
+        <div style="text-align:center">
+            ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" download="result" circle><i class="fa fa-download"></i></sl-button>`)}
+        </div>
     </div>
 </div>
 
-```js
-const carousel = document.querySelector("#carousel")
-carousel.addEventListener("sl-slide-change", (e) => set_index(e.detail.index))
-```
+</div>
+
+
+
+
+<div class="grid grid-cols-1">
+
+</div>
+
+
 
 ```js
 const blob = new Blob([matches.toCSV()], { type: 'text/csv;charset=utf-8,' });

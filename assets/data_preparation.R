@@ -6,11 +6,8 @@ library(stringr)
 
 setwd('~/Dokumente/fremd/Wolfgang Lexer/mind-the-gap/assets/')
 
-list.files()
-
 
 fns <- list.files('./Taggings_added/', full.names = TRUE)
-fns
 
 
 data <- list(
@@ -60,6 +57,9 @@ d_long <- d |>
   tidyr::separate(phase, into = c('phase', 'phase_category'), sep = ' *: *') |> 
   tidyr::replace_na(list(phase_category = '')) |> 
   mutate(across(where(is.character), ~ .x |> str_squish() |> tolower()))
+
+
+head(d_long)
 
 d_long |> distinct(phase, phase_category)
 
