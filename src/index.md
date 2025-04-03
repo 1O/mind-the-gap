@@ -13,19 +13,26 @@ import * as aq from "npm:arquero";
 
 // Set base path for assets
 import { setBasePath } from "npm:@shoelace-style/shoelace";
-setBasePath("/node_modules/@shoelace-style/shoelace/dist");
-
-
-import '@shoelace-style/shoelace/dist/components/badge/badge.js';
-import "@shoelace-style/shoelace/dist/components/drawer/drawer.js";
-import "@shoelace-style/shoelace/dist/components/button/button.js";
+setBasePath("npm:@shoelace-style/shoelace/dist");
 
 ```
 
 ```js
 const data2 = aq.from(await FileAttachment('data/data.csv').csv())
 // convert 0/1 in csv data to false/true
-.derive({"validated": aq.escape(d => d.validated == 1)})
+.derive({
+    "validated": aq.escape(d => d.validated == 1),
+    "rating": 0
+})
+
+// an array of {id: rating}, where id is the measure id (e. g. "sp_1")
+// and a user-defined rating (integer)
+const ratings = Mutable(data2.dedupe("id", "rating").select("id", "rating").objects())
+const colors = {"spatial planning": '#b3cde3',
+ "protection forests":'#ccebc5',
+ "civil protection": '#fbb4ae',
+ "forest fires": '#decbe4',
+ "natural hazard management": '#fed9a6'}
 ```
 
 
@@ -47,16 +54,7 @@ const unique_entries = _.zipObject(
 )
 
 const choices_sector = Mutable(unique_entries.sector)
-
-
 ```
-
-
-
-```js
-const table_options = {height: "15rem"}
-```
-
 
 
 ```js
@@ -78,6 +76,7 @@ const matches = data2.filter(
 )
 .groupby('measure')
 .rollup({
+    id: d => aq.op.any(d.id),
     sector: d => aq.op.any(d.sector),
     measure: d => aq.op.any(d.measure),
     cluster: d => aq.op.any(d.cluster),
@@ -86,7 +85,10 @@ const matches = data2.filter(
     phases: d => aq.op.array_agg_distinct(d.phase),
     phase_categories: d => aq.op.array_agg_distinct(d.phase_category)
     })
-.derive({no: aq.op.row_number()})
+.derive({
+    no: aq.op.row_number(),
+    rating: 0 // to set favorites
+})
 
 const match_count = matches.numRows()
 
@@ -95,10 +97,19 @@ const match_count = matches.numRows()
 ```js
 // things that should be triggered when "matches" (the filtered data)
 // changes
-const refresh_views = (matches) => {reset_slider_val(); return("")}
+const refresh_views = (matches) => {
+    reset_slider_val(); 
+    var badge = document.querySelector("#badge_matchcount")
+    badge.setAttribute("pulse", "")
+    setTimeout(() => badge.removeAttribute("pulse"), 1000)    
+    return("")
+    
+    }
 ```
 
-${refresh_views(matches)}
+<!-- doesn't display anything but listens to changes in "matches": -->
+<span>${refresh_views(matches)}</span>
+
 
 <div style="display:grid;
     grid-template-columns: 20% 50% 20%;
@@ -110,19 +121,26 @@ ${refresh_views(matches)}
 
 <div></div><!-- first row, right column -->
 
-
 <!-- second row, left column: -->
-<div class="card" style="height:40rem">
-<sl-badge variant="success" pill>${match_count}</sl-badge> matches
 
-<div class="note" label="Filter">Narrow your search with the filters below.</div>
+
+
+<div>
+<sl-badge id="badge_matchcount" variant="success" pill style="font-size:larger">
+${match_count}</sl-badge> matches
+
+<div class="card">
+
+<i class="fa fa-filter"></i> Narrow your search with the filters below:
 
 <sl-details>
     <div slot="summary">Sectors (${selected_sectors.length} / ${row_count('sector')})</div>
     
 
 ```js
-    const selected_sectors = view(Inputs.table(choices_sector, {required: true})); 
+    const selected_sectors = view(Inputs.table(choices_sector, 
+    {required: true, header: {choices: "Sectors"}}
+    )); 
 ```
     
 
@@ -135,7 +153,10 @@ ${refresh_views(matches)}
 ```
 
 ```js
-    const selected_clusters = view(Inputs.table(searched_clusters));
+    const selected_clusters = view(Inputs.table(searched_clusters,
+    {header: {choices: "Clusters"}}
+    )
+    );
 ```
 
 </sl-details>
@@ -144,11 +165,15 @@ ${refresh_views(matches)}
     <div class="grid-cols-2">
 
 ```js
-    const selected_phases = view(Inputs.table(unique_entries.phase));  
+    const selected_phases = view(Inputs.table(unique_entries.phase,
+        {header: {choices: "Phase"}}
+    ));  
 ```
 
 ```js
-    const selected_phase_categories = view(Inputs.table(unique_entries.phase_category));
+    const selected_phase_categories = view(Inputs.table(unique_entries.phase_category,
+        {header: {choices: "Phase category"}}
+    ));
 ```  
 
 </div>
@@ -157,12 +182,16 @@ ${refresh_views(matches)}
     <div slot="summary">Gaps (${selected_gaps.length} / ${row_count('gap')})</div>   
 
 ```js
-    const selected_gaps = view(Inputs.table(unique_entries.gap, table_options));
+    const selected_gaps = view(Inputs.table(unique_entries.gap,
+        {header: {choices: "Gaps"}}
+    ));
 ```
 </sl-details>
 
-<!-- <div class="note" label="Validated?">Show only locally validated measures.</div> -->
+
 <sl-switch help-text="locally validated measures only" id="switch_validation"></sl-switch>
+</div> <!-- end of left filter card -->
+
 
 ```js
 const validated_only = Mutable(false)
@@ -171,7 +200,8 @@ const set_validated_only = (x) => {validated_only.value = x;}
 
 ```js
 {
-document.querySelector("#switch_validation").addEventListener("sl-change", e => {set_validated_only(e.target.checked); return ("")}
+document.querySelector("#switch_validation")
+.addEventListener("sl-change", e => {set_validated_only(e.target.checked); return ("")}
 )
 }
 ```
@@ -181,7 +211,10 @@ document.querySelector("#switch_validation").addEventListener("sl-change", e => 
 
   <div>
         <div class="grid grid-cols-2">
-            <div><h3>Sector: ${matches.get("sector", slide-1)}</h3></div>
+            ${html`<div >
+            <h3><tag style="background-color: ${colors[matches.get('sector', slide-1)]} !important">${matches.get("sector", slide-1)}</tag></h3>
+            </div>
+            `}
             <!-- <div class="brief">
                 <dl>    
                     <dt>gaps:</dt><dd>${matches.get("gaps", slide)}</dd>
@@ -191,15 +224,27 @@ document.querySelector("#switch_validation").addEventListener("sl-change", e => 
                 </dl>  
             </div> -->
         </div>
-        <div class="grid grid-cols-4 brief">
+        <div class="grid grid-cols-4 brief">        
         <div><strong>gaps:</strong> ${matches.get("gaps", slide-1).join(", ")}</div>
         <div><strong>phases:</strong> ${matches.get("phases", slide-1).join(", ")}</div>
         <div><strong>phase categories:</strong> ${matches.get("phase_categories", slide-1).join(", ")}</div>
-        <div><strong>locally validated:</strong> ${["no", "yes"][1*matches.get("validated", slide-1)]}</div>
+        <div><strong>locally validated:</strong> ${["no", "yes"][1*matches.get("validated", slide-1)    ]}</div>
         </div>
     <hr/>
-    ${html`<div class="note" label="# ${slide}"> ${matches.get("measure", slide-1)}</div>`}
-  </div>
+
+```js
+const description = html`
+<div class="note" label="# ${slide}">
+<div style="column-count:2; column-rule: solid 1px grey; column-gap: 5rem">
+${matches.get("measure", slide-1)}
+</div>
+<sl-rating label="Rating" max="3" id="rate_${matches.get("id", slide-1)}"></sl-rating>
+<div>
+`
+```
+
+${description}
+</div>
 <!-- right column -->
 <div>
     <div class="card">
