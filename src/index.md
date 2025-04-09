@@ -235,11 +235,13 @@ document.querySelector("#switch_validation")
 ```js
 const description = html`
 <div class="note" label="# ${slide}">
-<div style="column-count:2; column-rule: solid 1px grey; column-gap: 5rem">
+<div style="column-count:2; column-gap: 5rem">
 ${matches.get("measure", slide-1)}
 </div>
+<!--
 <sl-rating label="Rating" max="3" id="rate_${matches.get("id", slide-1)}"></sl-rating>
 <div>
+-->
 `
 ```
 

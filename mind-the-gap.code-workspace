@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../../Christine Brendle/Solarpotenzial/R"
 		}
 	],
 	"settings": {}
