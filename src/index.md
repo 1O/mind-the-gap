@@ -20,10 +20,16 @@ setBasePath("npm:@shoelace-style/shoelace/dist");
 ```js
 const data2 = aq.from(await FileAttachment('data/data.csv').csv())
 // convert 0/1 in csv data to false/true
-.derive({
+    .derive({
     "validated": aq.escape(d => d.validated == 1),
-    "rating": 0
-})
+    "rating": 0,
+    "sector_order": aq.escape(
+        d => ["natural hazard management", "civil protection",
+            "spatial planning", "forest fires", "protection forests"
+        ].indexOf(d.sector)
+    )
+    })
+    .orderby('sector_order')
 
 // an array of {id: rating}, where id is the measure id (e. g. "sp_1")
 // and a user-defined rating (integer)
@@ -64,7 +70,7 @@ const row_count = (colname) => {return unique_entries[colname].numRows()}
 ```js
 const matches = data2.filter(
    aq.escape(d => aq.op.indexof(selected_sectors.map(x => x.choices), d.sector) > -1 &
-                  aq.op.indexof(selected_clusters.map(x => x.choices), d.cluster) > -1 &
+                  // aq.op.indexof(selected_clusters.map(x => x.choices), d.cluster) > -1 &
                   aq.op.indexof(selected_phases.map(x => x.choices), d.phase) > -1 &
                    aq.op.indexof(selected_phase_categories.map(x => x.choices), 
                     d.phase_category) > -1 &
@@ -93,6 +99,9 @@ const matches = data2.filter(
 const match_count = matches.numRows()
 
 ```
+
+${Inputs.table(data2)}
+
 
 ```js
 // things that should be triggered when "matches" (the filtered data)
@@ -134,30 +143,33 @@ ${match_count}</sl-badge> matches
 <i class="fa fa-filter"></i> Narrow your search with the filters below:
 
 <sl-details>
-    <div slot="summary">Sectors (${selected_sectors.length} / ${row_count('sector')})</div>
+    <div slot="summary">Policy sector (${selected_sectors.length} / ${row_count('sector')})</div>
     
 
 ```js
     const selected_sectors = view(Inputs.table(choices_sector, 
-    {required: true, header: {choices: "Sectors"}}
+    {required: true, header: {choices: "Policy sector"}}
     )); 
 ```
     
 
   </sl-details>
+
+<!--
   <sl-details>
     <div slot="summary">Clusters (${selected_clusters.length} / ${row_count('cluster')})</div>
 
 ```js
-    const searched_clusters = view(Inputs.search(unique_entries.cluster));
+    // const searched_clusters = view(Inputs.search(unique_entries.cluster));
 ```
 
 ```js
-    const selected_clusters = view(Inputs.table(searched_clusters,
-    {header: {choices: "Clusters"}}
-    )
-    );
+    // const selected_clusters = view(Inputs.table(searched_clusters,
+    // {header: {choices: "Clusters"}}
+    // )
+    // );
 ```
+-->
 
 </sl-details>
 <sl-details>
