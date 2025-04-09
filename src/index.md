@@ -18,16 +18,27 @@ setBasePath("npm:@shoelace-style/shoelace/dist");
 ```
 
 ```js
+const sector_labels = {
+    "natural hazard management": "Natural hazard management",
+    "civil protection": "Civil protection",
+    "spatial planning" : "Spatial Planning",
+    "forest fires": "Forest fire management", 
+    "protection forests" : "Protection forest management"
+}
+```
+
+```js
 const data2 = aq.from(await FileAttachment('data/data.csv').csv())
 // convert 0/1 in csv data to false/true
     .derive({
     "validated": aq.escape(d => d.validated == 1),
-    "rating": 0,
+    "rating": 0,    
     "sector_order": aq.escape(
         d => ["natural hazard management", "civil protection",
             "spatial planning", "forest fires", "protection forests"
         ].indexOf(d.sector)
-    )
+        ),
+    "sector" : aq.escape(d => sector_labels[d.sector])
     })
     .orderby('sector_order')
 
