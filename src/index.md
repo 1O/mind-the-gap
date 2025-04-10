@@ -82,9 +82,20 @@ const ordered_phases = [
     "Cross-cutting, generic"
 ]
 
+const ordered_ownerships = [
+    "local & regional", "national & subnational",
+    "transnational national & subnational", "transnational", 
+    "multi-level, cross-level, co-owned"    
+]
+
 unique_entries.phase = unique_entries.phase
     .derive({order: aq.escape(d => ordered_phases.indexOf(d.choices))})
     .orderby("order")
+
+unique_entries.ownership = unique_entries.ownership
+    .derive({order: aq.escape(d => ordered_ownerships.indexOf(d.choices))})
+    .orderby("order")
+
 ```
 
 
@@ -98,6 +109,7 @@ const matches = data2.filter(
                   // aq.op.indexof(selected_clusters.map(x => x.choices), d.cluster) > -1 &
                   aq.op.indexof(selected_phases.map(x => x.choices), d.phase) > -1 &
                   aq.op.indexof(selected_gaps.map(x => x.choices), d.gap) > -1 &
+                  aq.op.indexof(selected_ownership_levels.map(x => x.choices), d.ownership) > -1 &
                   // filter on "locally validation", depending on user's choice (switch)
                   aq.op.indexof([true, validated_only], d.validated) > -1 &
                   true
@@ -112,6 +124,7 @@ const matches = data2.filter(
     validated: d => aq.op.any(d.validated),
     gaps: d => aq.op.array_agg_distinct(d.gap),
     phases: d => aq.op.array_agg_distinct(d.phase),
+    ownerships: d => aq.op.array_agg_distinct(d.ownership),
     phase_categories: d => aq.op.array_agg_distinct(d.phase_category)
     })
 .derive({
@@ -225,6 +238,19 @@ ${match_count}</sl-badge> matches
 </sl-details>
 
 
+<sl-details>
+    <div slot="summary">Risk ownership level
+     (${selected_ownership_levels.length} / ${row_count('ownership')})
+     </div>   
+
+```js
+    const selected_ownership_levels = view(Inputs.table(unique_entries.ownership,
+        {header: {choices: "Risk ownership level"}, columns:["choices"]}
+    )); 
+```
+</sl-details>
+
+
 <sl-switch help-text="locally validated measures only" id="switch_validation"></sl-switch>
 </div> <!-- end of left filter card -->
 
@@ -261,9 +287,9 @@ document.querySelector("#switch_validation")
             </div> -->
         </div>
         <div class="grid grid-cols-4 brief">        
-        <div><strong>gaps:</strong> ${matches.get("gaps", slide-1).join(", ")}</div>
-        <div><strong>phases:</strong> ${matches.get("phases", slide-1).join(", ")}</div>
-        <div><strong>phase categories:</strong> ${matches.get("phase_categories", slide-1).join(", ")}</div>
+        <div><strong>Gap types:</strong> ${matches.get("gaps", slide-1).join(", ")}</div>
+        <div><strong>Risk management cycle (stages):</strong> ${matches.get("phases", slide-1).join(", ")}</div>
+        <div><strong>Risk ownership levels:</strong> ${matches.get("ownerships", slide-1).join(", ")}</div>
         <div><strong>locally validated:</strong> ${["no", "yes"][1*matches.get("validated", slide-1)    ]}</div>
         </div>
     <hr/>
