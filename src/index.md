@@ -73,6 +73,20 @@ const unique_entries = _.zipObject(
 const choices_sector = Mutable(unique_entries.sector)
 ```
 
+```js
+const ordered_phases = [
+    "Prevention: non-structural", "Prevention: structural",
+	"Preparedness: tool implementation", "Preparedness: tools",
+	"Response: tool implementation", "Response: tools",
+	"Recovery: learning", "Recovery: structural", "Recovery: tool implementation",
+    "Cross-cutting, generic"
+]
+
+unique_entries.phase = unique_entries.phase
+    .derive({order: aq.escape(d => ordered_phases.indexOf(d.choices))})
+    .orderby("order")
+```
+
 
 ```js
 const row_count = (colname) => {return unique_entries[colname].numRows()}
@@ -187,7 +201,7 @@ ${match_count}</sl-badge> matches
 
 ```js
     const selected_phases = view(Inputs.table(unique_entries.phase,
-        {header: {choices: "Risk management cycle"}}
+        {header: {choices: "Risk management cycle"}, columns: ["choices"]}
     ));  
 ```
 
@@ -201,11 +215,11 @@ ${match_count}</sl-badge> matches
 </div>
 </sl-details>
 <sl-details>
-    <div slot="summary">Gaps (${selected_gaps.length} / ${row_count('gap')})</div>   
+    <div slot="summary">Gap types (${selected_gaps.length} / ${row_count('gap')})</div>   
 
 ```js
     const selected_gaps = view(Inputs.table(unique_entries.gap,
-        {header: {choices: "Gaps"}}
+        {header: {choices: "Gap types"}}
     ));
 ```
 </sl-details>
