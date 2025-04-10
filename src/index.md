@@ -184,12 +184,12 @@ ${match_count}</sl-badge> matches
 
 </sl-details>
 <sl-details>
-<div slot="summary">Phases (${selected_phases.length} / ${row_count('phase')})</div>
+<div slot="summary">Risk management cycle (${selected_phases.length} / ${row_count('phase')})</div>
     <div class="grid-cols-2">
 
 ```js
     const selected_phases = view(Inputs.table(unique_entries.phase,
-        {header: {choices: "Phase"}}
+        {header: {choices: "Risk management cycle"}}
     ));  
 ```
 
