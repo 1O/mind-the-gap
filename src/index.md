@@ -83,8 +83,6 @@ const matches = data2.filter(
    aq.escape(d => aq.op.indexof(selected_sectors.map(x => x.choices), d.sector) > -1 &
                   // aq.op.indexof(selected_clusters.map(x => x.choices), d.cluster) > -1 &
                   aq.op.indexof(selected_phases.map(x => x.choices), d.phase) > -1 &
-                   aq.op.indexof(selected_phase_categories.map(x => x.choices), 
-                    d.phase_category) > -1 &
                   aq.op.indexof(selected_gaps.map(x => x.choices), d.gap) > -1 &
                   // filter on "locally validation", depending on user's choice (switch)
                   aq.op.indexof([true, validated_only], d.validated) > -1 &
@@ -193,11 +191,12 @@ ${match_count}</sl-badge> matches
     ));  
 ```
 
-```js
+
+<!-- ```js
     const selected_phase_categories = view(Inputs.table(unique_entries.phase_category,
         {header: {choices: "Phase category"}}
     ));
-```  
+```   -->
 
 </div>
 </sl-details>
