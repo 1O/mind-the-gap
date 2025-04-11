@@ -96,6 +96,9 @@ unique_entries.ownership = unique_entries.ownership
     .derive({order: aq.escape(d => ordered_ownerships.indexOf(d.choices))})
     .orderby("order")
 
+unique_entries.climaterisk = unique_entries.risk
+    .orderby("choices")
+
 ```
 
 ```js
@@ -124,7 +127,7 @@ const matches = data2.filter(
     gaps: d => aq.op.array_agg_distinct(d.gap),
     phases: d => aq.op.array_agg_distinct(d.phase),
     ownerships: d => aq.op.array_agg_distinct(d.ownership),
-    phase_categories: d => aq.op.array_agg_distinct(d.phase_category)
+    climaterisks: d => aq.op.array_agg_distinct(d.risk)
     })
 .derive({
     no: aq.op.row_number(),
@@ -213,8 +216,6 @@ Narrow your search with the filters below.
     )));
 ```
 </sl-details>
-
-
 <sl-details>
     <div slot="summary">Risk ownership level
      (${selected_ownership_levels.length} / ${row_count('ownership')})
@@ -223,6 +224,17 @@ Narrow your search with the filters below.
 ```js
     const selected_ownership_levels = (reset_filters, view(Inputs.table(unique_entries.ownership,
         {header: {choices: "Risk ownership level"}, columns:["choices"]}
+    ))); 
+```
+</sl-details>
+<sl-details>
+    <div slot="summary">Targeted climate risk
+     (${selected_ownership_levels.length} / ${row_count('ownership')})
+     </div>   
+
+```js
+    const selected_climaterisks = (reset_filters, view(Inputs.table(unique_entries.climaterisk,
+        {header: {choices: "Climate risk"}, columns:["choices"]}
     ))); 
 ```
 </sl-details>
