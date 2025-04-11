@@ -112,6 +112,7 @@ const matches = data2.filter(
                   aq.op.indexof(selected_phases.map(x => x.choices), d.phase) > -1 &
                   aq.op.indexof(selected_gaps.map(x => x.choices), d.gap) > -1 &
                   aq.op.indexof(selected_ownership_levels.map(x => x.choices), d.ownership) > -1 &
+                  aq.op.indexof(selected_climaterisks.map(x => x.choices), d.risk) > -1 &
                   // filter on "locally validation", depending on user's choice (switch)
                   aq.op.indexof([true, validated_only], d.validated) > -1 &
                   true
