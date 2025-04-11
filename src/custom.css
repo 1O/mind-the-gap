@@ -19,5 +19,13 @@ grid-template-columns: 10% 80% 10%;
 }
 
 .brief{font-size: .8rem;}
-
 .cluster{font-weight: bolder;}
+
+div.navigate button{
+    margin-top: 5rem;
+    font-size: large;
+    vertical-align: middle;
+    height: 3rem; 
+    width: 3rem;
+    border-radius: 3rem;
+}

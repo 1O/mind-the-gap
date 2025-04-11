@@ -45,11 +45,11 @@ const data2 = aq.from(await FileAttachment('data/data.csv').csv())
 // an array of {id: rating}, where id is the measure id (e. g. "sp_1")
 // and a user-defined rating (integer)
 const ratings = Mutable(data2.dedupe("id", "rating").select("id", "rating").objects())
-const colors = {"spatial planning": '#b3cde3',
- "protection forests":'#ccebc5',
- "civil protection": '#fbb4ae',
- "forest fires": '#decbe4',
- "natural hazard management": '#fed9a6'}
+const colors = {"Spatial Planning": '#b3cde3',
+ "Protection forest management":'#ccebc5',
+ "Civil protection": '#fbb4ae',
+ "Forest fire management": '#decbe4',
+ "Natural hazard management": '#fed9a6'}
 ```
 
 
@@ -255,27 +255,29 @@ Narrow your search with the filters below.
 </div>
   <!-- center column -->
 
-  <div>
+
+
+<div>
         <div class="grid grid-cols-2">
             ${html`<div >
-            <h3><tag style="background-color: ${colors[matches.get('sector', slide-1)]} !important">${matches.get("sector", slide-1)}</tag></h3>
+            <h3><tag style="background-color: ${colors[matches.get('sector', slide)]} !important">${matches.get("sector", slide)}</tag></h3>
             </div>
             `}
         </div>
-        <div class="grid grid-cols-4 brief">        
-        <div><strong>Gap types:</strong> ${matches.get("gaps", slide-1).join(", ")}</div>
-        <div><strong>Risk management cycle (stages):</strong> ${matches.get("phases", slide-1).join(", ")}</div>
-        <div><strong>Risk ownership levels:</strong> ${matches.get("ownerships", slide-1).join(", ")}</div>
-        <div><strong>locally validated:</strong> ${["no", "yes"][1*matches.get("validated", slide-1)    ]}</div>
+        <div class="brief"> 
+        <div><strong>Cluster:</strong> ${matches.get("cluster", slide)}</div>       
+        <div><strong>Gap types:</strong> ${matches.get("gaps", slide).join(", ")}</div>
+        <div><strong>Risk management cycle (stages):</strong> ${matches.get("phases", slide).join(", ")}</div>
+        <div><strong>Risk ownership levels:</strong> ${matches.get("ownerships", slide).join(", ")}</div>
+        <div><strong>Targeted climate risk:</strong> ${matches.get("climaterisks")}</div>
+        <div><strong>Locally validated:</strong> ${["no", "yes"][1*matches.get("validated", slide)    ]}</div>
         </div>
     <hr/>
 
 ```js
 const description = html`
 <h1>${"# " + matches.get("no", slide)}</h1>
-<div class="cluster">Cluster: 
-${matches.get("cluster", slide)}
-</div>
+
 <div class="note" label="">
 <div class="description">
 ${matches.get("measure", slide)}
@@ -288,18 +290,18 @@ ${matches.get("measure", slide)}
 ```
 
 <div class="container-description">
-    <div>
+    <div class="navigate">
 
 ```js
-const back = view(Inputs.button("<"));
+const back = (reset_filters, view(Inputs.button("<", {value: null})));
 ```
 
 </div>
     <div>${description}</div>
-    <div>
+    <div class="navigate">
 
 ```js
-const forth = view(Inputs.button(">"));
+const forth = (reset_filters, view(Inputs.button(">", {value: null})));
 ```
 
 ```js
