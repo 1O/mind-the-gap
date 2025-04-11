@@ -13,6 +13,9 @@ tag{
     margin-right:.2em
 }
 
-
+.container-description{
+display: grid;
+grid-template-columns: 10% 80% 10%;
+}
 
 .brief{font-size: .8rem;}

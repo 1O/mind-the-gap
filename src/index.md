@@ -143,7 +143,6 @@ const match_count = matches.numRows()
 // things that should be triggered when "matches" (the filtered data)
 // changes
 const refresh_views = (matches) => {
-    reset_slider_val(); 
     var badge = document.querySelector("#badge_matchcount")
     badge.setAttribute("pulse", "")
     setTimeout(() => badge.removeAttribute("pulse"), 1000)    
@@ -284,18 +283,38 @@ ${matches.get("measure", slide-1)}
 `
 ```
 
-${description}
+<div class="container-description">
+    <div>
+
+```js
+const back = view(Inputs.button("back"));
+```
+
+</div>
+    <div>${description}</div>
+    <div>
+
+```js
+const forth = view(Inputs.button("forth"));
+```
+
+```js
+const slide = forth - back;
+```
+
+
+${slide}
+
+ 
+</div>
+</div> <!-- description container -->
+
 </div>
 <!-- right column -->
 <div>
     <div class="card">
     <h3>browse matches</h3>
 
-```js
-const slider_val = Mutable(1)
-const reset_slider_val = () => slider_val.value = 1
-const slide = view(Inputs.range([1, match_count], {value: slider_val.value, step: 1}))
-```
 
 
 </div>
