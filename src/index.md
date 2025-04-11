@@ -234,7 +234,7 @@ Narrow your search with the filters below.
 </sl-details>
 <sl-details>
     <div slot="summary">Targeted climate risk
-     (${selected_ownership_levels.length} / ${row_count('ownership')})
+     (${selected_climaterisks.length} / ${row_count('risk')})
      </div>   
 
 ```js
