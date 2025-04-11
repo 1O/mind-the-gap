@@ -272,12 +272,16 @@ Narrow your search with the filters below.
 
 ```js
 const description = html`
-<div class="note" label=${matches.get("no", slide)}>
+<h1>${"# " + matches.get("no", slide)}</h1>
+<div class="cluster">Cluster: 
+${matches.get("cluster", slide)}
+</div>
+<div class="note" label="">
 <div class="description">
-${matches.get("measure", slide-1)}
+${matches.get("measure", slide)}
 </div>
 <!--
-<sl-rating label="Rating" max="3" id="rate_${matches.get("id", slide-1)}"></sl-rating>
+<sl-rating label="Rating" max="3" id="rate_${matches.get("id", slide)}"></sl-rating>
 <div>
 -->
 `
@@ -301,7 +305,6 @@ const forth = view(Inputs.button(">"));
 ```js
 const slide = forth - back;
 ```
-
 
 </div>
 </div> <!-- description container -->
