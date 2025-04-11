@@ -272,8 +272,8 @@ Narrow your search with the filters below.
 
 ```js
 const description = html`
-<div class="note" label="# ${slide}">
-<div style="column-count:2; column-gap: 5rem">
+<div class="note" label=${matches.get("no", slide)}>
+<div class="description">
 ${matches.get("measure", slide-1)}
 </div>
 <!--
@@ -287,7 +287,7 @@ ${matches.get("measure", slide-1)}
     <div>
 
 ```js
-const back = view(Inputs.button("back"));
+const back = view(Inputs.button("<"));
 ```
 
 </div>
@@ -295,7 +295,7 @@ const back = view(Inputs.button("back"));
     <div>
 
 ```js
-const forth = view(Inputs.button("forth"));
+const forth = view(Inputs.button(">"));
 ```
 
 ```js
@@ -303,21 +303,12 @@ const slide = forth - back;
 ```
 
 
-${slide}
-
- 
 </div>
 </div> <!-- description container -->
 
 </div>
 <!-- right column -->
 <div>
-    <div class="card">
-    <h3>browse matches</h3>
-
-
-
-</div>
     <div class="card">
         <h3>download matches</h3>
         <div style="text-align:center">
