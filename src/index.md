@@ -293,7 +293,7 @@ Narrow your search with the filters below.
             `}
         </div>
         <div class="brief"> 
-        <div><strong>id:</strong> ${matches.get("id", slide)}</div>       
+        <!-- <div><strong>id:</strong> ${matches.get("id", slide)}</div>        -->
         <div><strong>Cluster:</strong> ${matches.get("cluster", slide)}</div>       
         <div><strong>Gap types:</strong> ${matches.get("gaps", slide).join(", ")}</div>
         <div><strong>Risk management cycle (stages):</strong> ${matches.get("phases", slide).join(", ")}</div>
