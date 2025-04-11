@@ -136,9 +136,27 @@ const match_count = matches.numRows()
 ```
 
 ```js
+const rating_input = html`<sl-rating max=3 id="rating_input" data-id=${matches.get('id', slide)}></sl-rating>`
+```
+
+
+```js
+const rating = Generators.observe((notify) => {
+  const rated = (e) => {
+    let t = e.target
+    notify({k: t.dataset.id, v:rating_input.value})
+    };  
+  rating_input // use the id of the input element
+    .addEventListener("sl-change", rated);
+    return () => rating_input.removeEventListener("sl-change", rated);
+});
+```
+
+```js
 const ratings = Mutable({})
 const update_ratings = (x) => {
     ratings.value[x.k] = x.v
+    console.log("reacted" + x.k)
     return ratings.value
     }
 ```
@@ -275,6 +293,7 @@ Narrow your search with the filters below.
             `}
         </div>
         <div class="brief"> 
+        <div><strong>id:</strong> ${matches.get("id", slide)}</div>       
         <div><strong>Cluster:</strong> ${matches.get("cluster", slide)}</div>       
         <div><strong>Gap types:</strong> ${matches.get("gaps", slide).join(", ")}</div>
         <div><strong>Risk management cycle (stages):</strong> ${matches.get("phases", slide).join(", ")}</div>
@@ -306,11 +325,9 @@ const back = (reset_filters, view(Inputs.button("<", {value: null})));
 </div>   
 <div>
 
-```js
-const rating_input = html`<sl-rating max=3 id="rating_input" data-id=${matches.get('id', slide)}></sl-rating>`
-```
 
-${rating_input}
+
+<!-- ${rating_input} -->
 ${description}
 </div>
 
@@ -324,21 +341,11 @@ const forth = (reset_filters, view(Inputs.button(">", {value: null})));
 const slide = forth - back;
 ```
 
-```js
-const rating = Generators.observe((notify) => {
-  const rated = (e) => {
-    let t = e.target
-    notify({k: t.dataset.id, v:rating_input.value})
-    };  
-  rating_input // use the id of the input element
-    .addEventListener("sl-change", rated);
-});
-```
+
 
 ```js
 const favorites = (Object.entries(update_ratings(rating))
     .map(([k, v]) => ({id: k, rating: v})))
-
 ``` 
 
 </div>
@@ -349,7 +356,7 @@ const favorites = (Object.entries(update_ratings(rating))
 <div>
 
 ```js
-Inputs.table(favorites)
+// Inputs.table(favorites)
 ```
 
 </div>
