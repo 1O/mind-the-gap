@@ -98,7 +98,6 @@ unique_entries.ownership = unique_entries.ownership
 
 ```
 
-
 ```js
 const row_count = (colname) => {return unique_entries[colname].numRows()}
 ```
@@ -176,54 +175,32 @@ ${match_count}</sl-badge> matches
 
 <div class="card">
 
-<i class="fa fa-filter"></i> Narrow your search with the filters below:
+
+```js
+const reset_filters = view(Inputs.button(html`<span class="fas fa-slash" data-fa-mask="fas fa-filter" data-fa-transform="up-2.5"></span> clear filters`))
+```
+Narrow your search with the filters below.
 
 <sl-details>
     <div slot="summary">Policy sector (${selected_sectors.length} / ${row_count('sector')})</div>
     
 
 ```js
-    const selected_sectors = view(Inputs.table(choices_sector, 
+    const selected_sectors = (reset_filters, view(Inputs.table(unique_entries.sector, 
     {required: true, header: {choices: "Policy sector"}}
-    )); 
-```
-    
-
-  </sl-details>
-
-<!--
-  <sl-details>
-    <div slot="summary">Clusters (${selected_clusters.length} / ${row_count('cluster')})</div>
-
-```js
-    // const searched_clusters = view(Inputs.search(unique_entries.cluster));
-```
-
-```js
-    // const selected_clusters = view(Inputs.table(searched_clusters,
-    // {header: {choices: "Clusters"}}
-    // )
-    // );
-```
--->
+    ))); 
+```  
 
 </sl-details>
 <sl-details>
-<div slot="summary">Risk management cycle (${selected_phases.length} / ${row_count('phase')})</div>
-    <div class="grid-cols-2">
+    <div slot="summary">Risk management cycle (${selected_phases.length} / ${row_count('phase')})</div>
+        <div class="grid-cols-2">
 
 ```js
-    const selected_phases = view(Inputs.table(unique_entries.phase,
+    const selected_phases = (reset_filters, view(Inputs.table(unique_entries.phase,
         {header: {choices: "Risk management cycle"}, columns: ["choices"]}
-    ));  
+    )));  
 ```
-
-
-<!-- ```js
-    const selected_phase_categories = view(Inputs.table(unique_entries.phase_category,
-        {header: {choices: "Phase category"}}
-    ));
-```   -->
 
 </div>
 </sl-details>
@@ -231,9 +208,9 @@ ${match_count}</sl-badge> matches
     <div slot="summary">Gap types (${selected_gaps.length} / ${row_count('gap')})</div>   
 
 ```js
-    const selected_gaps = view(Inputs.table(unique_entries.gap,
+    const selected_gaps = (reset_filters, view(Inputs.table(unique_entries.gap,
         {header: {choices: "Gap types"}}
-    ));
+    )));
 ```
 </sl-details>
 
@@ -244,9 +221,9 @@ ${match_count}</sl-badge> matches
      </div>   
 
 ```js
-    const selected_ownership_levels = view(Inputs.table(unique_entries.ownership,
+    const selected_ownership_levels = (reset_filters, view(Inputs.table(unique_entries.ownership,
         {header: {choices: "Risk ownership level"}, columns:["choices"]}
-    )); 
+    ))); 
 ```
 </sl-details>
 
