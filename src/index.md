@@ -70,7 +70,6 @@ const unique_entries = _.zipObject(
     data2.columnNames().map(x => aq.table({"choices": _.uniq(data2.array(x))}))
 )
 
-const choices_sector = Mutable(unique_entries.sector)
 ```
 
 ```js
@@ -113,7 +112,7 @@ const matches = data2.filter(
                   aq.op.indexof(selected_gaps.map(x => x.choices), d.gap) > -1 &
                   aq.op.indexof(selected_ownership_levels.map(x => x.choices), d.ownership) > -1 &
                   aq.op.indexof(selected_climaterisks.map(x => x.choices), d.risk) > -1 &
-                  // filter on "locally validation", depending on user's choice (switch)
+                  // filter on "locally validation", depending on user's choice (switch)                  
                   aq.op.indexof([true, validated_only], d.validated) > -1 &
                   true
                   )
@@ -139,8 +138,6 @@ const match_count = matches.numRows()
 
 ```
 
-${Inputs.table(data2)}
-
 
 ```js
 // things that should be triggered when "matches" (the filtered data)
@@ -155,7 +152,9 @@ const refresh_views = (matches) => {
     }
 ```
 
-<!-- doesn't display anything but listens to changes in "matches": -->
+<!-- doesn't display anything but listens to changes in "matches",
+e. g. to add and remove pulsating css to badges
+-->
 <span>${refresh_views(matches)}</span>
 
 
@@ -175,7 +174,7 @@ const refresh_views = (matches) => {
 
 <div>
 <sl-badge id="badge_matchcount" variant="success" pill style="font-size:larger">
-${match_count}</sl-badge> matches
+${match_count - 1}</sl-badge> matches
 
 <div class="card">
 
@@ -241,22 +240,18 @@ Narrow your search with the filters below.
 </sl-details>
 
 
-<sl-switch help-text="locally validated measures only" id="switch_validation"></sl-switch>
+```js
+    const validated_only = (reset_filters, view(Inputs.toggle({label: "Locally validated gaps", value: false})))
+```
+
+
+
 </div> <!-- end of left filter card -->
 
 
-```js
-const validated_only = Mutable(false)
-const set_validated_only = (x) => {validated_only.value = x;}
-```
 
-```js
-{
-document.querySelector("#switch_validation")
-.addEventListener("sl-change", e => {set_validated_only(e.target.checked); return ("")}
-)
-}
-```
+
+
 
 </div>
   <!-- center column -->
@@ -267,14 +262,6 @@ document.querySelector("#switch_validation")
             <h3><tag style="background-color: ${colors[matches.get('sector', slide-1)]} !important">${matches.get("sector", slide-1)}</tag></h3>
             </div>
             `}
-            <!-- <div class="brief">
-                <dl>    
-                    <dt>gaps:</dt><dd>${matches.get("gaps", slide)}</dd>
-                    <dt>phases:</dt><dd>${matches.get("phases", slide).join(", ")}</dd>
-                    <dt>phase categories:</dt><dd>${matches.get("phase_categories", slide).join(",  ")}</dd>
-                    <dt>locally validated:</dt><dd>${["no", "yes"][Boolean(matches.get("validated", slide))]}</dd>    
-                </dl>  
-            </div> -->
         </div>
         <div class="grid grid-cols-4 brief">        
         <div><strong>Gap types:</strong> ${matches.get("gaps", slide-1).join(", ")}</div>
