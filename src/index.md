@@ -15,6 +15,9 @@ import * as aq from "npm:arquero";
 import { setBasePath } from "npm:@shoelace-style/shoelace";
 setBasePath("npm:@shoelace-style/shoelace/dist");
 
+import H from "./components/helpers.js"; // H for helper functions
+
+
 ```
 
 ```js
@@ -103,8 +106,16 @@ const row_count = (colname) => {return unique_entries[colname].numRows()}
 ```
 
 ```js
-const matches = data2.filter(
-   aq.escape(d => aq.op.indexof(selected_sectors.map(x => x.choices), d.sector) > -1 &
+
+```
+
+
+
+
+```js
+const matches = H.rollup_data(
+    data2.filter(
+        aq.escape(d => aq.op.indexof(selected_sectors.map(x => x.choices), d.sector) > -1 &
                   // aq.op.indexof(selected_clusters.map(x => x.choices), d.cluster) > -1 &
                   aq.op.indexof(selected_phases.map(x => x.choices), d.phase) > -1 &
                   aq.op.indexof(selected_gaps.map(x => x.choices), d.gap) > -1 &
@@ -115,21 +126,8 @@ const matches = data2.filter(
                   true
                   )
 )
-.groupby('measure')
-.rollup({
-    id: d => aq.op.any(d.id),
-    sector: d => aq.op.any(d.sector),
-    measure: d => aq.op.any(d.measure),
-    cluster: d => aq.op.any(d.cluster),
-    validated: d => aq.op.any(d.validated),
-    gaps: d => aq.op.array_agg_distinct(d.gap),
-    phases: d => aq.op.array_agg_distinct(d.phase),
-    ownerships: d => aq.op.array_agg_distinct(d.ownership),
-    climaterisks: d => aq.op.array_agg_distinct(d.risk)
-    })
-.derive({
-    no: aq.op.row_number()
-})
+)
+
 
 const match_count = matches.numRows()
 
@@ -325,7 +323,16 @@ const back = (reset_filters, view(Inputs.button("<", {value: null})));
 </div>   
 <div>
 
+```js
+const the_rater = html`<sl-rating id=${matches.get("id", slide)} max=3></sl-rating>`
+```
 
+${the_rater}
+
+```js
+the_rater.addEventListener("sl-change", (e)=>{console.log(e.target.id)});
+
+```
 
 <!-- ${rating_input} -->
 ${description}
