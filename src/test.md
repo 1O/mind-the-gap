@@ -32,7 +32,6 @@ const rating = Generators.observe((notify) => {
 
 ```js
 (update_ratings(rating))
-
 ``` 
 
 ${console.log(ratings)}

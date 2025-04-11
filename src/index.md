@@ -336,7 +336,9 @@ const rating = Generators.observe((notify) => {
 ```
 
 ```js
-const dummy = update_ratings(rating)
+const favorites = (Object.entries(update_ratings(rating))
+    .map(([k, v]) => ({id: k, rating: v})))
+
 ``` 
 
 </div>
@@ -345,6 +347,10 @@ const dummy = update_ratings(rating)
 </div>
 <!-- right column -->
 <div>
+
+```js
+Inputs.table(favorites)
+```
 
 </div>
 
