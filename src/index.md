@@ -42,9 +42,7 @@ const data2 = aq.from(await FileAttachment('data/data.csv').csv())
     })
     .orderby('sector_order')
 
-// an array of {id: rating}, where id is the measure id (e. g. "sp_1")
-// and a user-defined rating (integer)
-const ratings = Mutable(data2.dedupe("id", "rating").select("id", "rating").objects())
+
 const colors = {"Spatial Planning": '#b3cde3',
  "Protection forest management":'#ccebc5',
  "Civil protection": '#fbb4ae',
@@ -130,12 +128,19 @@ const matches = data2.filter(
     climaterisks: d => aq.op.array_agg_distinct(d.risk)
     })
 .derive({
-    no: aq.op.row_number(),
-    rating: 0 // to set favorites
+    no: aq.op.row_number()
 })
 
 const match_count = matches.numRows()
 
+```
+
+```js
+const ratings = Mutable({})
+const update_ratings = (x) => {
+    ratings.value[x.k] = x.v
+    return ratings.value
+    }
 ```
 
 
@@ -150,6 +155,7 @@ const refresh_views = (matches) => {
     
     }
 ```
+
 
 <!-- doesn't display anything but listens to changes in "matches",
 e. g. to add and remove pulsating css to badges
@@ -248,8 +254,12 @@ Narrow your search with the filters below.
 </div> <!-- end of left filter card -->
 
 
-
-
+<div class="card">
+    <h3>download matches</h3>
+    <div style="text-align:center">
+        ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" download="result" circle><i class="fa fa-download"></i></sl-button>`)}
+    </div>
+</div>
 
 
 </div>
@@ -274,18 +284,15 @@ Narrow your search with the filters below.
         </div>
     <hr/>
 
+
 ```js
 const description = html`
 <h1>${"# " + matches.get("no", slide)}</h1>
-
 <div class="note" label="">
 <div class="description">
 ${matches.get("measure", slide)}
 </div>
-<!--
-<sl-rating label="Rating" max="3" id="rate_${matches.get("id", slide)}"></sl-rating>
-<div>
--->
+
 `
 ```
 
@@ -296,9 +303,18 @@ ${matches.get("measure", slide)}
 const back = (reset_filters, view(Inputs.button("<", {value: null})));
 ```
 
+</div>   
+<div>
+
+```js
+const rating_input = html`<sl-rating max=3 id="rating_input" data-id=${matches.get('id', slide)}></sl-rating>`
+```
+
+${rating_input}
+${description}
 </div>
-    <div>${description}</div>
-    <div class="navigate">
+
+<div class="navigate">
 
 ```js
 const forth = (reset_filters, view(Inputs.button(">", {value: null})));
@@ -308,18 +324,28 @@ const forth = (reset_filters, view(Inputs.button(">", {value: null})));
 const slide = forth - back;
 ```
 
+```js
+const rating = Generators.observe((notify) => {
+  const rated = (e) => {
+    let t = e.target
+    notify({k: t.dataset.id, v:rating_input.value})
+    };  
+  rating_input // use the id of the input element
+    .addEventListener("sl-change", rated);
+});
+```
+
+```js
+const dummy = update_ratings(rating)
+``` 
+
 </div>
 </div> <!-- description container -->
 
 </div>
 <!-- right column -->
 <div>
-    <div class="card">
-        <h3>download matches</h3>
-        <div style="text-align:center">
-            ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" download="result" circle><i class="fa fa-download"></i></sl-button>`)}
-        </div>
-    </div>
+
 </div>
 
 </div>
