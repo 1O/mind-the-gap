@@ -53,6 +53,10 @@ const colors = {"Spatial Planning": '#b3cde3',
  "Natural hazard management": '#fed9a6'}
 ```
 
+```js
+const data2_rolled_up = H.rollup_data(data2)
+```
+
 
 <div class="grid grid-cols-4" style="width:90%; font-family:sans; align-items:start">
   <div class="grid-colspan-2"><h1>Policy gap explorer</h1></div>
@@ -104,12 +108,6 @@ unique_entries.climaterisk = unique_entries.risk
 ```js
 const row_count = (colname) => {return unique_entries[colname].numRows()}
 ```
-
-```js
-
-```
-
-
 
 
 ```js
@@ -291,6 +289,8 @@ Narrow your search with the filters below.
             `}
         </div>
         <div class="brief"> 
+        ${slide}
+        ${Inputs.table(matches)}
         <!-- <div><strong>id:</strong> ${matches.get("id", slide)}</div>        -->
         <div><strong>Cluster:</strong> ${matches.get("cluster", slide)}</div>       
         <div><strong>Gap types:</strong> ${matches.get("gaps", slide).join(", ")}</div>

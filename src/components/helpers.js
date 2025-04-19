@@ -6,6 +6,7 @@ const rollup_data = (data) => {
     .groupby('measure')
     .rollup({
         id: d => aq.op.any(d.id),
+        rating: d => aq.op.max(d.rating),
         sector: d => aq.op.any(d.sector),
         measure: d => aq.op.any(d.measure),
         cluster: d => aq.op.any(d.cluster),
