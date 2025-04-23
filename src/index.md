@@ -167,7 +167,7 @@ const refresh_views = (matches) => {
     setTimeout(() => badge.removeAttribute("pulse"), 1000)    
     return("")
     
-    }
+    }    
 ```
 
 
@@ -192,8 +192,38 @@ e. g. to add and remove pulsating css to badges
 
 
 <div>
-<sl-badge id="badge_matchcount" variant="success" pill style="font-size:larger">
-${match_count - 1}</sl-badge> matches
+<div id="badge_container">
+<sl-badge id="badge_matchcount" variant="success" pill style="font-size:larger">${match_count - 1}</sl-badge> matches
+</div>
+
+
+```js
+const badge = document.getElementById('badge_container');
+
+let currentY = window.scrollY + 100; // Starting point
+let targetY = currentY;
+
+function animate() {
+  // Interpolation - smooth following with easing
+  const easing = 0.1; // Smaller = slower, more floaty
+  const delta = targetY - currentY;
+  currentY += delta * easing;
+
+  badge.style.transform = `translateY(${currentY - 100}px)`; // minus original offset
+
+  requestAnimationFrame(animate);
+}
+
+// Update target on scroll
+window.addEventListener('scroll', () => {
+  targetY = window.scrollY + 100; // Adjust this offset as needed
+});
+
+// Start animation loop
+animate();
+``` 
+
+
 
 <div class="card">
 

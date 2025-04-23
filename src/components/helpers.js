@@ -19,6 +19,17 @@ const rollup_data = (data) => {
     .derive({no: aq.op.row_number()})
 }
 
+
+const animate_badge = (currentY, targetY) => {
+    const badge = document.getElementById('badge_matchcount');
+    const easing = 0.1;
+    const delta = targetY - currentY;
+    currentY += delta * easing;
+    badge.style.transform = `translateY(${currentY - 100}px)`; // minus original offset
+    requestAnimationFrame(animate_badge);
+  }
+
+
 export default {
-    rollup_data
+    rollup_data, animate_badge
 }
