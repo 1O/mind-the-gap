@@ -47,7 +47,13 @@ const animate_badge = () => {
 }
 
 
+const negate_first_timer = () => {
+    document.querySelector("#measure_details").classList.remove("blurred")
+    document.querySelector(".alert-closable").removeAttribute("open")
+}
+
+
 
 export default {
-    rollup_data, animate_badge
+    rollup_data, animate_badge, negate_first_timer
 }

@@ -96,6 +96,15 @@ const ordered_ownerships = [
     "multi-level, cross-level, co-owned"    
 ]
 
+
+const ordered_climaterisks = [
+    "floods: fluvial", "flooding: pluvial", "hydrological hazards: other",
+    "gravitational hazards: mass movements", 
+    "forest disturbances & loss of protective forest functions",
+    "forest fire, wildfire", "drought", "direct extreme weather impacts",
+    "(peri-)glacial hazards", "multi-hazard, multi-risk"
+]
+
 unique_entries.phase = unique_entries.phase
     .derive({order: aq.escape(d => ordered_phases.indexOf(d.choices))})
     .orderby("order")
@@ -257,11 +266,12 @@ Narrow your search with the filters below.
 </sl-details>
 <sl-details>
     <div slot="summary">Climate risks related to
-     (${selected_climaterisks.length} / ${row_count('risk')})
+     (${selected_climaterisks.length} / ${ordered_climaterisks.length   })
      </div>   
 
 ```js
-    const selected_climaterisks = (reset_filters, view(Inputs.table(unique_entries.climaterisk,
+    const selected_climaterisks = (reset_filters, view(Inputs.table(
+        ordered_climaterisks.map(x => {return {"choices" : x}}),
         {header: {choices: "Climate risk"}, columns:["choices"]}
     ))); 
 ```
@@ -290,17 +300,17 @@ Narrow your search with the filters below.
 
 <div>
     <div>
-        <sl-alert open closable class="alert-closable">
+        <sl-alert open class="alert-closable">
         <sl-icon slot="icon" name="info-circle"></sl-icon>
-        Currently, all ${match_count} measures are selected.<br>Use the filter menu (left) to narrow down your selection.
+        Currently, all ${match_count} measures are selected.<br>Use the filter menu (left) to narrow down your selection.<hr/>
+        <sl-button id="got_it" size="small" variant="primary">got it!</sl-button>        
         </sl-alert>
     </div>
 
 ```js
-    document.querySelector('.alert-closable').addEventListener('sl-after-hide', () => {    
-        update_first_timer(false)
-        document.querySelector("#measure_details").classList.remove("blurred")
-  });
+    document.querySelector("#got_it").addEventListener("click", () => H.negate_first_timer())
+    document.querySelector('.alert-closable')
+        .addEventListener('sl-after-hide', () => H.negate_first_timer());
 ```
 <div id="measure_details" class="blurred">
 
