@@ -90,8 +90,9 @@ const ordered_phases = [
 ]
 
 const ordered_ownerships = [
+    "private & individual (citizens, households, property owners)",
     "local & regional", "national & subnational",
-    "transnational national & subnational", "transnational", 
+    "transnational", 
     "multi-level, cross-level, co-owned"    
 ]
 
@@ -244,17 +245,18 @@ Narrow your search with the filters below.
 </sl-details>
 <sl-details>
     <div slot="summary">Risk ownership level
-     (${selected_ownership_levels.length} / ${row_count('ownership')})
+     (${selected_ownership_levels.length} / ${ordered_ownerships.length})
      </div>   
 
 ```js
-    const selected_ownership_levels = (reset_filters, view(Inputs.table(unique_entries.ownership,
+    const selected_ownership_levels = (reset_filters, view(Inputs.table(
+        ordered_ownerships.map(x => {return {"choices" : x}}),
         {header: {choices: "Risk ownership level"}, columns:["choices"]}
     ))); 
 ```
 </sl-details>
 <sl-details>
-    <div slot="summary">Targeted climate risk
+    <div slot="summary">Climate risks related to
      (${selected_climaterisks.length} / ${row_count('risk')})
      </div>   
 
