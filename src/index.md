@@ -123,8 +123,9 @@ const matches = H.rollup_data(
                   aq.op.indexof([true, validated_only], d.validated) > -1 &
                   true
                   )
-)
-)
+    )
+    .derive({rating: aq.escape(d => ratings[d.id])})
+).orderby(aq.desc("rating"))
 
 
 const match_count = matches.numRows()
@@ -317,6 +318,7 @@ const back = (reset_filters, view(Inputs.button("<", {value: null})));
 ```js
 const the_rater = html`<sl-rating id=${matches.get("id", slide)} max=3></sl-rating>`
 ```
+${Inputs.table(Object.entries(ratings))}
 
 ${the_rater}
 
