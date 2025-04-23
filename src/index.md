@@ -17,6 +17,9 @@ setBasePath("npm:@shoelace-style/shoelace/dist");
 
 import H from "./components/helpers.js"; // H for helper functions
 
+// keep track of new user/session:
+const first_timer = Mutable(true)
+const update_first_timer = b => first_timer.value = b
 
 ```
 
@@ -82,7 +85,7 @@ const ordered_phases = [
     "Prevention: non-structural", "Prevention: structural",
 	"Preparedness: tool implementation", "Preparedness: tools",
 	"Response: tool implementation", "Response: tools",
-	"Recovery: learning", "Recovery: structural", "Recovery: tool implementation",
+	"Recovery: learning", "Recovery: structural",
     "Cross-cutting, generic"
 ]
 
@@ -125,7 +128,7 @@ const matches = H.rollup_data(
                   )
     )
     .derive({rating: aq.escape(d => ratings[d.id])})
-).orderby(aq.desc("rating"))
+)
 
 
 const match_count = matches.numRows()
@@ -188,7 +191,6 @@ e. g. to add and remove pulsating css to badges
 <div></div><!-- first row, right column -->
 
 <!-- second row, left column: -->
-
 
 
 <div>
@@ -284,17 +286,28 @@ Narrow your search with the filters below.
 </div>
   <!-- center column -->
 
-
-
 <div>
-        <div class="grid grid-cols-2">
-            ${html`<div >
+    <div>
+        <sl-alert open closable class="alert-closable">
+        <sl-icon slot="icon" name="info-circle"></sl-icon>
+        Currently, all ${match_count} measures are selected.<br>Use the filter menu (left) to narrow down your selection.
+        </sl-alert>
+    </div>
+
+```js
+    document.querySelector('.alert-closable').addEventListener('sl-after-hide', () => {    
+        update_first_timer(false)
+        document.querySelector("#measure_details").classList.remove("blurred")
+  });
+```
+<div id="measure_details" class="blurred">
+
+<div class="grid grid-cols-2">
+            ${html`<div>
             <h3><tag style="background-color: ${colors[matches.get('sector', slide)]} !important">${matches.get("sector", slide)}</tag></h3>
-            </div>
-            `}
+            </div>`}
         </div>
-        <div class="brief"> 
-        ${slide}        
+        <div class="brief">                 
         <!-- <div><strong>id:</strong> ${matches.get("id", slide)}</div>        -->
         <div><strong>Cluster:</strong> ${matches.get("cluster", slide)}</div>       
         <div><strong>Gap types:</strong> ${matches.get("gaps", slide).join(", ")}</div>
@@ -328,11 +341,14 @@ const back = (reset_filters, view(Inputs.button("<", {value: null})));
 <div>
 
 ```js
-const the_rater = html`<sl-rating id=${matches.get("id", slide)} max=3></sl-rating>`
+const the_rater = html`<sl-rating 
+id=${matches.get("id", slide)}  
+value=${matches.array("rating")[slide]}
+max=3></sl-rating>`
 ```
-${Inputs.table(Object.entries(ratings))}
 
 ${the_rater}
+
 
 ```js
 // update ratings for the displayed measure id
@@ -358,13 +374,19 @@ const slide = forth - back;
 
 </div>
 </div> <!-- description container -->
-
 </div>
-<!-- right column -->
+</div><!-- end of center column -->
+<!-- right column: -->
 <div>
 
+<strong>Favourites</strong>
 ```js
-// Inputs.table(favorites)
+Inputs.table(matches.filter(d => d.rating > 0).orderby(aq.desc("rating")),
+{
+columns: ["measure", "rating"],
+header: {rating: "stars"},
+}
+)
 ```
 
 </div>
