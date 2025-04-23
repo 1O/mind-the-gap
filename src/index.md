@@ -132,17 +132,18 @@ const match_count = matches.numRows()
 
 ```
 
-huch!
+
 
 ```js
+// save user defined matches and ratings to browser's local storage:
 {localStorage.setItem("adaptation_measures", matches.toCSV())}
 ```
 
 ```js
+// retrieve user defined matches (if necessary)
 const storage_data = aq.fromCSV(localStorage.getItem("adaptation_measures"))
 ```
 
-${Inputs.table(storage_data)}
 
 ```js
 const rating_input = html`<sl-rating max=3 id="rating_input" data-id=${matches.get('id', slide)}></sl-rating>`
@@ -293,8 +294,7 @@ Narrow your search with the filters below.
             `}
         </div>
         <div class="brief"> 
-        ${slide}
-        ${Inputs.table(matches)}
+        ${slide}        
         <!-- <div><strong>id:</strong> ${matches.get("id", slide)}</div>        -->
         <div><strong>Cluster:</strong> ${matches.get("cluster", slide)}</div>       
         <div><strong>Gap types:</strong> ${matches.get("gaps", slide).join(", ")}</div>
