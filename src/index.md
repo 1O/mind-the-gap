@@ -132,6 +132,18 @@ const match_count = matches.numRows()
 
 ```
 
+huch!
+
+```js
+{localStorage.setItem("adaptation_measures", matches.toCSV())}
+```
+
+```js
+const storage_data = aq.fromCSV(localStorage.getItem("adaptation_measures"))
+```
+
+${Inputs.table(storage_data)}
+
 ```js
 const rating_input = html`<sl-rating max=3 id="rating_input" data-id=${matches.get('id', slide)}></sl-rating>`
 ```
