@@ -137,24 +137,10 @@ const rating_input = html`<sl-rating max=3 id="rating_input" data-id=${matches.g
 
 
 ```js
-const rating = Generators.observe((notify) => {
-  const rated = (e) => {
-    let t = e.target
-    notify({k: t.dataset.id, v:rating_input.value})
-    };  
-  rating_input // use the id of the input element
-    .addEventListener("sl-change", rated);
-    return () => rating_input.removeEventListener("sl-change", rated);
-});
-```
-
-```js
 const ratings = Mutable({})
-const update_ratings = (x) => {
-    ratings.value[x.k] = x.v
-    console.log("reacted" + x.k)
-    return ratings.value
-    }
+const update_ratings = (entry) => {
+    ratings.value = Object.assign({}, ratings.value, entry)
+}
 ```
 
 
@@ -196,34 +182,9 @@ e. g. to add and remove pulsating css to badges
 <sl-badge id="badge_matchcount" variant="success" pill style="font-size:larger">${match_count - 1}</sl-badge> matches
 </div>
 
-
 ```js
-const badge = document.getElementById('badge_container');
-
-let currentY = window.scrollY + 100; // Starting point
-let targetY = currentY;
-
-function animate() {
-  // Interpolation - smooth following with easing
-  const easing = 0.1; // Smaller = slower, more floaty
-  const delta = targetY - currentY;
-  currentY += delta * easing;
-
-  badge.style.transform = `translateY(${currentY - 100}px)`; // minus original offset
-
-  requestAnimationFrame(animate);
-}
-
-// Update target on scroll
-window.addEventListener('scroll', () => {
-  targetY = window.scrollY + 100; // Adjust this offset as needed
-});
-
-// Start animation loop
-animate();
-``` 
-
-
+let dummy = H.animate_badge()
+```
 
 <div class="card">
 
@@ -360,8 +321,10 @@ const the_rater = html`<sl-rating id=${matches.get("id", slide)} max=3></sl-rati
 ${the_rater}
 
 ```js
-the_rater.addEventListener("sl-change", (e)=>{console.log(e.target.id)});
-
+// update ratings for the displayed measure id
+the_rater.addEventListener("sl-change", (e) => {
+    update_ratings({[e.target.id]: e.target.value})    
+    });
 ```
 
 <!-- ${rating_input} -->
@@ -378,12 +341,6 @@ const forth = (reset_filters, view(Inputs.button(">", {value: null})));
 const slide = forth - back;
 ```
 
-
-
-```js
-const favorites = (Object.entries(update_ratings(rating))
-    .map(([k, v]) => ({id: k, rating: v})))
-``` 
 
 </div>
 </div> <!-- description container -->
