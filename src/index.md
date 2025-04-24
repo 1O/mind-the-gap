@@ -317,8 +317,31 @@ const back = (reset_filters, view(Inputs.button("<", {value: null})));
 </div>
 <div>
 
+<!-- code for navigation through slides -->
+
 ```js
-const cur_row = matches.object(slide-1) // current row (selected via pager, match list or favourites list)
+// navigation through slides (measures):
+const slide = Mutable(1);// update ratings for the displayed measure id
+const set_slide = (n) => slide.value = n
+const increase_slide = (x) => slide.value += 1
+const decrease_slide = (x) => slide.value += -1
+```
+
+```js
+// increase slide number by clicking forward button
+{increase_slide(forth)}
+```
+
+```js
+// decrease slide number by clicking back button
+{decrease_slide(back)}
+```
+<!-- end code for navigation through slides -->
+
+```js
+// extract current row/slide from table "matches"
+// (selected via pager, match list or favourites list)
+const cur_row = matches.object(slide-1) 
 ```
 
 ```js
@@ -343,31 +366,8 @@ ${H.get_detail(cur_row)}
 const forth = (reset_filters, view(Inputs.button(">", {value: null})));
 ```
 
-
-```js
-const slide = Mutable(1);// update ratings for the displayed measure id
-const set_slide = (n) => slide.value = n
-const increase_slide = (x) => slide.value += 1
-const decrease_slide = (x) => slide.value += -1
-```
-
-```js
-// increase slide number by clicking forward button
-{increase_slide(forth)}
-```
-
-```js
-// decrease slide number by clicking back button
-{decrease_slide(back)}
-```
-
-
-
-
-
-</div>
-</div><!-- description container -->
-</div>
+</div><!-- end of right column containing forward button: -->
+</div><!-- end of container description -->
 </div><!-- end of center column -->
 <!-- right column: -->
 <div>
