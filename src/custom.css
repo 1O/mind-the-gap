@@ -47,3 +47,10 @@ div.navigate button{
 .clickable_row {cursor: pointer;}
 
 .star{color: #f59e0b}
+
+
+.card_measure [slot='footer'] {
+    display: flex;
+    justify-content: space-between;
+    align-items: right;
+  }

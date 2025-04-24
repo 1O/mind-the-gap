@@ -351,13 +351,18 @@ the_rater.addEventListener("sl-change", (e) => {
     update_ratings({[e.target.id]: e.target.value})    
     });
 ```
+<sl-card class="card_measure">
+  <div slot="header">    
+    ${H.get_header(cur_row)}
+    ${H.get_brief(cur_row)}
+  </div>
+  <div>${H.get_detail(cur_row)}</div>
+  <div slot="footer">rate this: ${the_rater}</div>  
+</sl-card>
 
-<div class="grid grid-cols-2">
-<div>${H.get_header(cur_row)}</div>
-<div>${the_rater}</div>
-</div>
-${H.get_brief(cur_row)}
-${H.get_detail(cur_row)}
+
+
+
 
 </div><!-- end of center column containing measure details -->
 <div class="navigate"><!-- right column containing forward button: -->
