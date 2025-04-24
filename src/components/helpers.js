@@ -1,4 +1,14 @@
 import * as aq from "npm:arquero";
+import {html} from "npm:htl";
+
+
+const colors = {
+    "Spatial Planning": '#b3cde3',
+    "Protection forest management":'#ccebc5',
+    "Civil protection": '#fbb4ae',
+    "Forest fire management": '#decbe4',
+    "Natural hazard management": '#fed9a6'
+}
 
 
 const rollup_data = (data) => {
@@ -53,7 +63,37 @@ const negate_first_timer = () => {
 }
 
 
+const get_brief = (cur_row) => {
+return html`
+    <div>
+        <h3><tag style="background-color: ${colors[cur_row.sector]} !important">${cur_row.sector}</tag></h3>
+    </div>
+    <div class="brief">                     
+    <div><strong>Cluster:</strong> ${cur_row.cluster}</div>       
+    <div><strong>Gap types:</strong> ${cur_row.gaps.join(", ")}</div>
+    <div><strong>Risk management cycle (stages):</strong> ${cur_row.phases.join(", ")}</div>
+    <div><strong>Risk ownership levels:</strong> ${cur_row.ownerships.join(", ")}</div>
+    <div><strong>Targeted climate risk:</strong> ${cur_row.climaterisks.join(", ")}</div>
+    <div><strong>Locally validated:</strong> ${["no", "yes"][1*cur_row.validated]}</div>
+    </div>
+`
+}
+
+const get_header = (cur_row) => {
+    return html`
+    <h1>${"# " + cur_row.no}</h1>
+    `
+}
+
+const get_rater = (cur_row) => {
+    return html`<sl-rating id=${cur_row.id} value=${cur_row.rating} max=3></sl-rating>`
+}
+
+const get_detail = (cur_row) => {
+    return html`<div class="description">${cur_row.measure}</div>`
+}
 
 export default {
-    rollup_data, animate_badge, negate_first_timer
+    rollup_data, animate_badge, negate_first_timer,
+    get_header, get_rater, get_brief, get_detail
 }

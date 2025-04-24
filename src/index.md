@@ -49,11 +49,7 @@ const data2 = aq.from(await FileAttachment('data/data.csv').csv())
     .orderby('sector_order')
 
 
-const colors = {"Spatial Planning": '#b3cde3',
- "Protection forest management":'#ccebc5',
- "Civil protection": '#fbb4ae',
- "Forest fire management": '#decbe4',
- "Natural hazard management": '#fed9a6'}
+
 ```
 
 ```js
@@ -303,83 +299,45 @@ Narrow your search with the filters below.
 
 
 </div>
-  <!-- center column -->
 
-<div>
+
+<div><!-- center column -->
     <div>
-        <sl-alert open class="alert-closable">
+        <sl-alert open closable class="alert-closable">
         <sl-icon slot="icon" name="info-circle"></sl-icon>
-        Currently, all ${match_count} measures are selected.<br>Use the filter menu (left) to narrow down your selection.<hr/>
-        <sl-button id="got_it" size="small" variant="primary">got it!</sl-button>        
-        </sl-alert>
+        Currently, all ${match_count} measures are selected.<br>Use the filter menu (left) to narrow down your selection.
     </div>
-
-```js
-    document.querySelector("#got_it").addEventListener("click", () => H.negate_first_timer())
-    document.querySelector('.alert-closable')
-        .addEventListener('sl-after-hide', () => H.negate_first_timer());
-```
-<div id="measure_details" class="blurred">
-
-
-```js
-const cur_row = matches.object(slide-1) // current row (selected via pager, match list or favourites list)
-```
-
-<div class="grid grid-cols-2">
-            ${html`<div>
-            <h3><tag style="background-color: ${colors[cur_row.sector]} !important">${cur_row.sector}</tag></h3>
-            </div>`}
-        </div>
-        <div class="brief">                 
-            <!-- <div><strong>id:</strong> ${matches.get("id", slide)}</div>        -->
-            <div><strong>Cluster:</strong> ${cur_row.cluster}</div>       
-            <div><strong>Gap types:</strong> ${cur_row.gaps.join(", ")}</div>
-            <div><strong>Risk management cycle (stages):</strong> ${cur_row.phases.join(", ")}</div>
-            <div><strong>Risk ownership levels:</strong> ${cur_row.ownerships.join(", ")}</div>
-            <div><strong>Targeted climate risk:</strong> ${cur_row.climaterisks.join(", ")}</div>
-            <div><strong>Locally validated:</strong> ${["no", "yes"][1*cur_row.validated]}</div>
-        </div>
-    <hr/>
-
-
-```js
-const description = html`
-<h1>${"# " + cur_row.no}</h1>
-<div class="note" label="">
-<div class="description">
-${cur_row.measure}
-</div>
-
-`
-```
-
-<div class="container-description">
-    <div class="navigate">
+    <div class="container-description">
+        <div class="navigate">
 
 ```js
 const back = (reset_filters, view(Inputs.button("<", {value: null})));
 ```
 
-</div>   
+</div>
 <div>
 
 ```js
-const the_rater = html`<sl-rating 
-id=${cur_row.id} value=${cur_row.rating} max=3></sl-rating>`
+const cur_row = matches.object(slide-1) // current row (selected via pager, match list or favourites list)
 ```
+
 ```js
-// update ratings for the displayed measure id
+const the_rater = H.get_rater(cur_row)
+// update ratings for the displayed slide
 the_rater.addEventListener("sl-change", (e) => {
     update_ratings({[e.target.id]: e.target.value})    
     });
 ```
 
-${the_rater}
-${description}
+<div class="grid grid-cols-2">
+<div>${H.get_header(cur_row)}</div>
+<div>${the_rater}</div>
 </div>
+${H.get_brief(cur_row)}
+${H.get_detail(cur_row)}
 
-<div class="navigate">
+</div><!-- end of center column containing measure details -->
+<div class="navigate"><!-- right column containing forward button: -->
 
 ```js
 const forth = (reset_filters, view(Inputs.button(">", {value: null})));
