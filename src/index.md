@@ -422,8 +422,9 @@ view(Inputs.table(matches.filter(d => d.rating > 0).orderby(aq.desc("rating")),
     {columns: ["no", "measure", "rating"], header: {no: "#", rating: "stars"},
     select: true, multiple: false,
     width: {no: "2em"},
-    format: {rating: d => d + "stars"}
-    }
+    format: {rating: d => html`${Array(d).fill(0).map(() => html`<i class="fa fa-star star"></i>`)}`
+        }
+    }    
 )))
 ```
 
@@ -450,6 +451,7 @@ select: true, multiple: false, width: {no: "2em"}
 {selected_match && set_slide(selected_match.no)}
 ```
 
+<i class="fa fa-star star"></i>
 
 </div>
 
