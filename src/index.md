@@ -356,22 +356,15 @@ const back = (reset_filters, view(Inputs.button("<", {value: null})));
 
 ```js
 const the_rater = html`<sl-rating 
-id=${matches.get("id", slide)}  
-value=${matches.array("rating")[slide]}
-max=3></sl-rating>`
+id=${matches.get("id", slide)} value=${matches.array("rating")[slide]} max=3></sl-rating>`
 ```
-
-${the_rater}
-
-
 ```js
 // update ratings for the displayed measure id
 the_rater.addEventListener("sl-change", (e) => {
     update_ratings({[e.target.id]: e.target.value})    
     });
 ```
-
-<!-- ${rating_input} -->
+${the_rater}
 ${description}
 </div>
 
@@ -382,12 +375,35 @@ const forth = (reset_filters, view(Inputs.button(">", {value: null})));
 ```
 
 ```js
-const slide = forth - back;
+const slide = forth - back;// update ratings for the displayed measure id
+```
+
+```js
+const slide2 = Mutable(1);// update ratings for the displayed measure id
+const set_slide2 = (n) => slide2.value = n
+const increase_slide2 = (x) => slide2.value += 1
+const decrease_slide2 = (x) => slide2.value += -1
+```
+
+```js
+// increase slide number by clicking forward button
+increase_slide2(forth)
+```
+
+```js
+// decrease slide number by clicking back button
+decrease_slide2(back)
+```
+
+
+```js
+// set slide number by selecting from the list of matches:
+{selected_match && set_slide2(selected_match.no)}
 ```
 
 
 </div>
-</div> <!-- description container -->
+</div><!-- description container -->
 </div>
 </div><!-- end of center column -->
 <!-- right column: -->
@@ -411,14 +427,20 @@ const make_interactive = (id) => {
 ```
 
 <strong>Matches</strong>
+
 ```js
-Inputs.table(matches.orderby(aq.desc("rating")),
+const selected_match = view(Inputs.table(matches.orderby(aq.desc("rating")),
 {columns: ["no", "measure"], header: {no: "#", rating: "stars"},
-select: false, width: {no: "2em"},
+select: true, multiple: false, width: {no: "2em"},
 format: {no: d => make_interactive(d)}
 }
 )
+)
+
 ```
+
+
+slide2: ${slide2}
 
 </div>
 
