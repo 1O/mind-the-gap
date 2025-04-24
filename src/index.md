@@ -138,7 +138,7 @@ const matches = H.rollup_data(
                   )
     )
     .derive({rating: aq.escape(d => ratings[d.id])},
-            {no: aq.op.row_number()}
+            {no: aq.op.row_number() - 1} // avoid erraneous array indexing with 1-based row nums
     )
 )
 
@@ -161,7 +161,7 @@ const storage_data = aq.fromCSV(localStorage.getItem("adaptation_measures"))
 
 
 ```js
-const rating_input = html`<sl-rating max=3 id="rating_input" data-id=${matches.get('id', slide2)}></sl-rating>`
+const rating_input = html`<sl-rating max=3 id="rating_input" data-id=${matches.get('id', slide)}></sl-rating>`
 ```
 
 
@@ -316,29 +316,34 @@ Narrow your search with the filters below.
 ```
 <div id="measure_details" class="blurred">
 
+
+```js
+const cur_row = matches.object(slide) // current row (selected via pager, match list or favourites list)
+```
+
 <div class="grid grid-cols-2">
             ${html`<div>
-            <h3><tag style="background-color: ${colors[matches.get('sector', slide2)]} !important">${matches.get("sector", slide2)}</tag></h3>
+            <h3><tag style="background-color: ${colors[cur_row.sector]} !important">${cur_row.sector}</tag></h3>
             </div>`}
         </div>
         <div class="brief">                 
-        <!-- <div><strong>id:</strong> ${matches.get("id", slide2)}</div>        -->
-        <div><strong>Cluster:</strong> ${matches.get("cluster", slide2)}</div>       
-        <div><strong>Gap types:</strong> ${matches.get("gaps", slide2).join(", ")}</div>
-        <div><strong>Risk management cycle (stages):</strong> ${matches.get("phases", slide2).join(", ")}</div>
-        <div><strong>Risk ownership levels:</strong> ${matches.get("ownerships", slide2).join(", ")}</div>
-        <div><strong>Targeted climate risk:</strong> ${matches.get("climaterisks")}</div>
-        <div><strong>Locally validated:</strong> ${["no", "yes"][1*matches.get("validated", slide2)    ]}</div>
+            <!-- <div><strong>id:</strong> ${matches.get("id", slide)}</div>        -->
+            <div><strong>Cluster:</strong> ${cur_row.cluster}</div>       
+            <div><strong>Gap types:</strong> ${cur_row.gaps.join(", ")}</div>
+            <div><strong>Risk management cycle (stages):</strong> ${cur_row.phases.join(", ")}</div>
+            <div><strong>Risk ownership levels:</strong> ${cur_row.ownerships.join(", ")}</div>
+            <div><strong>Targeted climate risk:</strong> ${cur_row.climaterisks.join(", ")}</div>
+            <div><strong>Locally validated:</strong> ${["no", "yes"][1*cur_row.validated]}</div>
         </div>
     <hr/>
 
 
 ```js
 const description = html`
-<h1>${"# " + matches.get("no", slide2)}</h1>
+<h1>${"# " + matches.get("no", slide)}</h1>
 <div class="note" label="">
 <div class="description">
-${matches.get("measure", slide2)}
+${matches.get("measure", slide)}
 </div>
 
 `
@@ -356,7 +361,7 @@ const back = (reset_filters, view(Inputs.button("<", {value: null})));
 
 ```js
 const the_rater = html`<sl-rating 
-id=${matches.get("id", slide2)} value=${matches.array("rating")[slide2]} max=3></sl-rating>`
+id=${matches.get("id", slide)} value=${matches.array("rating")[slide]} max=3></sl-rating>`
 ```
 ```js
 // update ratings for the displayed measure id
@@ -376,20 +381,20 @@ const forth = (reset_filters, view(Inputs.button(">", {value: null})));
 
 
 ```js
-const slide2 = Mutable(1);// update ratings for the displayed measure id
-const set_slide2 = (n) => slide2.value = n
-const increase_slide2 = (x) => slide2.value += 1
-const decrease_slide2 = (x) => slide2.value += -1
+const slide = Mutable(0);// update ratings for the displayed measure id
+const set_slide = (n) => slide.value = n
+const increase_slide = (x) => slide.value += 1
+const decrease_slide = (x) => slide.value += -1
 ```
 
 ```js
 // increase slide number by clicking forward button
-{increase_slide2(forth)}
+{increase_slide(forth)}
 ```
 
 ```js
 // decrease slide number by clicking back button
-{decrease_slide2(back)}
+{decrease_slide(back)}
 ```
 
 
@@ -417,8 +422,9 @@ view(Inputs.table(matches.filter(d => d.rating > 0).orderby(aq.desc("rating")),
 
 ```js
 // set slide number by selecting from the list of favourites:
-{selected_favorite && set_slide2(selected_favorite.no)}
+{selected_favorite && set_slide(selected_favorite.no)}
 ```
+
 
 
 
@@ -427,18 +433,17 @@ view(Inputs.table(matches.filter(d => d.rating > 0).orderby(aq.desc("rating")),
 ```js
 const selected_match = (reset_filters, view(Inputs.table(matches,
 {columns: ["no", "measure"], header: {no: "#", rating: "stars"},
-select: true, multiple: false, width: {no: "2em"},
-// format: {no: d => make_interactive(d)}
+select: true, multiple: false, width: {no: "2em"}
 }
 )))
 ```
 
 ```js
 // set slide number by selecting from the list of matches:
-{selected_match && set_slide2(selected_match.no)}
+{selected_match && set_slide(selected_match.no)}
 ```
 
-
+selected match number: ${selected_match.no}
 
 </div>
 
