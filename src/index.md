@@ -161,11 +161,6 @@ const storage_data = aq.fromCSV(localStorage.getItem("adaptation_measures"))
 
 
 ```js
-const rating_input = html`<sl-rating max=3 id="rating_input" data-id=${matches.get('id', slide)}></sl-rating>`
-```
-
-
-```js
 const ratings = Mutable({})
 const update_ratings = (entry) => {
     ratings.value = Object.assign({}, ratings.value, entry)
@@ -220,6 +215,16 @@ let dummy = H.animate_badge()
 ```js
 const reset_filters = view(Inputs.button(html`<span class="fas fa-slash" data-fa-mask="fas fa-filter" data-fa-transform="up-2.5"></span> clear filters`))
 ```
+
+```js
+// apart from resetting other views, do this when "reset filter" button is clicked:
+{
+reset_filters;
+set_slide(1)
+}
+```
+
+
 Narrow your search with the filters below.
 
 <sl-details>
@@ -318,7 +323,7 @@ Narrow your search with the filters below.
 
 
 ```js
-const cur_row = matches.object(slide) // current row (selected via pager, match list or favourites list)
+const cur_row = matches.object(slide-1) // current row (selected via pager, match list or favourites list)
 ```
 
 <div class="grid grid-cols-2">
@@ -340,10 +345,10 @@ const cur_row = matches.object(slide) // current row (selected via pager, match 
 
 ```js
 const description = html`
-<h1>${"# " + matches.get("no", slide)}</h1>
+<h1>${"# " + cur_row.no}</h1>
 <div class="note" label="">
 <div class="description">
-${matches.get("measure", slide)}
+${cur_row.measure}
 </div>
 
 `
@@ -361,7 +366,7 @@ const back = (reset_filters, view(Inputs.button("<", {value: null})));
 
 ```js
 const the_rater = html`<sl-rating 
-id=${matches.get("id", slide)} value=${matches.array("rating")[slide]} max=3></sl-rating>`
+id=${cur_row.id} value=${cur_row.rating} max=3></sl-rating>`
 ```
 ```js
 // update ratings for the displayed measure id
@@ -369,6 +374,7 @@ the_rater.addEventListener("sl-change", (e) => {
     update_ratings({[e.target.id]: e.target.value})    
     });
 ```
+
 ${the_rater}
 ${description}
 </div>
@@ -381,7 +387,7 @@ const forth = (reset_filters, view(Inputs.button(">", {value: null})));
 
 
 ```js
-const slide = Mutable(0);// update ratings for the displayed measure id
+const slide = Mutable(1);// update ratings for the displayed measure id
 const set_slide = (n) => slide.value = n
 const increase_slide = (x) => slide.value += 1
 const decrease_slide = (x) => slide.value += -1
@@ -415,7 +421,8 @@ const selected_favorite = (reset_filters,
 view(Inputs.table(matches.filter(d => d.rating > 0).orderby(aq.desc("rating")),
     {columns: ["no", "measure", "rating"], header: {no: "#", rating: "stars"},
     select: true, multiple: false,
-    width: {no: "2em"}
+    width: {no: "2em"},
+    format: {rating: d => d + "stars"}
     }
 )))
 ```
@@ -443,7 +450,6 @@ select: true, multiple: false, width: {no: "2em"}
 {selected_match && set_slide(selected_match.no)}
 ```
 
-selected match number: ${selected_match.no}
 
 </div>
 
