@@ -44,3 +44,5 @@ div.navigate button{
     filter: blur(5px);
 
 }
+
+.clickable_row {cursor: pointer;}

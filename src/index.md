@@ -137,7 +137,9 @@ const matches = H.rollup_data(
                   true
                   )
     )
-    .derive({rating: aq.escape(d => ratings[d.id])})
+    .derive({rating: aq.escape(d => ratings[d.id])},
+            {no: aq.op.row_number()}
+    )
 )
 
 
@@ -397,6 +399,23 @@ Inputs.table(matches.filter(d => d.rating > 0).orderby(aq.desc("rating")),
 {
 columns: ["measure", "rating"],
 header: {rating: "stars"},
+}
+)
+```
+
+```js
+const make_interactive = (id) => {
+   return html`<div class="clickable_row" onClick="alert(${id})">${id}</div>`
+}
+
+```
+
+<strong>Matches</strong>
+```js
+Inputs.table(matches.orderby(aq.desc("rating")),
+{columns: ["no", "measure"], header: {no: "#", rating: "stars"},
+select: false, width: {no: "2em"},
+format: {no: d => make_interactive(d)}
 }
 )
 ```
