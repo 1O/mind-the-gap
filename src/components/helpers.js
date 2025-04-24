@@ -2,12 +2,14 @@ import * as aq from "npm:arquero";
 import {html} from "npm:htl";
 
 
-const colors = {
-    "Spatial Planning": '#b3cde3',
-    "Protection forest management":'#ccebc5',
-    "Civil protection": '#fbb4ae',
-    "Forest fire management": '#decbe4',
-    "Natural hazard management": '#fed9a6'
+const get_sector_colors = () => {
+    return {
+        "Spatial Planning": '#b3cde3',
+        "Protection forest management":'#ccebc5',
+        "Civil protection": '#fbb4ae',
+        "Forest fire management": '#decbe4',
+        "Natural hazard management": '#fed9a6'
+    }
 }
 
 
@@ -65,10 +67,11 @@ const negate_first_timer = () => {
 
 const get_brief = (cur_row) => {
 return html`
-    <div>
-        <h3><tag style="background-color: ${colors[cur_row.sector]} !important">${cur_row.sector}</tag></h3>
+
+    <div class="brief">
+    <div><strong>Sector:</strong>
+    <tag style="background-color: ${get_sector_colors()[cur_row.sector]} !important">${cur_row.sector}</tag>
     </div>
-    <div class="brief">                     
     <div><strong>Cluster:</strong> ${cur_row.cluster}</div>       
     <div><strong>Gap types:</strong> ${cur_row.gaps.join(", ")}</div>
     <div><strong>Risk management cycle (stages):</strong> ${cur_row.phases.join(", ")}</div>
@@ -81,7 +84,9 @@ return html`
 
 const get_header = (cur_row) => {
     return html`
+    <div slot="header>
     <h1>${"# " + cur_row.no}</h1>
+    </div>
     `
 }
 
@@ -95,5 +100,6 @@ const get_detail = (cur_row) => {
 
 export default {
     rollup_data, animate_badge, negate_first_timer,
-    get_header, get_rater, get_brief, get_detail
+    get_header, get_rater, get_brief, get_detail,
+    get_sector_colors
 }

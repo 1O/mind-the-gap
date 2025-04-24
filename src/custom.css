@@ -10,7 +10,8 @@
 
 tag{
     padding:.2em .4em; 
-    margin-right:.2em
+    margin-right:.2em;
+    border-radius: .5em;
 }
 
 .container-description{
@@ -50,7 +51,13 @@ div.navigate button{
 
 
 .card_measure [slot='footer'] {
-    display: flex;
+        display: flex;
     justify-content: space-between;
     align-items: right;
-  }
+}
+
+.card_measure [slot='header'] {
+    display: flex;
+justify-content: space-between;
+align-items: center;
+}

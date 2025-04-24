@@ -352,16 +352,13 @@ the_rater.addEventListener("sl-change", (e) => {
     });
 ```
 <sl-card class="card_measure">
-  <div slot="header">    
-    ${H.get_header(cur_row)}
-    ${H.get_brief(cur_row)}
-  </div>
-  <div>${H.get_detail(cur_row)}</div>
-  <div slot="footer">rate this: ${the_rater}</div>  
+    <div slot="header"><strong># ${cur_row.no}</strong>  ${the_rater}</div>  
+    <div slot="footer"> 
+        ${H.get_header(cur_row)}
+        ${H.get_brief(cur_row)}
+    </div>
+  <div>${H.get_detail(cur_row)}</div>  
 </sl-card>
-
-
-
 
 
 </div><!-- end of center column containing measure details -->
@@ -404,7 +401,8 @@ view(Inputs.table(matches.filter(d => d.rating > 0).orderby(aq.desc("rating")),
 ```js
 const selected_match = (reset_filters, view(Inputs.table(matches,
 {columns: ["no", "measure"], header: {no: "#", rating: "stars"},
-select: true, multiple: false, width: {no: "2em"}
+select: true, multiple: false, width: {no: "2em"},
+format: {measure: d => html`<span style="">${d}</span`}
 }
 )))
 ```
@@ -413,8 +411,6 @@ select: true, multiple: false, width: {no: "2em"}
 // set slide number by selecting from the list of matches:
 {selected_match && set_slide(selected_match.no)}
 ```
-
-<i class="fa fa-star star"></i>
 
 </div>
 
