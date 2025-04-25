@@ -112,10 +112,11 @@ const get_table_favs = (t) => {
 }
 
 const get_dialog_filter = () => {
-    return html`<sl-dialog label="Dialog"
+    return html`<sl-dialog label="Filter usage"
     id="dialog_filter_info" 
     class="dialog-overview">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    <h1>Use the filters like this:</h1>
+&hellip;
     </sl-dialog>
     `
 }

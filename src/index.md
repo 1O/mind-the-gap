@@ -199,21 +199,7 @@ e. g. to add and remove pulsating css to badges
 <div><!-- second row, left column: -->
 
 
-```js
-const dialog_filter_info = H.get_dialog_filter()
-const show_dialog_filter = view(Inputs.button("info"))
 
-```
-
-${dialog_filter_info}
-
-```js
-{
-    show_dialog_filter;
-    let d = document.querySelector("#dialog_filter_info")
-    d && d.show()
-}
-```
 
 <div id="badge_container">
 <sl-badge id="badge_matchcount" variant="success" pill style="font-size:larger">${match_count}</sl-badge> matches
@@ -237,6 +223,22 @@ reset_filters;
 set_slide(1)
 }
 ```
+
+```js
+const dialog_filter_info = H.get_dialog_filter()
+const show_dialog_filter = view(Inputs.button("?"))
+```
+
+${dialog_filter_info}
+
+```js
+{
+    show_dialog_filter;
+    let d = document.querySelector("#dialog_filter_info")
+    d && d.show()
+}
+```
+
 
 
 Narrow your search with the filters below.
