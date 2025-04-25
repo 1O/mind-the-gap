@@ -334,8 +334,8 @@ const forth = (reset_filters, view(Inputs.button(">", {value: null})));
 // navigation through slides (measures):
 const slide = Mutable(1);// update ratings for the displayed measure id
 const set_slide = (n) => slide.value = n
-const increase_slide = (x) => slide.value += 1
-const decrease_slide = (x) => slide.value += -1
+const increase_slide = (x) => slide.value < match_count ? slide.value += 1 : false
+const decrease_slide = (x) => slide.value > 1 ? slide.value += -1 : false
 ```
 
 ```js
