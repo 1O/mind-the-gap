@@ -323,12 +323,8 @@ const forth = (reset_filters, view(Inputs.button(">", {value: null})));
 </div>    
 </div>
 <div class="container-description">
-<div class="navigate">
 
 
-
-</div>
-<div>
 
 <!-- code for navigation through slides -->
 
@@ -370,17 +366,9 @@ the_rater.addEventListener("sl-change", (e) => {
         ${H.get_header(cur_row)}
         ${H.get_brief(cur_row)}
     </div>
-  <div>${H.get_detail(cur_row)}</div>  
-</sl-card>
+</div>
 
 
-</div><!-- end of center column containing measure details -->
-<div class="navigate"><!-- right column containing forward button: -->
-
-
-
-</div><!-- end of right column containing forward button: -->
-</div><!-- end of container description -->
 </div><!-- end of center column -->
 <!-- right column: -->
 <div>

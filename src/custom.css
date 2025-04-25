@@ -23,7 +23,7 @@ tag{
 
 .container-description{
 display: grid;
-grid-template-columns: 10% 80% 10%;
+grid-template-columns: 100%;
 }
 
 .brief{font-size: .8rem;}
