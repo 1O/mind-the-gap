@@ -79,7 +79,7 @@ const ordered_phases = [
     "Prevention: non-structural", "Prevention: structural",
 	"Preparedness: tool implementation", "Preparedness: tools",
 	"Response: tool implementation", "Response: tools",
-    "Recovery: tool implementation",
+  //  "Recovery: tool implementation",
 	"Recovery: learning", "Recovery: structural",
     "Cross-cutting, generic"
 ]
@@ -93,7 +93,7 @@ const ordered_ownerships = [
 
 
 const ordered_climaterisks = [
-    "floods: fluvial", "flooding: pluvial", "hydrological hazards: other",
+    "floods: riverine, fluvial", "flooding: pluvial", "hydrological hazards: other",
     "gravitational hazards: mass movements", 
     "forest disturbances & loss of protective forest functions",
     "forest fire, wildfire", "drought", "direct extreme weather impacts",
@@ -197,6 +197,23 @@ e. g. to add and remove pulsating css to badges
 <div></div><!-- first row, right column -->
 
 <div><!-- second row, left column: -->
+
+
+```js
+const dialog_filter_info = H.get_dialog_filter()
+const show_dialog_filter = view(Inputs.button("info"))
+
+```
+
+${dialog_filter_info}
+
+```js
+{
+    show_dialog_filter;
+    let d = document.querySelector("#dialog_filter_info")
+    d && d.show()
+}
+```
 
 <div id="badge_container">
 <sl-badge id="badge_matchcount" variant="success" pill style="font-size:larger">${match_count}</sl-badge> matches

@@ -111,8 +111,17 @@ const get_table_favs = (t) => {
     )
 }
 
+const get_dialog_filter = () => {
+    return html`<sl-dialog label="Dialog"
+    id="dialog_filter_info" 
+    class="dialog-overview">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </sl-dialog>
+    `
+}
+
 export default {
     rollup_data, animate_badge, negate_first_timer,
     get_header, get_rater, get_brief, get_detail,
-    get_sector_colors, get_table_favs
+    get_sector_colors, get_table_favs, get_dialog_filter
 }
