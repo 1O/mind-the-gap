@@ -78,6 +78,7 @@ const ordered_phases = [
     "Prevention: non-structural", "Prevention: structural",
 	"Preparedness: tool implementation", "Preparedness: tools",
 	"Response: tool implementation", "Response: tools",
+    "Recovery: tool implementation",
 	"Recovery: learning", "Recovery: structural",
     "Cross-cutting, generic"
 ]
