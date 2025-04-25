@@ -377,16 +377,30 @@ const forth = (reset_filters, view(Inputs.button(">", {value: null})));
 
 <strong>Favourites</strong>
 
+
+
+
+```js
+{
+let any_favs = Object.keys(ratings).length
+document.querySelector("#no_favs").style.display = any_favs ? "none" : "block"
+document.querySelector("#table_favorites").style.display = any_favs ? "block" : "none"
+}
+```
+<sl-alert id="no_favs" open>No favourites selected yet. You can add favourites with the rating widget: 
+<sl-rating max=3 style="--symbol-size: 1rem;"></sl-rating>
+</sl-alert>
+
+<div id="table_favorites">
+
 ```js
 const reset_ratings_clicked = view(Inputs.button(html`<span class="fas fa-slash" data-fa-mask="fas fa-star" data-fa-transform="up-2.5"></span> clear favourites`))
 ```
 
-<div id="table_favorites">
-
-
 ```js
 const selected_favorite = (reset_filters, view(H.get_table_favs(matches)))
 ```
+
 </div>
 
 ```js
