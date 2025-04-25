@@ -308,19 +308,18 @@ Narrow your search with the filters below.
 <div><!-- center column -->
 
 <div class="navigate_measures">
-<div>
+
 
 ```js
 const back = (reset_filters, view(Inputs.button("<", {value: null})));
 ```
-</div>
-<div>
+
 
 ```js
 const forth = (reset_filters, view(Inputs.button(">", {value: null})));
 ```
 
-</div>    
+  
 </div>
 <div class="container-description">
 
