@@ -309,16 +309,19 @@ Narrow your search with the filters below.
 
 <div class="navigate_measures">
 
+<div>
 
 ```js
 const back = (reset_filters, view(Inputs.button("<", {value: null})));
 ```
-
+</div>
+<div></div>
+<div>
 
 ```js
 const forth = (reset_filters, view(Inputs.button(">", {value: null})));
 ```
-
+</div>
   
 </div>
 <div class="container-description">
@@ -360,7 +363,8 @@ the_rater.addEventListener("sl-change", (e) => {
     });
 ```
 <sl-card class="card_measure">
-    <div slot="header"><strong># ${cur_row.no}</strong>  ${the_rater}</div>  
+    <div slot="header"><strong># ${cur_row.no}</strong>  ${the_rater}</div>
+    ${cur_row.measure}
     <div slot="footer"> 
         ${H.get_header(cur_row)}
         ${H.get_brief(cur_row)}
