@@ -194,10 +194,17 @@ e. g. to add and remove pulsating css to badges
 
 <div></div><!-- first row, right column -->
 
-<!-- second row, left column: -->
 
 
-<div>
+
+<div><!-- second row, left column: -->
+    <div>
+        <sl-alert open closable class="alert-closable">
+        <sl-icon slot="icon" name="info-circle"></sl-icon>
+        Currently, all ${match_count} measures are selected.<br>Use the filter menu (left) to narrow down your selection.
+    </div>
+
+
 <div id="badge_container">
 <sl-badge id="badge_matchcount" variant="success" pill style="font-size:larger">${match_count - 1}</sl-badge> matches
 </div>
@@ -303,11 +310,6 @@ Narrow your search with the filters below.
 
 
 <div><!-- center column -->
-    <div>
-        <sl-alert open closable class="alert-closable">
-        <sl-icon slot="icon" name="info-circle"></sl-icon>
-        Currently, all ${match_count} measures are selected.<br>Use the filter menu (left) to narrow down your selection.
-    </div>
     <div class="container-description">
         <div class="navigate">
 
