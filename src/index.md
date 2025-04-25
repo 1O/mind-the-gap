@@ -196,11 +196,6 @@ e. g. to add and remove pulsating css to badges
 <div></div><!-- first row, right column -->
 
 <div><!-- second row, left column: -->
-    <div>
-        <sl-alert open closable class="alert-closable">
-        <sl-icon slot="icon" name="info-circle"></sl-icon>
-        Currently, all ${match_count} measures are selected.<br>Use the filter menu (left) to narrow down your selection.
-    </div>
 
 <div id="badge_container">
 <sl-badge id="badge_matchcount" variant="success" pill style="font-size:larger">${match_count - 1}</sl-badge> matches
@@ -295,13 +290,6 @@ Narrow your search with the filters below.
 </div> <!-- end of left filter card -->
 
 
-<div class="card">
-    <h3>download matches</h3>
-    <div style="text-align:center">
-        ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" download="result" circle><i class="fa fa-download"></i></sl-button>`)}
-    </div>
-</div>
-
 
 </div>
 
@@ -313,14 +301,20 @@ Narrow your search with the filters below.
 <div>
 
 ```js
-const back = (reset_filters, view(Inputs.button("<", {value: null})));
+const back = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-left"/>`, {value: null})));
 ```
 </div>
-<div></div>
+
+<div>
+    <sl-alert open closable class="alert-closable">
+    <sl-icon slot="icon" name="info-circle"></sl-icon>
+    Currently, all ${match_count} measures are selected.<br>Use the filter menu (left) to narrow down your selection.
+</div>
+
 <div>
 
 ```js
-const forth = (reset_filters, view(Inputs.button(">", {value: null})));
+const forth = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-right"/>`, {value: null})));
 ```
 </div>
   
@@ -431,6 +425,14 @@ format: {measure: d => html`<span style="">${d}</span`}
 // set slide number by selecting from the list of matches:
 {selected_match && set_slide(selected_match.no)}
 ```
+
+
+<div class="">
+    <strong>Download matches:</strong>
+    <div style="text-align:center">
+        ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" download="result" circle><i class="fa fa-download"></i></sl-button>`)}
+    </div>
+</div>
 
 </div>
 

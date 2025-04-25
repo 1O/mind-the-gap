@@ -31,12 +31,11 @@ grid-template-columns: 100%;
 .cluster{font-weight: bolder;}
 
 div.navigate_measures button{
-#    margin-top: 5rem;
     font-size: large;
     vertical-align: middle;
-    height: 3rem; 
-    width: 3rem;
-    border-radius: 3rem;
+    height: 2rem; 
+    width: 5rem;
+    border-radius: 5px;
 }
 
 
