@@ -46,6 +46,7 @@ const data2 = aq.from(await FileAttachment('data/data.csv').csv())
     .orderby('sector_order')
 
 
+const measure_count = 475 //data2.dedupe("id").array("id").length
 
 ```
 
@@ -198,7 +199,7 @@ e. g. to add and remove pulsating css to badges
 <div><!-- second row, left column: -->
 
 <div id="badge_container">
-<sl-badge id="badge_matchcount" variant="success" pill style="font-size:larger">${match_count - 1}</sl-badge> matches
+<sl-badge id="badge_matchcount" variant="success" pill style="font-size:larger">${match_count}</sl-badge> matches
 </div>
 
 ```js
@@ -306,9 +307,17 @@ const back = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-left"
 </div>
 
 <div>
-    <sl-alert open closable class="alert-closable">
+    <sl-alert id="no_filters" open closable class="alert-closable">
     <sl-icon slot="icon" name="info-circle"></sl-icon>
-    Currently, all ${match_count} measures are selected.<br>Use the filter menu (left) to narrow down your selection.
+    Currently, all ${match_count} available measures will be displayed.<br>You can use the filter menu (left) to narrow down your selection.
+
+```js
+// hide the "use filters" alert if appropriate:
+{match_count < measure_count && document.querySelector("#no_filters").removeAttribute("open")}
+
+```
+
+
 </div>
 
 <div>
