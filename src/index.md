@@ -16,10 +16,7 @@ import { setBasePath } from "npm:@shoelace-style/shoelace";
 setBasePath("npm:@shoelace-style/shoelace/dist");
 
 import H from "./components/helpers.js"; // H for helper functions
-
-// keep track of new user/session:
-const first_timer = Mutable(true)
-const update_first_timer = b => first_timer.value = b
+ 
 
 ```
 
@@ -161,6 +158,10 @@ const ratings = Mutable({})
 const update_ratings = (entry) => {
     ratings.value = Object.assign({}, ratings.value, entry)
 }
+const reset_ratings = () => {
+    ratings.value = {}
+}
+
 ```
 
 
@@ -377,16 +378,16 @@ const forth = (reset_filters, view(Inputs.button(">", {value: null})));
 <strong>Favourites</strong>
 
 ```js
-const selected_favorite = (reset_filters,
-view(Inputs.table(matches.filter(d => d.rating > 0).orderby(aq.desc("rating")),
-    {columns: ["no", "measure", "rating"], header: {no: "#", rating: "stars"},
-    select: true, multiple: false,
-    width: {no: "2em"},
-    format: {rating: d => html`${Array(d).fill(0).map(() => html`<i class="fa fa-star star"></i>`)}`
-        }
-    }    
-)))
+const reset_ratings_clicked = view(Inputs.button(html`<span class="fas fa-slash" data-fa-mask="fas fa-star" data-fa-transform="up-2.5"></span> clear favourites`))
 ```
+
+<div id="table_favorites">
+
+
+```js
+const selected_favorite = (reset_filters, view(H.get_table_favs(matches)))
+```
+</div>
 
 ```js
 // set slide number by selecting from the list of favourites:
@@ -394,6 +395,10 @@ view(Inputs.table(matches.filter(d => d.rating > 0).orderby(aq.desc("rating")),
 ```
 
 
+
+```js
+{reset_ratings_clicked && reset_ratings()}
+```
 
 
 <strong>Matches</strong>

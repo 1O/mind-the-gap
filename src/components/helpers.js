@@ -1,4 +1,5 @@
 import * as aq from "npm:arquero";
+import * as Inputs from "npm:@observablehq/inputs";
 import {html} from "npm:htl";
 
 
@@ -98,8 +99,20 @@ const get_detail = (cur_row) => {
     return html`<div class="description">${cur_row.measure}</div>`
 }
 
+
+const get_table_favs = (t) => {
+    return Inputs.table(t.filter(d => d.rating > 0).orderby(aq.desc("rating")),
+        {columns: ["no", "measure", "rating"], header: {no: "#", rating: "stars"},
+        select: true, multiple: false,
+        width: {no: "2em"},
+        format: {rating: d => html`${Array(d).fill(0).map(() => html`<i class="fa fa-star star"></i>`)}`
+            }
+        }
+    )
+}
+
 export default {
     rollup_data, animate_badge, negate_first_timer,
     get_header, get_rater, get_brief, get_detail,
-    get_sector_colors
+    get_sector_colors, get_table_favs
 }
