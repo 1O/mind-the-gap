@@ -115,11 +115,12 @@ const get_detail = (cur_row) => {
         update_ratings({[e.target.id]: e.target.value})    
     });    
     
-    return html`
+
+    const html_if_match = html`
     <h3>
-    ${html`<span style="background-color:${get_sector_colors()[cur_row.sector]}">${cur_row.sector}</span>`}
+    <span class="tag" style="background-color:${get_sector_colors()[cur_row.sector]}">${cur_row.sector}</span>
     </h3>
-    <h4>${cur_row.cluster}</strong></h4>
+    <h4 class="tag">${cur_row.cluster}</strong></h4>
     <hr/>
     <h5>${cur_row.id}:</h5>
     ${cur_row.measure}
@@ -127,7 +128,16 @@ const get_detail = (cur_row) => {
         <div>${get_brief(cur_row)}</div>
         <div></div>
     </div>
-`
+    `
+
+    const html_no_match = html`<sl-alert variant="warning" open>
+  <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
+  <h3>oops &hellip;</strong></h3>
+  No matches for this specific query. Try another filter combination or clear filters altogether.
+</sl-alert>`
+
+    return typeof(cur_row.id) === "undefined" ? html_no_match : html_if_match
+
     
 }
 

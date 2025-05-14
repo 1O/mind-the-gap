@@ -8,7 +8,7 @@
 .quote{font-size: 1.1rem;}
 .quote::first-line{font-weight:bolder}
 
-tag{
+.tag{
     padding:.2em .4em; 
     margin-right:.2em;
     border-radius: .5em;
