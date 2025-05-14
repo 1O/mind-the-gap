@@ -4,8 +4,7 @@ theme: ['air']
 
 <link rel="stylesheet" href="custom.css">
 <link rel="stylesheet" href="assets/shoelace-light.css">
-
-<script defer src="assets/fontawesome/fontawesome.js"></script>
+    <script defer src="assets/fontawesome/fontawesome.js"></script>
 <script defer src="assets/fontawesome/solid.js"></script>
 
 ```js   
@@ -16,7 +15,7 @@ import { setBasePath } from "npm:@shoelace-style/shoelace";
 setBasePath("npm:@shoelace-style/shoelace/dist");
 
 import H from "./components/helpers.js"; // H for helper functions
- 
+
 
 ```
 
@@ -35,7 +34,6 @@ const sector_labels = {
     "protection forests" : "Protection forest management"
 }
 ```
-
 
 
 
@@ -58,6 +56,8 @@ const data2 = aq.from(await FileAttachment('data/data.csv').csv())
 const measure_count = 475 //data2.dedupe("id").array("id").length
 
 ```
+
+
 
 ```js
 const data2_rolled_up = H.rollup_data(data2)
@@ -84,6 +84,13 @@ const unique_entries = _.zipObject(
 ```
 
 ```js
+
+
+const ordered_sectors = [
+"Natural Hazard Management", "Civil Protection", "Spatial Planning", "Protection Forest Management",
+"Forest Fire Management"
+]
+
 const ordered_phases = [
     "Prevention: non-structural", "Prevention: structural",
 	"Preparedness: tool implementation", "Preparedness: tools",
@@ -142,7 +149,7 @@ const matches = H.rollup_data(
                   )
     )
     .derive({rating: aq.escape(d => ratings[d.id])},
-            {no: aq.op.row_number() - 1} // avoid erraneous array indexing with 1-based row nums
+            {no: aq.op.row_number() - 1} // avoid erroneous array indexing with 1-based row nums
     )
 )
 
@@ -151,6 +158,8 @@ const match_count = matches.numRows()
 
 ```
 
+
+${Inputs.table(matches)}
 
 
 ```js
@@ -334,7 +343,11 @@ const back = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-left"
 ```
     
 </div>
+
+
 <div>
+
+<!--
     <sl-alert id="no_filters" open closable class="alert-closable">
     <sl-icon slot="icon" name="info-circle"></sl-icon>
     Currently, all ${match_count} available measures will be displayed.<br>You can use the filter menu (left) to narrow down your selection.
@@ -344,7 +357,7 @@ const back = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-left"
 {match_count < measure_count && document.querySelector("#no_filters").removeAttribute("open")}
 
 ```
-
+-->
 
 </div>
 
@@ -388,7 +401,11 @@ const cur_row = matches.object(slide-1)
 
 <!--navigate_measures-->
 
-<div class="newbie-info">asdf</div>
+<div id="newbie-info">
+
+${H.get_newbie_info(match_count)}
+
+</div>
 <div class="container-description" style="background-color:blue">
 
 

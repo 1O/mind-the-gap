@@ -2,6 +2,10 @@ import * as aq from "npm:arquero";
 import * as Inputs from "npm:@observablehq/inputs";
 import {html} from "npm:htl";
 import {FileAttachment} from "observablehq:stdlib";
+// Set base path for assets
+import { setBasePath } from "npm:@shoelace-style/shoelace";
+setBasePath("npm:@shoelace-style/shoelace/dist");
+
 
 const get_sector_colors = () => {
     return {
@@ -16,6 +20,13 @@ const get_sector_colors = () => {
 
 
 const rollup_data = (data) => {
+    
+    const ordered_sectors = [
+        "Natural hazard management", "Civil protection", "Spatial Planning", "Protection forest management",
+        "Forest fire management"
+    ]
+    
+    
     return data
     .groupby('measure')
     .rollup({
@@ -30,7 +41,11 @@ const rollup_data = (data) => {
         ownerships: d => aq.op.array_agg_distinct(d.ownership),
         climaterisks: d => aq.op.array_agg_distinct(d.risk)
     })
-    .derive({no: aq.op.row_number()})
+    .derive(
+        {sector_order: aq.escape(d => ordered_sectors.indexOf(d.sector))},
+        {no: aq.op.row_number()}//,        {sector_order: d => d.sector} //aq.escape(ordered_sectors.indexOf(d.sector))}
+    )
+    .orderby("sector_order")
 }
 
 
@@ -122,8 +137,18 @@ const get_dialog_filter = () => {
     `
 }
 
+
+const get_newbie_info = (match_count) => {
+return html`
+  Currently, all ${match_count} available measures will be displayed. You can use the filter menu (left) to narrow down your selection.
+<hr/>
+    <sl-button size="large" variant="primary" onClick="document.querySelector('#newbie-info').style.display = 'none'">OK</sl-button>
+    `
+
+}
+
 export default {
     rollup_data, animate_badge, negate_first_timer,
     get_header, get_rater, get_brief, get_detail,
-    get_sector_colors, get_table_favs, get_dialog_filter
+    get_sector_colors, get_table_favs, get_dialog_filter, get_newbie_info
 }
