@@ -21,6 +21,12 @@ import H from "./components/helpers.js"; // H for helper functions
 ```
 
 ```js
+
+const is_newbie = Mutable(true)
+const unset_newbie = () => is_newbie.value = false
+
+
+
 const sector_labels = {
     "natural hazard management": "Natural hazard management",
     "civil protection": "Civil protection",
@@ -29,6 +35,9 @@ const sector_labels = {
     "protection forests" : "Protection forest management"
 }
 ```
+
+
+
 
 ```js
 const data2 = aq.from(await FileAttachment('data/data.csv').csv())
@@ -316,15 +325,15 @@ Narrow your search with the filters below.
 
 <div><!-- center column -->
 
-<div class="navigate_measures">
 
-<div>
+<div class="navigate_measures">
+    <div>
 
 ```js
 const back = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-left"/>`, {value: null})));
 ```
+    
 </div>
-
 <div>
     <sl-alert id="no_filters" open closable class="alert-closable">
     <sl-icon slot="icon" name="info-circle"></sl-icon>
@@ -344,11 +353,8 @@ const back = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-left"
 ```js
 const forth = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-right"/>`, {value: null})));
 ```
-</div>
-  
-</div>
-<div class="container-description">
 
+</div>
 
 
 <!-- code for navigation through slides -->
@@ -377,6 +383,14 @@ const decrease_slide = (x) => slide.value > 1 ? slide.value += -1 : false
 // (selected via pager, match list or favourites list)
 const cur_row = matches.object(slide-1) 
 ```
+
+</div>
+
+<!--navigate_measures-->
+
+<div class="newbie-info">asdf</div>
+<div class="container-description" style="background-color:blue">
+
 
 ```js
 const the_rater = H.get_rater(cur_row)

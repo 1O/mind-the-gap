@@ -1,7 +1,7 @@
 import * as aq from "npm:arquero";
 import * as Inputs from "npm:@observablehq/inputs";
 import {html} from "npm:htl";
-
+import {FileAttachment} from "observablehq:stdlib";
 
 const get_sector_colors = () => {
     return {
@@ -12,6 +12,7 @@ const get_sector_colors = () => {
         "Natural hazard management": '#fed9a6'
     }
 }
+
 
 
 const rollup_data = (data) => {
