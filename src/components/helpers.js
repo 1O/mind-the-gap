@@ -106,7 +106,7 @@ const get_rater = (cur_row) => {
     return html`<sl-rating id=${cur_row.id} value=${cur_row.rating} max=3></sl-rating>`
 }
 
-c
+
 const get_detail = (cur_row) => {
         
     const the_rater = get_rater(cur_row)
@@ -158,7 +158,7 @@ const get_newbie_info = (match_count) => {
 return html`
   Currently, all ${match_count} available measures will be displayed. You can use the filter menu (left) to narrow down your selection.
 <hr/>
-    <sl-button size="large" variant="primary" onClick="document.querySelector('#newbie-info').style.display = 'none'">OK</sl-button>
+    <sl-button size="large" variant="primary" onClick="alert('huch'); document.querySelector('#newbie-info').style.display='none'">OK</sl-button>
     `
 
 }
