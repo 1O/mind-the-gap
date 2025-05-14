@@ -344,6 +344,7 @@ const back = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-left"
 
 
 <div>
+${cur_row.no} / ${match_count}
 
 <!--
     <sl-alert id="no_filters" open closable class="alert-closable">
