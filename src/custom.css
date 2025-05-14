@@ -27,7 +27,7 @@ tag{
 .navigate_measures{
     display: grid;
     grid-template-columns: 10% 50% 10%;
-    text-align: justify;
+    text-align: center;
     align-content: space-between;
     justify-content: space-around;   
     }

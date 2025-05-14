@@ -344,6 +344,7 @@ const back = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-left"
 
 
 <div>
+${cur_row.no}/${match_count}
 
 <!--
     <sl-alert id="no_filters" open closable class="alert-closable">
@@ -404,7 +405,7 @@ const cur_row = matches.object(slide-1)
 ${H.get_newbie_info(match_count)}
 
 </div>
-<div class="container-description" style="background-color:blue">
+<div class="container-description">
 
 
 ```js
@@ -416,17 +417,19 @@ the_rater.addEventListener("sl-change", (e) => {
 ```
 
 <sl-card class="card_measure">
-    <div slot="header">${cur_row.no}/${match_count}  ${the_rater}</div>
+    <div slot="header"><div></div>${the_rater}</div>
     <h3>
     ${html`<span style="background-color:${H.get_sector_colors()[cur_row.sector]}">${cur_row.sector}</span>`}
     </h3>
     <h4>${cur_row.cluster}</strong></h4>
     <hr/>
-    <h5>Measure (${cur_row.id})</h5>
+    <h5>${cur_row.id}:</h5>
     ${cur_row.measure}
     <div slot="footer"> 
-        ${H.get_brief(cur_row)}
+        <div>${H.get_brief(cur_row)}</div>
+        <div></div>
     </div>
+</sl-card>
 </div>
 
 
