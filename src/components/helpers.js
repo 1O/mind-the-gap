@@ -84,10 +84,6 @@ const get_brief = (cur_row) => {
 return html`
 
     <div class="brief">
-    <div><strong>Sector:</strong>
-    <tag style="background-color: ${get_sector_colors()[cur_row.sector]} !important">${cur_row.sector}</tag>
-    </div>
-    <!--<div><strong>Cluster:</strong> ${cur_row.cluster}</div>-->
     <div><strong>Gap types:</strong> ${cur_row.gaps.join(", ")}</div>
     <div><strong>Risk management cycle (stages):</strong> ${cur_row.phases.join(", ")}</div>
     <div><strong>Risk ownership levels:</strong> ${cur_row.ownerships.join(", ")}</div>
@@ -100,6 +96,7 @@ return html`
 const get_header = (cur_row) => {
     return html`
     <div slot="header>
+
     <h1>${"# " + cur_row.no}</h1>
     </div>
     `

@@ -414,12 +414,17 @@ the_rater.addEventListener("sl-change", (e) => {
     update_ratings({[e.target.id]: e.target.value})    
     });
 ```
+
 <sl-card class="card_measure">
     <div slot="header">${cur_row.no}/${match_count}  ${the_rater}</div>
-    Cluster: <strong>${cur_row.cluster}</strong><hr/>
+    <h3>
+    ${html`<span style="background-color:${H.get_sector_colors()[cur_row.sector]}">${cur_row.sector}</span>`}
+    </h3>
+    <h4>${cur_row.cluster}</strong></h4>
+    <hr/>
+    <h5>Measure (${cur_row.id})</h5>
     ${cur_row.measure}
     <div slot="footer"> 
-        ${H.get_header(cur_row)}
         ${H.get_brief(cur_row)}
     </div>
 </div>
