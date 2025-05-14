@@ -41,11 +41,9 @@ const rollup_data = (data) => {
         ownerships: d => aq.op.array_agg_distinct(d.ownership),
         climaterisks: d => aq.op.array_agg_distinct(d.risk)
     })
-    .derive(
-        {sector_order: aq.escape(d => ordered_sectors.indexOf(d.sector))},
-        {no: aq.op.row_number()}//,        {sector_order: d => d.sector} //aq.escape(ordered_sectors.indexOf(d.sector))}
-    )
+    .derive({sector_order: aq.escape(d => ordered_sectors.indexOf(d.sector))})
     .orderby("sector_order")
+    .derive({no: aq.op.row_number()})    
 }
 
 
@@ -89,7 +87,7 @@ return html`
     <div><strong>Sector:</strong>
     <tag style="background-color: ${get_sector_colors()[cur_row.sector]} !important">${cur_row.sector}</tag>
     </div>
-    <div><strong>Cluster:</strong> ${cur_row.cluster}</div>       
+    <!--<div><strong>Cluster:</strong> ${cur_row.cluster}</div>-->
     <div><strong>Gap types:</strong> ${cur_row.gaps.join(", ")}</div>
     <div><strong>Risk management cycle (stages):</strong> ${cur_row.phases.join(", ")}</div>
     <div><strong>Risk ownership levels:</strong> ${cur_row.ownerships.join(", ")}</div>

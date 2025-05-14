@@ -159,8 +159,6 @@ const match_count = matches.numRows()
 ```
 
 
-${Inputs.table(matches)}
-
 
 ```js
 // save user defined matches and ratings to browser's local storage:
@@ -417,7 +415,8 @@ the_rater.addEventListener("sl-change", (e) => {
     });
 ```
 <sl-card class="card_measure">
-    <div slot="header"><strong># ${cur_row.no}</strong>  ${the_rater}</div>
+    <div slot="header">${cur_row.no}/${match_count}  ${the_rater}</div>
+    Cluster: <strong>${cur_row.cluster}</strong><hr/>
     ${cur_row.measure}
     <div slot="footer"> 
         ${H.get_header(cur_row)}
