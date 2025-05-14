@@ -37,7 +37,9 @@ display: grid;
 grid-template-columns: 100%;
 }
 
-.brief{font-size: .8rem;}
+.measure{font-style: italic;}
+
+.brief{font-size: .8rem; margin-top: 2em;}
 .cluster{font-weight: bolder;}
 
 div.navigate_measures button{

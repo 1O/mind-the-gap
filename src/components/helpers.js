@@ -122,8 +122,9 @@ const get_detail = (cur_row) => {
     </h3>
     <h4 class="tag">${cur_row.cluster}</strong></h4>
     <hr/>
-    <h5>${cur_row.id}:</h5>
-    ${cur_row.measure}
+    <p class="measure">${cur_row.measure}</p>
+    <p>&mdash; ${cur_row.id}</p>
+
     <div slot="footer"> 
         <div>${get_brief(cur_row)}</div>
         <div></div>
