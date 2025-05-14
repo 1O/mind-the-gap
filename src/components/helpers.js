@@ -106,8 +106,29 @@ const get_rater = (cur_row) => {
     return html`<sl-rating id=${cur_row.id} value=${cur_row.rating} max=3></sl-rating>`
 }
 
+c
 const get_detail = (cur_row) => {
-    return html`<div class="description">${cur_row.measure}</div>`
+        
+    const the_rater = get_rater(cur_row)
+    // update ratings for the displayed slide
+    the_rater.addEventListener("sl-change", (e) => {
+        update_ratings({[e.target.id]: e.target.value})    
+    });    
+    
+    return html`
+    <h3>
+    ${html`<span style="background-color:${get_sector_colors()[cur_row.sector]}">${cur_row.sector}</span>`}
+    </h3>
+    <h4>${cur_row.cluster}</strong></h4>
+    <hr/>
+    <h5>${cur_row.id}:</h5>
+    ${cur_row.measure}
+    <div slot="footer"> 
+        <div>${get_brief(cur_row)}</div>
+        <div></div>
+    </div>
+`
+    
 }
 
 
@@ -144,6 +165,6 @@ return html`
 
 export default {
     rollup_data, animate_badge, negate_first_timer,
-    get_header, get_rater, get_brief, get_detail,
-    get_sector_colors, get_table_favs, get_dialog_filter, get_newbie_info
+    get_header, get_rater, get_brief, 
+    get_sector_colors, get_table_favs, get_dialog_filter, get_newbie_info, get_detail
 }

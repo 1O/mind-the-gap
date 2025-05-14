@@ -400,11 +400,7 @@ const cur_row = matches.object(slide-1)
 
 <!--navigate_measures-->
 
-<div id="newbie-info">
-
-${H.get_newbie_info(match_count)}
-
-</div>
+<div id="newbie-info">${H.get_newbie_info(match_count)}</div>
 <div class="container-description">
 
 
@@ -416,19 +412,9 @@ the_rater.addEventListener("sl-change", (e) => {
     });
 ```
 
+
 <sl-card class="card_measure">
-    <div slot="header"><div></div>${the_rater}</div>
-    <h3>
-    ${html`<span style="background-color:${H.get_sector_colors()[cur_row.sector]}">${cur_row.sector}</span>`}
-    </h3>
-    <h4>${cur_row.cluster}</strong></h4>
-    <hr/>
-    <h5>${cur_row.id}:</h5>
-    ${cur_row.measure}
-    <div slot="footer"> 
-        <div>${H.get_brief(cur_row)}</div>
-        <div></div>
-    </div>
+    <div slot="header"><div></div>${the_rater}</div>${H.get_detail(cur_row)}
 </sl-card>
 </div>
 
