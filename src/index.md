@@ -344,7 +344,6 @@ const back = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-left"
 
 
 <div>
-${cur_row.no}/${match_count}
 
 <!--
     <sl-alert id="no_filters" open closable class="alert-closable">
@@ -400,6 +399,12 @@ const cur_row = matches.object(slide-1)
 
 <!--navigate_measures-->
 
+<div id="newbie-info">
+
+${H.get_newbie_info(match_count)}
+
+</div>
+<div class="container-description" style="background-color:blue">
 <div id="newbie-info">${H.get_newbie_info(match_count)}</div>
 <div class="container-description">
 
