@@ -457,7 +457,7 @@ const selected_favorite = (reset_filters, view(H.get_table_favs(matches)))
 
 ```js
 const selected_match = (reset_filters, view(Inputs.table(matches,
-{columns: ["no", "measure"], header: {no: "#", rating: "stars"},
+{columns: ["id", "measure"], header: {id: "#", rating: "stars"},
 select: true, multiple: false, width: {no: "2em"},
 format: {measure: d => html`<span style="">${d}</span`}
 }
