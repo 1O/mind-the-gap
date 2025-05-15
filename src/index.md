@@ -470,28 +470,22 @@ format: {measure: d => html`<span style="">${d}</span`}
 ```
 
 
+```js
+const blob = new Blob([matches.toCSV()], { type: 'text/csv;charset=utf-8,' });
+let obj_url = URL.createObjectURL(blob);
+
+```
+
 <div class="">
     <strong>Download matches:</strong>
     <div style="text-align:center">
-        ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" download="result" circle><i class="fa fa-download"></i></sl-button>`)}
+        ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" 
+        download="X-RISK-CC_policy gaps_results.csv"
+         circle><i class="fa fa-download"></i></sl-button>`)}
     </div>
 </div>
 
 </div>
 
 </div>
-
-
-
-
-<div class="grid grid-cols-1">
-
-</div>
-
-
-
-```js
-const blob = new Blob([matches.toCSV()], { type: 'text/csv;charset=utf-8,' });
-const obj_url = URL.createObjectURL(blob);
-```
 
