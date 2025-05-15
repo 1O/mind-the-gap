@@ -226,14 +226,16 @@ let dummy = H.animate_badge()
 
 <div class="card">
 
+<div style="display:grid; grid-template-columns:90% 10%; justify-content: space-between;">
+Narrow your search with the filters below.
+${H.button_show_dialog_filter()}
+</div>
 <div style="display:grid; grid-template-columns:50% 50%;">
 <div>
-
 
 ```js
 const reset_filters = view(H.get_reset_button_filters());
 ``` 
-
 
 ```js
 // apart from resetting other views, do this whenever "reset filter" button is clicked:
@@ -241,18 +243,11 @@ const reset_filters = view(H.get_reset_button_filters());
 ```
 </div>
 <div>
-
-
-
-${H.button_show_dialog_filter()}
-
-${H.get_dialog_filter()}<!-- get HTML for filter popup "dialog" -->
-
+${H.get_dialog_filter()}
 
 </div>
 </div>
 
-Narrow your search with the filters below.
 
 <sl-details>
     <div slot="summary">Policy sector (${selected_sectors.length} / ${row_count('sector')})</div>

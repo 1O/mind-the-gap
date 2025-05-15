@@ -191,7 +191,8 @@ const get_dialog_filter = () => {
 
 
 const button_show_dialog_filter = () => {
-    return html`<sl-button onclick="document.querySelector('#dialog_filter_info').show()">d</sl-button>`
+    return html`<sl-button circle size="small" variant="neutral"
+    onclick="document.querySelector('#dialog_filter_info').show()">?</sl-button>`
 }
 
 const get_newbie_info = (match_count) => {
