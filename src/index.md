@@ -24,7 +24,7 @@ import H from "./components/helpers.js"; // H for helper functions
 const is_newbie = Mutable(true)
 const unset_newbie = () => is_newbie.value = false
 
-
+//H.nodes_to_inputs('sl-button')
 
 const sector_labels = {
     "natural hazard management": "Natural hazard management",
@@ -34,7 +34,6 @@ const sector_labels = {
     "protection forests" : "Protection forest management"
 }
 ```
-
 
 
 ```js
@@ -227,32 +226,31 @@ let dummy = H.animate_badge()
 
 <div class="card">
 
+<div style="display:grid; grid-template-columns:50% 50%;">
+<div>
+
 
 ```js
-const reset_filters = view(H.get_reset_button_filters())
+const reset_filters = view(H.get_reset_button_filters());
 ``` 
+
 
 ```js
 // apart from resetting other views, do this whenever "reset filter" button is clicked:
 {reset_filters; set_slide(1)}
 ```
+</div>
+<div>
 
-```js
-//const dialog_filter_info = H.get_dialog_filter()
-const show_dialog_filter = view(Inputs.button("?"))
-```
+
+
+${H.button_show_dialog_filter()}
 
 ${H.get_dialog_filter()}<!-- get HTML for filter popup "dialog" -->
 
-```js
-{
-    show_dialog_filter;
-    let d = document.querySelector("#dialog_filter_info")
-    d && d.show()
-}
-```
 
-
+</div>
+</div>
 
 Narrow your search with the filters below.
 
