@@ -19,6 +19,15 @@ const get_sector_colors = () => {
 
 
 
+const get_reset_button_filters = () => {
+    return Inputs.button(
+        html`<span class="fas fa-slash" data-fa-mask="fas fa-filter" data-fa-transform="up-2.5"></span> clear filters`
+)
+}
+
+
+
+
 const rollup_data = (data) => {
     
     const ordered_sectors = [
@@ -175,6 +184,7 @@ return html`
 }
 
 export default {
+    get_reset_button_filters,
     rollup_data, animate_badge, negate_first_timer,
     get_header, get_rater, get_brief, 
     get_sector_colors, get_table_favs, get_dialog_filter, get_newbie_info, get_detail

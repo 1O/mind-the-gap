@@ -229,23 +229,20 @@ let dummy = H.animate_badge()
 
 
 ```js
-const reset_filters = view(Inputs.button(html`<span class="fas fa-slash" data-fa-mask="fas fa-filter" data-fa-transform="up-2.5"></span> clear filters`))
+const reset_filters = view(H.get_reset_button_filters())
+``` 
+
+```js
+// apart from resetting other views, do this whenever "reset filter" button is clicked:
+{reset_filters; set_slide(1)}
 ```
 
 ```js
-// apart from resetting other views, do this when "reset filter" button is clicked:
-{
-reset_filters;
-set_slide(1)
-}
-```
-
-```js
-const dialog_filter_info = H.get_dialog_filter()
+//const dialog_filter_info = H.get_dialog_filter()
 const show_dialog_filter = view(Inputs.button("?"))
 ```
 
-${dialog_filter_info}
+${H.get_dialog_filter()}<!-- get HTML for filter popup "dialog" -->
 
 ```js
 {
