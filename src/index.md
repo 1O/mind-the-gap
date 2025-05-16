@@ -64,7 +64,9 @@ const data2_rolled_up = H.rollup_data(data2)
 
 
 <div class="grid grid-cols-4" style="width:90%; font-family:sans; align-items:start">
-  <div class="grid-colspan-2"><h1>Policy gap explorer</h1></div>
+  <div class="grid-colspan-2"><h1>Mind the gap!</h1>
+   <h2>the X-RISK-CC policy gap explorer</h2    >
+  </div>
   <div style="text-align:right"><h1 style="align:middle">X-Risk-CC</h1></div>
   <div style="text-align:right"><img src="assets/ASP_21-27_Logo-Standard.png" width="300"></div>
 </div>
@@ -100,9 +102,10 @@ const ordered_phases = [
 ]
 
 const ordered_ownerships = [
-    "private & individual (citizens, households, property owners)",
-    "local & regional", "national & subnational",
     "transnational", 
+    "national & subnational",
+    "local & regional", 
+    "private & individual (citizens, households, property owners)",
     "multi-level, cross-level, co-owned"    
 ]
 
@@ -294,7 +297,7 @@ ${H.get_dialog_filter()}
 ```
 </sl-details>
 <sl-details>
-    <div slot="summary">Climate risks related to
+    <div slot="summary">Risks related to
      (${selected_climaterisks.length} / ${ordered_climaterisks.length   })
      </div>   
 
@@ -305,13 +308,15 @@ ${H.get_dialog_filter()}
     ))); 
 ```
 </sl-details>
+<sl-details>
+    <div slot="summary">Local validation</div>
 
 
 ```js
-    const validated_only = (reset_filters, view(Inputs.toggle({label: "Locally validated gaps", value: false})))
+    const validated_only = (reset_filters, view(Inputs.toggle({label: "locally validated?", value: false})))
 ```
 
-
+</sl-details>
 
 </div> <!-- end of left filter card -->
 
