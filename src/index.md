@@ -14,7 +14,10 @@ import * as aq from "npm:arquero";
 import { setBasePath } from "npm:@shoelace-style/shoelace";
 setBasePath("npm:@shoelace-style/shoelace/dist");
 
+import showdown from "npm:showdown";
+
 import H from "./components/helpers.js"; // H for helper functions
+
 
 
 ```
@@ -56,7 +59,14 @@ const measure_count = 475 //data2.dedupe("id").array("id").length
 
 ```
 
+```js
+const converter = new showdown.Converter()
+    let text = '# hello, markdown!'
+    const output = converter.makeHtml(text);
+```
 
+
+${output}
 
 ```js
 const data2_rolled_up = H.rollup_data(data2)

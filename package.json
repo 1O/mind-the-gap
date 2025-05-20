@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@observablehq/framework": "^1.13.0",
-    "@shoelace-style/shoelace": "^2.20.1"
+    "@shoelace-style/shoelace": "^2.20.1",
+    "showdown": "^2.1.0"
   },
   "devDependencies": {
     "rimraf": "^5.0.5"
