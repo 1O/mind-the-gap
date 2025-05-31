@@ -186,8 +186,12 @@ const storage_data = aq.fromCSV(localStorage.getItem("adaptation_measures"))
 ```js
 const ratings = Mutable({})
 const update_ratings = (entry) => {
-    ratings.value = Object.assign({}, ratings.value, entry)
+    ratings.value = Object.assign({}, ratings.value, entry);
+    return false;
 }
+```
+
+```js
 const reset_ratings = () => {
     ratings.value = {}
 }
@@ -406,6 +410,8 @@ const cur_row = matches.object(slide-1)
 <!--navigate_measures-->
 
 
+<h1>${cur_row.id}</h1>
+
 <div id="newbie-info">${H.get_newbie_info(match_count)}</div>
 <div class="container-description">
 
@@ -414,7 +420,8 @@ const cur_row = matches.object(slide-1)
 const the_rater = H.get_rater(cur_row)
 // update ratings for the displayed slide
 the_rater.addEventListener("sl-change", (e) => {
-    update_ratings({[e.target.id]: e.target.value})    
+    update_ratings({[e.target.id]: e.target.value});
+    return false;    
     });
 ```
 
@@ -441,7 +448,7 @@ document.querySelector("#table_favorites").style.display = any_favs ? "block" : 
 }
 ```
 <sl-alert id="no_favs" open>No favourites selected yet. You can add favourites with the rating widget: 
-<sl-rating max=3 style="--symbol-size: 1rem;"></sl-rating>
+<sl-rating max=3 style="--symbol-size: 1rem;" disabled></sl-rating>
 </sl-alert>
 
 <div id="table_favorites">
@@ -474,7 +481,9 @@ const selected_favorite = (reset_filters, view(H.get_table_favs(matches)))
 const selected_match = (reset_filters, view(Inputs.table(matches,
 {columns: ["id", "measure"], header: {id: "#", rating: "stars"},
 select: true, multiple: false, width: {no: "2em"},
-format: {measure: d => html`<span style="">${d}</span`}
+format: {measure: d => html`<span style="">${d}</span`},
+width: {id: "4em"},
+header:{measure: "gap"}
 }
 )))
 ```
@@ -495,7 +504,7 @@ let obj_url = URL.createObjectURL(blob);
     <strong>Download matches:</strong>
     <div style="text-align:center">
         ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" 
-        download="X-RISK-CC_policy gaps_results.csv"
+        download="X-RISK-CC_policy-gaps-results.csv"
          circle><i class="fa fa-download"></i></sl-button>`)}
     </div>
 </div>

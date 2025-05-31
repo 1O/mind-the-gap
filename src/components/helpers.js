@@ -172,7 +172,8 @@ const get_table_favs = (t) => {
     return Inputs.table(t.filter(d => d.rating > 0).orderby(aq.desc("rating")),
     {columns: ["id", "measure", "rating"], header: {id: "#", rating: "stars"},
     select: true, multiple: false,
-    width: {no: "2em"},
+    width: {id: "4em"},
+    header: {measure: "gap"},
     format: {rating: d => html`${Array(d).fill(0).map(() => html`<i class="fa fa-star star"></i>`)}`
 }
 }
