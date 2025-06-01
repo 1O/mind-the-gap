@@ -18,9 +18,13 @@ import showdown from "npm:showdown";
 
 import H from "./components/helpers.js"; // H for helper functions
 
-
+import ExcelJS from "npm:exceljs"
 
 ```
+
+
+
+
 
 ```js
 
@@ -159,6 +163,7 @@ const matches = H.rollup_data(
 const match_count = matches.numRows()
 
 ```
+
 
 
 
@@ -491,11 +496,24 @@ let obj_url = URL.createObjectURL(blob);
 
 ```
 
+
+```js
+const wb = new ExcelJS.Workbook();
+const ws = wb.addWorksheet('Results');
+ws.addRow([3, 'Sam', new Date()]);
+const blubb = new Blob([await wb.xlsx.writeBuffer()], {type: '.xlsx'})
+const obj_url1 = URL.createObjectURL(blubb);
+
+```
+
+
+
+
 <div class="">
     <strong>Download matches:</strong>
     <div style="text-align:center">
-        ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" 
-        download="X-RISK-CC_policy-gaps-results.csv"
+        ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url1}" 
+        download="X-RISK-CC_policy-gaps-results.xlsx"
          circle><i class="fa fa-download"></i></sl-button>`)}
     </div>
 </div>
