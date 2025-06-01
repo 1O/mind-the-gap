@@ -500,7 +500,20 @@ let obj_url = URL.createObjectURL(blob);
 ```js
 const wb = new ExcelJS.Workbook();
 const ws = wb.addWorksheet('Results');
-ws.addRow([3, 'Sam', new Date()]);
+
+
+ws.columns = [
+  { header: 'Id', key: 'id', width: 5 },
+  { header: 'Rating', key: 'rating', width: 5 },
+  { header: 'Cluster', key: 'cluster', width: 16 },
+  { header: 'Sector', key: 'sector', width: 16 },
+  { header: 'Gap', key: 'measure', width: 32 },
+  { header: 'Risk(s) related to', key: 'climaterisks', width: 32 },
+  { header: 'Locally validated', key: 'validated', width: 4 }
+];
+
+ws.addRows(matches.objects())
+
 const blubb = new Blob([await wb.xlsx.writeBuffer()], {type: '.xlsx'})
 const obj_url1 = URL.createObjectURL(blubb);
 
