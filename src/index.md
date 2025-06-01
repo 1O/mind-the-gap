@@ -154,10 +154,13 @@ const matches = H.rollup_data(
                   )
     )
 )
+.derive({no: aq.op.row_number() - 1})
 
 const match_count = matches.numRows()
 
 ```
+
+
 
 
 
@@ -177,13 +180,14 @@ const ratings = Mutable({})
 const update_ratings = (entry) => {
     ratings.value = Object.assign({}, ratings.value, entry);
 }
+const reset_ratings = () => ratings.value = {}
+
 ```
 
 ```js
-const reset_ratings = () => {
-    ratings.value = {}
-}
-
+const favorites = matches
+    .derive({rating: aq.escape(d => ratings[d.id])})
+    .filter(d => d.rating > 0)
 ```
 
 
@@ -341,7 +345,7 @@ const back = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-left"
 
 
 <div>
-${cur_row.no} / ${match_count}
+${slide} / ${match_count}
 
 <!--
     <sl-alert id="no_filters" open closable class="alert-closable">
@@ -399,8 +403,6 @@ const cur_row = matches.object(slide-1)
 <!--navigate_measures-->
 
 
-<h1>${cur_row.id}</h1>
-
 <div id="newbie-info">${H.get_newbie_info(match_count)}</div>
 <div class="container-description">
 
@@ -413,8 +415,6 @@ the_rater.addEventListener("sl-change", (e) => {
     return false;    
     });
 ```
-
-<h1>${slide}</h1>
 
 
 <sl-card class="card_measure">

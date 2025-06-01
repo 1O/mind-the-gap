@@ -168,6 +168,9 @@ const get_detail = (cur_row) => {
 }
 
 
+
+
+
 const get_table_favs = (t, ratings) => {
     
     const favorites = t
@@ -185,7 +188,7 @@ format: {rating: d => html`${Array(d).fill(0).map(() => html`<i class="fa fa-sta
 }
 }
 )
-}
+    }
 
 const get_dialog_filter = () => {
     return html`<sl-dialog label="Filter usage"
