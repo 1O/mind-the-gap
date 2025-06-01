@@ -168,13 +168,20 @@ const get_detail = (cur_row) => {
 }
 
 
-const get_table_favs = (t) => {
-    return Inputs.table(t.filter(d => d.rating > 0).orderby(aq.desc("rating")),
-    {columns: ["id", "measure", "rating"], header: {id: "#", rating: "stars"},
-    select: true, multiple: false,
-    width: {id: "4em"},
-    header: {measure: "gap"},
-    format: {rating: d => html`${Array(d).fill(0).map(() => html`<i class="fa fa-star star"></i>`)}`
+const get_table_favs = (t, ratings) => {
+    
+    const favorites = t
+    .derive({rating: aq.escape(d => ratings[d.id])},
+    {no: aq.op.row_number() - 1} // avoid erroneous array indexing with 1-based row nums
+)
+
+
+return Inputs.table(favorites.filter(d => d.rating > 0).orderby(aq.desc("rating")),
+{columns: ["id", "measure", "rating"], header: {id: "#", rating: "stars"},
+select: true, multiple: false,
+width: {id: "4em"},
+header: {measure: "gap"},
+format: {rating: d => html`${Array(d).fill(0).map(() => html`<i class="fa fa-star star"></i>`)}`
 }
 }
 )

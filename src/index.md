@@ -153,11 +153,7 @@ const matches = H.rollup_data(
                   true
                   )
     )
-    .derive({rating: aq.escape(d => ratings[d.id])},
-            {no: aq.op.row_number() - 1} // avoid erroneous array indexing with 1-based row nums
-    )
 )
-
 
 const match_count = matches.numRows()
 
@@ -180,7 +176,6 @@ const storage_data = aq.fromCSV(localStorage.getItem("adaptation_measures"))
 const ratings = Mutable({})
 const update_ratings = (entry) => {
     ratings.value = Object.assign({}, ratings.value, entry);
-    return false;
 }
 ```
 
@@ -419,6 +414,8 @@ the_rater.addEventListener("sl-change", (e) => {
     });
 ```
 
+<h1>${slide}</h1>
+
 
 <sl-card class="card_measure">
     <div slot="header"><div></div>${the_rater}</div>${H.get_detail(cur_row)}
@@ -452,7 +449,7 @@ const reset_ratings_clicked = view(Inputs.button(html`<span class="fas fa-slash"
 ```
 
 ```js
-const selected_favorite = (reset_filters, view(H.get_table_favs(matches)))
+const selected_favorite = (reset_filters, view(H.get_table_favs(matches, ratings)))
 ```
 
 </div>
