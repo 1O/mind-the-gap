@@ -59,14 +59,7 @@ const measure_count = 475 //data2.dedupe("id").array("id").length
 
 ```
 
-```js
-const converter = new showdown.Converter()
-    let text = '# hello, markdown!'
-    const output = converter.makeHtml(text);
-```
 
-
-${output}
 
 ```js
 const data2_rolled_up = H.rollup_data(data2)
@@ -78,7 +71,7 @@ const data2_rolled_up = H.rollup_data(data2)
    <h2>the X-RISK-CC policy gap explorer</h2    >
   </div>
   <div style="text-align:right"><h1 style="align:middle">X-Risk-CC</h1></div>
-  <div style="text-align:right"><img src="assets/ASP_21-27_Logo-Standard.png" width="300"></div>
+  <div style="text-align:right"><img src="assets/X-RISK-CC_Logo_Landscape_large.png" width="300"></div>
 </div>
 
 
@@ -382,7 +375,7 @@ const forth = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-righ
 
 ```js
 // navigation through slides (measures):
-const slide = Mutable(1);// update ratings for the displayed measure id
+const slide = Mutable(1);
 const set_slide = (n) => slide.value = n
 const increase_slide = (x) => slide.value < match_count ? slide.value += 1 : false
 const decrease_slide = (x) => slide.value > 1 ? slide.value += -1 : false
@@ -403,6 +396,7 @@ const decrease_slide = (x) => slide.value > 1 ? slide.value += -1 : false
 // extract current row/slide from table "matches"
 // (selected via pager, match list or favourites list)
 const cur_row = matches.object(slide-1) 
+
 ```
 
 </div>
