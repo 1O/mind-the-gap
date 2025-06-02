@@ -491,31 +491,64 @@ header:{measure: "gap"}
 
 
 ```js
-const blob = new Blob([matches.toCSV()], { type: 'text/csv;charset=utf-8,' });
-let obj_url = URL.createObjectURL(blob);
-
+const img_src = await FileAttachment('./assets/X-RISK-CC_Logo_Landscape_large.png').arrayBuffer()
 ```
 
 
 ```js
 const wb = new ExcelJS.Workbook();
+const ws_readme = wb.addWorksheet('README');
 const ws = wb.addWorksheet('Results');
-
+const header_logo = wb.addImage({buffer: img_src, extension: 'png'});
 
 ws.columns = [
-  { header: 'Id', key: 'id', width: 5 },
+  { header: 'Id', key: 'id', width: 5},
   { header: 'Rating', key: 'rating', width: 5 },
-  { header: 'Cluster', key: 'cluster', width: 16 },
+  { header: 'Topic', key: 'cluster', width: 16 },
   { header: 'Sector', key: 'sector', width: 16 },
-  { header: 'Gap', key: 'measure', width: 32 },
+  { header: 'Phases', key: 'phases', width: 16 },
+  { header: 'Gap', key: 'measure', width: 50 },
+  { header: 'Risk ownership level', key: 'ownerships', width: 16 },
   { header: 'Risk(s) related to', key: 'climaterisks', width: 32 },
   { header: 'Locally validated', key: 'validated', width: 4 }
 ];
 
-ws.addRows(matches.objects())
 
-const blubb = new Blob([await wb.xlsx.writeBuffer()], {type: '.xlsx'})
-const obj_url1 = URL.createObjectURL(blubb);
+ws.autoFilter = 'A1:I1';
+
+// (re)set col widths for results:
+Object.entries({A: 5, B: 5, C: 20, D: 20, E: 20, 
+                F: 40, G: 20, H: 20, I: 10
+                })
+    .forEach(k => ws.getColumn(k[0]).width = k[1])
+
+
+ws_readme.addImage(header_logo, {
+  tl: { col: 0, row: 0 },
+  ext: { width: 600, height: 600/5.464348}
+});
+
+ws_readme.getCell('A10').value = "generated on:"
+ws_readme.getCell('B10').value = new Date()
+
+// set col widths for README:
+Object.entries({A: 20, B: 20})
+    .forEach(k => ws_readme.getColumn(k[0]).width = k[1])
+
+// ws_readme.getColumn(2).width = 20
+
+ws.addRows(matches
+// .groupby('id')
+// .rollup({ phases: d => d.phases})
+.objects()
+)
+
+ws.views = [
+  {state: 'frozen', xSplit: 2, ySplit: 1}
+];
+
+const xl_blob = new Blob([await wb.xlsx.writeBuffer()], {type: '.xlsx'})
+const obj_url = URL.createObjectURL(xl_blob);
 
 ```
 
@@ -525,7 +558,7 @@ const obj_url1 = URL.createObjectURL(blubb);
 <div class="">
     <strong>Download matches:</strong>
     <div style="text-align:center">
-        ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url1}" 
+        ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" 
         download="X-RISK-CC_policy-gaps-results.xlsx"
          circle><i class="fa fa-download"></i></sl-button>`)}
     </div>
