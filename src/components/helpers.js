@@ -208,7 +208,8 @@ const button_show_dialog_filter = () => {
 
 const get_newbie_info = (match_count) => {
     return html`
-  Currently, all ${match_count} available measures will be displayed. You can use the filter menu (left) to narrow down your selection.
+The entire repository of policy gaps contains ${match_count} entries. Use the filter menu (left) to narrow down your selection.
+
 <hr/>
     <sl-button size="large" variant="primary" onClick="document.querySelector('#newbie-info').style.display='none'">OK</sl-button>
     `
