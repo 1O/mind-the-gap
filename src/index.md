@@ -533,8 +533,31 @@ ws_readme.addImage(header_logo, {
   ext: { width: 600, height: 600/5.464348}
 });
 
-ws_readme.getCell('A10').value = "generated on:"
-ws_readme.getCell('B10').value = new Date()
+ws_readme.getCell('A8').value = "generated on:"
+ws_readme.getCell('B8').value = new Date()
+
+const objects_to_string = x => x.map(x => x.choices).join(', ')
+
+ws_readme.getCell('A10').value = "The results match the following criteria:"
+
+ws_readme.getCell('A11').value = "policy sectors:"
+ws_readme.getCell('B11').value = objects_to_string(selected_sectors)
+
+ws_readme.getCell('A12').value = "phases of risk management cycle:"
+ws_readme.getCell('B12').value = objects_to_string(selected_phases)
+
+ws_readme.getCell('A13').value = "gap types:"
+ws_readme.getCell('B13').value = objects_to_string(selected_gaps)
+
+ws_readme.getCell('A14').value = "risk ownership levels:"
+ws_readme.getCell('B14').value = objects_to_string(selected_ownership_levels)
+
+ws_readme.getCell('A15').value = "climate risks related to:"
+ws_readme.getCell('B15').value = objects_to_string(selected_climaterisks)
+
+ws_readme.getCell('A16').value = "show locally validated measures only?"
+ws_readme.getCell('B16').value = validated_only
+
 
 // set col widths for README:
 Object.entries({A: 20, B: 20})
