@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="generator" content="Observable Framework v1.13.2">
-<title>Mind The Gap</title>
+<title>Mind the gap</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
 <link rel="preload" as="style" href="./_observablehq/theme-air.aad62322.css">
@@ -17,7 +17,9 @@
 <link rel="modulepreload" href="./_observablehq/stdlib.d4a7cb81.js">
 <link rel="modulepreload" href="./_npm/arquero@7.2.0/f3eb4e3f.js">
 <link rel="modulepreload" href="./_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js">
-<link rel="modulepreload" href="./_import/components/helpers.08121cf7.js">
+<link rel="modulepreload" href="./_npm/showdown@2.1.0/ed1696ce.js">
+<link rel="modulepreload" href="./_import/components/helpers.3bac2dd4.js">
+<link rel="modulepreload" href="./_npm/exceljs@4.4.0/222f7a0c.js">
 <link rel="modulepreload" href="./_npm/lodash@4.17.21/cbfa4f05.js">
 <link rel="modulepreload" href="./_npm/htl@0.3.1/063eb405.js">
 <link rel="modulepreload" href="./_observablehq/stdlib/inputs.ff6354fc.js">
@@ -77,25 +79,27 @@
 import {define} from "./_observablehq/client.1f32af9d.js";
 import {registerFile} from "./_observablehq/stdlib.d4a7cb81.js";
 
-registerFile("./data/data.csv", {"name":"./data/data.csv","mimeType":"text/csv","path":"./_file/data/data.f73bc418.csv","lastModified":1745587137914,"size":934298});
+registerFile("./assets/X-RISK-CC_Logo_Landscape_large.png", {"name":"./assets/X-RISK-CC_Logo_Landscape_large.png","mimeType":"image/png","path":"./_file/assets/X-RISK-CC_Logo_Landscape_large.a73a7cd9.png","lastModified":1748765280700,"size":64926});
+registerFile("./data/data.csv", {"name":"./data/data.csv","mimeType":"text/csv","path":"./_file/data/data.a76977a8.csv","lastModified":1748764858287,"size":934302});
 
-define({id: "70436917", outputs: ["aq","setBasePath","H"], body: async () => {
-const [aq, {setBasePath}, {default: H}] = await Promise.all([import("./_npm/arquero@7.2.0/f3eb4e3f.js"), import("./_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js"), import("./_import/components/helpers.08121cf7.js")]);
+define({id: "e8d61a27", outputs: ["aq","setBasePath","showdown","H","ExcelJS"], body: async () => {
+const [aq, {setBasePath}, {default: showdown}, {default: H}, {default: ExcelJS}] = await Promise.all([import("./_npm/arquero@7.2.0/f3eb4e3f.js"), import("./_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js"), import("./_npm/showdown@2.1.0/ed1696ce.js"), import("./_import/components/helpers.3bac2dd4.js"), import("./_npm/exceljs@4.4.0/222f7a0c.js")]);
 
 // Set base path for assets
 setBasePath("npm:@shoelace-style/shoelace/dist");
 
+
  // H for helper functions
 
 
-return {aq,setBasePath,H};
+return {aq,setBasePath,showdown,H,ExcelJS};
 }});
 
-define({id: "bd5a2d9e", inputs: ["Mutable"], outputs: ["is_newbie","unset_newbie","sector_labels"], body: (Mutable) => {
+define({id: "b4a7b048", inputs: ["Mutable"], outputs: ["is_newbie","unset_newbie","sector_labels"], body: (Mutable) => {
 const is_newbie = Mutable(true)
 const unset_newbie = () => is_newbie.value = false
 
-
+//H.nodes_to_inputs('sl-button')
 
 const sector_labels = {
     "natural hazard management": "Natural hazard management",
@@ -146,7 +150,7 @@ const unique_entries = _.zipObject(
 return {unique_entries};
 }});
 
-define({id: "3918ab32", inputs: ["unique_entries","aq"], outputs: ["ordered_sectors","ordered_phases","ordered_ownerships","ordered_climaterisks"], body: (unique_entries,aq) => {
+define({id: "bd16f9ee", inputs: ["unique_entries","aq"], outputs: ["ordered_sectors","ordered_phases","ordered_ownerships","ordered_climaterisks"], body: (unique_entries,aq) => {
 
 const ordered_sectors = [
 "Natural Hazard Management", "Civil Protection", "Spatial Planning", "Protection Forest Management",
@@ -163,9 +167,10 @@ const ordered_phases = [
 ]
 
 const ordered_ownerships = [
-    "private & individual (citizens, households, property owners)",
-    "local & regional", "national & subnational",
     "transnational", 
+    "national & subnational",
+    "local & regional", 
+    "private & individual (citizens, households, property owners)",
     "multi-level, cross-level, co-owned"    
 ]
 
@@ -197,7 +202,7 @@ const row_count = (colname) => {return unique_entries[colname].numRows()}
 return {row_count};
 }});
 
-define({id: "821e8316", inputs: ["H","data2","aq","selected_sectors","selected_phases","selected_gaps","selected_ownership_levels","selected_climaterisks","validated_only","ratings"], outputs: ["matches","match_count"], body: (H,data2,aq,selected_sectors,selected_phases,selected_gaps,selected_ownership_levels,selected_climaterisks,validated_only,ratings) => {
+define({id: "7f9cddaf", inputs: ["H","data2","aq","selected_sectors","selected_phases","selected_gaps","selected_ownership_levels","selected_climaterisks","validated_only"], outputs: ["matches","match_count"], body: (H,data2,aq,selected_sectors,selected_phases,selected_gaps,selected_ownership_levels,selected_climaterisks,validated_only) => {
 const matches = H.rollup_data(
     data2.filter(
         aq.escape(d => aq.op.indexof(selected_sectors.map(x => x.choices), d.sector) > -1 &
@@ -211,11 +216,8 @@ const matches = H.rollup_data(
                   true
                   )
     )
-    .derive({rating: aq.escape(d => ratings[d.id])},
-            {no: aq.op.row_number() - 1} // avoid erroneous array indexing with 1-based row nums
-    )
 )
-
+.derive({no: aq.op.row_number() - 1})
 
 const match_count = matches.numRows()
 
@@ -233,16 +235,21 @@ const storage_data = aq.fromCSV(localStorage.getItem("adaptation_measures"))
 return {storage_data};
 }});
 
-define({id: "9194085d", inputs: ["Mutable"], outputs: ["ratings","update_ratings","reset_ratings"], body: (Mutable) => {
+define({id: "36ccc4e4", inputs: ["Mutable"], outputs: ["ratings","update_ratings","reset_ratings"], body: (Mutable) => {
 const ratings = Mutable({})
 const update_ratings = (entry) => {
-    ratings.value = Object.assign({}, ratings.value, entry)
+    ratings.value = Object.assign({}, ratings.value, entry);
 }
-const reset_ratings = () => {
-    ratings.value = {}
-}
+const reset_ratings = () => ratings.value = {}
 
 return {ratings,update_ratings,reset_ratings};
+}});
+
+define({id: "320b11b7", inputs: ["matches","aq","ratings"], outputs: ["favorites"], body: (matches,aq,ratings) => {
+const favorites = matches
+    .derive({rating: aq.escape(d => ratings[d.id])})
+    .filter(d => d.rating > 0)
+return {favorites};
 }});
 
 define({id: "8f6dcbbc", outputs: ["refresh_views"], body: () => {
@@ -275,37 +282,26 @@ let dummy = H.animate_badge()
 return {dummy};
 }});
 
-define({id: "afff59f9", inputs: ["view","Inputs","html"], outputs: ["reset_filters"], body: (view,Inputs,html) => {
-const reset_filters = view(Inputs.button(html`<span class="fas fa-slash" data-fa-mask="fas fa-filter" data-fa-transform="up-2.5"></span> clear filters`))
-return {reset_filters};
-}});
-
-define({id: "1f4ee055", inputs: ["reset_filters","set_slide"], body: (reset_filters,set_slide) => {
-// apart from resetting other views, do this when "reset filter" button is clicked:
-{
-reset_filters;
-set_slide(1)
-}
-}});
-
-define({id: "eda87496", inputs: ["H","view","Inputs"], outputs: ["dialog_filter_info","show_dialog_filter"], body: (H,view,Inputs) => {
-const dialog_filter_info = H.get_dialog_filter()
-const show_dialog_filter = view(Inputs.button("?"))
-return {dialog_filter_info,show_dialog_filter};
-}});
-
-define({id: "aeb3b418", mode: "inline", inputs: ["dialog_filter_info","display"], body: async (dialog_filter_info,display) => {
+define({id: "8923a462", mode: "inline", inputs: ["H","display"], body: async (H,display) => {
 display(await(
-dialog_filter_info
+H.button_show_dialog_filter()
 ))
 }});
 
-define({id: "02279096", inputs: ["show_dialog_filter"], body: (show_dialog_filter) => {
-{
-    show_dialog_filter;
-    let d = document.querySelector("#dialog_filter_info")
-    d && d.show()
-}
+define({id: "8db1b76e", inputs: ["view","H"], outputs: ["reset_filters"], body: (view,H) => {
+const reset_filters = view(H.get_reset_button_filters());
+return {reset_filters};
+}});
+
+define({id: "4c919417", inputs: ["reset_filters","set_slide"], body: (reset_filters,set_slide) => {
+// apart from resetting other views, do this whenever "reset filter" button is clicked:
+{reset_filters; set_slide(1)}
+}});
+
+define({id: "17ffd657", mode: "inline", inputs: ["H","display"], body: async (H,display) => {
+display(await(
+H.get_dialog_filter()
+))
 }});
 
 define({id: "5122b9c5", mode: "inline", inputs: ["selected_sectors","display"], body: async (selected_sectors,display) => {
@@ -405,8 +401,8 @@ define({id: "0a69ef92", inputs: ["reset_filters","view","Inputs","ordered_climat
 return {selected_climaterisks};
 }});
 
-define({id: "868868fc", inputs: ["reset_filters","view","Inputs"], outputs: ["validated_only"], body: (reset_filters,view,Inputs) => {
-    const validated_only = (reset_filters, view(Inputs.toggle({label: "Locally validated gaps", value: false})))
+define({id: "a34d8387", inputs: ["reset_filters","view","Inputs"], outputs: ["validated_only"], body: (reset_filters,view,Inputs) => {
+    const validated_only = (reset_filters, view(Inputs.toggle({label: "locally validated?", value: false})))
 return {validated_only};
 }});
 
@@ -415,9 +411,9 @@ const back = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-left"
 return {back};
 }});
 
-define({id: "c6c3ae28", mode: "inline", inputs: ["cur_row","display"], body: async (cur_row,display) => {
+define({id: "b8a7e24e", mode: "inline", inputs: ["slide","display"], body: async (slide,display) => {
 display(await(
-cur_row.no
+slide
 ))
 }});
 
@@ -432,9 +428,9 @@ const forth = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-righ
 return {forth};
 }});
 
-define({id: "9e1d16cd", inputs: ["Mutable","match_count"], outputs: ["slide","set_slide","increase_slide","decrease_slide"], body: (Mutable,match_count) => {
+define({id: "453b3417", inputs: ["Mutable","match_count"], outputs: ["slide","set_slide","increase_slide","decrease_slide"], body: (Mutable,match_count) => {
 // navigation through slides (measures):
-const slide = Mutable(1);// update ratings for the displayed measure id
+const slide = Mutable(1);
 const set_slide = (n) => slide.value = n
 const increase_slide = (x) => slide.value < match_count ? slide.value += 1 : false
 const decrease_slide = (x) => slide.value > 1 ? slide.value += -1 : false
@@ -451,10 +447,11 @@ define({id: "42271716", inputs: ["decrease_slide","back"], body: (decrease_slide
 {decrease_slide(back)}
 }});
 
-define({id: "b7abd16d", inputs: ["matches","slide"], outputs: ["cur_row"], body: (matches,slide) => {
+define({id: "3aa6ce6e", inputs: ["matches","slide"], outputs: ["cur_row"], body: (matches,slide) => {
 // extract current row/slide from table "matches"
 // (selected via pager, match list or favourites list)
 const cur_row = matches.object(slide-1) 
+
 return {cur_row};
 }});
 
@@ -464,11 +461,12 @@ H.get_newbie_info(match_count)
 ))
 }});
 
-define({id: "23597dd4", inputs: ["H","cur_row","update_ratings"], outputs: ["the_rater"], body: (H,cur_row,update_ratings) => {
+define({id: "3481ff85", inputs: ["H","cur_row","update_ratings"], outputs: ["the_rater"], body: (H,cur_row,update_ratings) => {
 const the_rater = H.get_rater(cur_row)
 // update ratings for the displayed slide
 the_rater.addEventListener("sl-change", (e) => {
-    update_ratings({[e.target.id]: e.target.value})    
+    update_ratings({[e.target.id]: e.target.value});
+    return false;    
     });
 return {the_rater};
 }});
@@ -498,8 +496,8 @@ const reset_ratings_clicked = view(Inputs.button(html`<span class="fas fa-slash"
 return {reset_ratings_clicked};
 }});
 
-define({id: "730b0a42", inputs: ["reset_filters","view","H","matches"], outputs: ["selected_favorite"], body: (reset_filters,view,H,matches) => {
-const selected_favorite = (reset_filters, view(H.get_table_favs(matches)))
+define({id: "90f4bcdc", inputs: ["reset_filters","view","H","matches","ratings"], outputs: ["selected_favorite"], body: (reset_filters,view,H,matches,ratings) => {
+const selected_favorite = (reset_filters, view(H.get_table_favs(matches, ratings)))
 return {selected_favorite};
 }});
 
@@ -512,11 +510,13 @@ define({id: "22e2afed", inputs: ["reset_ratings_clicked","reset_ratings"], body:
 {reset_ratings_clicked && reset_ratings()}
 }});
 
-define({id: "5ccc08cd", inputs: ["reset_filters","view","Inputs","matches","html"], outputs: ["selected_match"], body: (reset_filters,view,Inputs,matches,html) => {
+define({id: "f57f0aeb", inputs: ["reset_filters","view","Inputs","matches","html"], outputs: ["selected_match"], body: (reset_filters,view,Inputs,matches,html) => {
 const selected_match = (reset_filters, view(Inputs.table(matches,
-{columns: ["no", "measure"], header: {no: "#", rating: "stars"},
+{columns: ["id", "measure"], header: {id: "#", rating: "stars"},
 select: true, multiple: false, width: {no: "2em"},
-format: {measure: d => html`<span style="">${d}</span`}
+format: {measure: d => html`<span style="">${d}</span`},
+width: {id: "4em"},
+header:{measure: "gap"}
 }
 )))
 return {selected_match};
@@ -527,14 +527,73 @@ define({id: "4d30b7fb", inputs: ["selected_match","set_slide"], body: (selected_
 {selected_match && set_slide(selected_match.no)}
 }});
 
-define({id: "8477deb7", mode: "inline", inputs: ["display","html","obj_url"], body: (display,html,obj_url) => {
-display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" download="result" circle><i class="fa fa-download"></i></sl-button>`)
+define({id: "34da93e2", inputs: ["FileAttachment"], outputs: ["img_src"], body: async (FileAttachment) => {
+const img_src = await FileAttachment("./assets/X-RISK-CC_Logo_Landscape_large.png").arrayBuffer()
+return {img_src};
 }});
 
-define({id: "a60739cd", inputs: ["matches"], outputs: ["blob","obj_url"], body: (matches) => {
-const blob = new Blob([matches.toCSV()], { type: 'text/csv;charset=utf-8,' });
-const obj_url = URL.createObjectURL(blob);
-return {blob,obj_url};
+define({id: "680e2c2a", inputs: ["ExcelJS","img_src","matches"], outputs: ["wb","ws_readme","ws","header_logo","xl_blob","obj_url"], body: async (ExcelJS,img_src,matches) => {
+const wb = new ExcelJS.Workbook();
+const ws_readme = wb.addWorksheet('README');
+const ws = wb.addWorksheet('Results');
+const header_logo = wb.addImage({buffer: img_src, extension: 'png'});
+
+ws.columns = [
+  { header: 'Id', key: 'id', width: 5},
+  { header: 'Rating', key: 'rating', width: 5 },
+  { header: 'Topic', key: 'cluster', width: 16 },
+  { header: 'Sector', key: 'sector', width: 16 },
+  { header: 'Phases', key: 'phases', width: 16 },
+  { header: 'Gap', key: 'measure', width: 50 },
+  { header: 'Risk ownership level', key: 'ownerships', width: 16 },
+  { header: 'Risk(s) related to', key: 'climaterisks', width: 32 },
+  { header: 'Locally validated', key: 'validated', width: 4 }
+];
+
+
+ws.autoFilter = 'A1:I1';
+
+// (re)set col widths for results:
+Object.entries({A: 5, B: 5, C: 20, D: 20, E: 20, 
+                F: 40, G: 20, H: 20, I: 10
+                })
+    .forEach(k => ws.getColumn(k[0]).width = k[1])
+
+
+ws_readme.addImage(header_logo, {
+  tl: { col: 0, row: 0 },
+  ext: { width: 600, height: 600/5.464348}
+});
+
+ws_readme.getCell('A10').value = "generated on:"
+ws_readme.getCell('B10').value = new Date()
+
+// set col widths for README:
+Object.entries({A: 20, B: 20})
+    .forEach(k => ws_readme.getColumn(k[0]).width = k[1])
+
+// ws_readme.getColumn(2).width = 20
+
+ws.addRows(matches
+// .groupby('id')
+// .rollup({ phases: d => d.phases})
+.objects()
+)
+
+ws.views = [
+  {state: 'frozen', xSplit: 2, ySplit: 1}
+];
+
+const xl_blob = new Blob([await wb.xlsx.writeBuffer()], {type: '.xlsx'})
+const obj_url = URL.createObjectURL(xl_blob);
+
+return {wb,ws_readme,ws,header_logo,xl_blob,obj_url};
+}});
+
+define({id: "f46cda3c", mode: "inline", inputs: ["display","html","obj_url"], body: (display,html,obj_url) => {
+display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" 
+        download="X-RISK-CC_policy-gaps-results.xlsx"
+         circle><i class="fa fa-download"></i></sl-button>`)
 }});
 
 </script>
@@ -542,26 +601,29 @@ return {blob,obj_url};
 <body>
 <div id="observablehq-center">
 <main id="observablehq-main" class="observablehq">
-<link rel="stylesheet" href="./_file/custom.5af01ff6.css">
+<link rel="stylesheet" href="./_file/custom.ae6710e3.css">
 <link rel="stylesheet" href="./_file/assets/shoelace-light.48932bd1.css">
     <script defer="" src="./_import/assets/fontawesome/fontawesome.565e2865.js"></script>
 <script defer="" src="./_import/assets/fontawesome/solid.a24bd8d2.js"></script>
-<div class="observablehq observablehq--block"><!--:70436917:--></div>
-<div class="observablehq observablehq--block"><!--:bd5a2d9e:--></div>
+<div class="observablehq observablehq--block"><!--:e8d61a27:--></div>
+<div class="observablehq observablehq--block"><!--:b4a7b048:--></div>
 <div class="observablehq observablehq--block"><!--:0fdd53a8:--></div>
 <div class="observablehq observablehq--block"><!--:92de464d:--></div>
 <div class="grid grid-cols-4" style="width:90%; font-family:sans; align-items:start">
-  <div class="grid-colspan-2"><h1>Policy gap explorer</h1></div>
+  <div class="grid-colspan-2"><h1>Mind the gap!</h1>
+   <h2>the X-RISK-CC policy gap explorer</h2>
+  </div>
   <div style="text-align:right"><h1 style="align:middle">X-Risk-CC</h1></div>
-  <div style="text-align:right"><img src="./_file/assets/ASP_21-27_Logo-Standard.c13d7b32.png" width="300"></div>
+  <div style="text-align:right"><img src="./_file/assets/X-RISK-CC_Logo_Landscape_large.a73a7cd9.png" width="300"></div>
 </div>
 <div class="observablehq observablehq--block"><!--:c40d74fd:--></div>
-<div class="observablehq observablehq--block"><!--:3918ab32:--></div>
+<div class="observablehq observablehq--block"><!--:bd16f9ee:--></div>
 <div class="observablehq observablehq--block"><!--:520fafb2:--></div>
-<div class="observablehq observablehq--block"><!--:821e8316:--></div>
+<div class="observablehq observablehq--block"><!--:7f9cddaf:--></div>
 <div class="observablehq observablehq--block"><!--:8f84fd78:--></div>
 <div class="observablehq observablehq--block"><!--:9da771cf:--></div>
-<div class="observablehq observablehq--block"><!--:9194085d:--></div>
+<div class="observablehq observablehq--block"><!--:36ccc4e4:--></div>
+<div class="observablehq observablehq--block"><!--:320b11b7:--></div>
 <div class="observablehq observablehq--block"><!--:8f6dcbbc:--></div>
 <!-- doesn't display anything but listens to changes in "matches",
 e. g. to add and remove pulsating css to badges
@@ -581,12 +643,19 @@ e. g. to add and remove pulsating css to badges
 </div>
 <div class="observablehq observablehq--block"><!--:9fb44b3b:--></div>
 <div class="card">
-<div class="observablehq observablehq--block"><!--:afff59f9:--></div>
-<div class="observablehq observablehq--block"><!--:1f4ee055:--></div>
-<div class="observablehq observablehq--block"><!--:eda87496:--></div>
-<p><observablehq-loading></observablehq-loading><!--:aeb3b418:--></p>
-<div class="observablehq observablehq--block"><!--:02279096:--></div>
-<p>Narrow your search with the filters below.</p>
+<div style="display:grid; grid-template-columns:90% 10%; justify-content: space-between;">
+Narrow your search with the filters below.
+<observablehq-loading></observablehq-loading><!--:8923a462:-->
+</div>
+<div style="display:grid; grid-template-columns:50% 50%;">
+<div>
+<div class="observablehq observablehq--block"><!--:8db1b76e:--></div>
+<div class="observablehq observablehq--block"><!--:4c919417:--></div>
+</div>
+<div>
+<observablehq-loading></observablehq-loading><!--:17ffd657:-->
+</div>
+</div>
 <sl-details>
     <div slot="summary">Policy sector (<observablehq-loading></observablehq-loading><!--:5122b9c5:--> / <observablehq-loading></observablehq-loading><!--:47d51e96:-->)</div>
 <div class="observablehq observablehq--block"><!--:3dac6e30:--></div>
@@ -608,12 +677,15 @@ e. g. to add and remove pulsating css to badges
 <div class="observablehq observablehq--block"><!--:d8e01871:--></div>
 </sl-details>
 <sl-details>
-    <div slot="summary">Climate risks related to
+    <div slot="summary">Risks related to
      (<observablehq-loading></observablehq-loading><!--:2d85b8e2:--> / <observablehq-loading></observablehq-loading><!--:f3c694e1:-->)
      </div>   
 <div class="observablehq observablehq--block"><!--:0a69ef92:--></div>
 </sl-details>
-<div class="observablehq observablehq--block"><!--:868868fc:--></div>
+<sl-details>
+    <div slot="summary">Local validation</div>
+<div class="observablehq observablehq--block"><!--:a34d8387:--></div>
+</sl-details>
 </div> <!-- end of left filter card -->
 </div>
 <div><!-- center column -->
@@ -622,7 +694,7 @@ e. g. to add and remove pulsating css to badges
 <div class="observablehq observablehq--block"><!--:fe47f4cf:--></div>
 </div>
 <div>
-<observablehq-loading></observablehq-loading><!--:c6c3ae28:--> / <observablehq-loading></observablehq-loading><!--:f09d0bf3-1:-->
+<observablehq-loading></observablehq-loading><!--:b8a7e24e:--> / <observablehq-loading></observablehq-loading><!--:f09d0bf3-1:-->
 <!--
     <sl-alert id="no_filters" open closable class="alert-closable">
     <sl-icon slot="icon" name="info-circle"></sl-icon>
@@ -639,16 +711,16 @@ e. g. to add and remove pulsating css to badges
 <div class="observablehq observablehq--block"><!--:5a3cf462:--></div>
 </div>
 <!-- code for navigation through slides -->
-<div class="observablehq observablehq--block"><!--:9e1d16cd:--></div>
+<div class="observablehq observablehq--block"><!--:453b3417:--></div>
 <div class="observablehq observablehq--block"><!--:651f5f07:--></div>
 <div class="observablehq observablehq--block"><!--:42271716:--></div>
 <!-- end code for navigation through slides -->
-<div class="observablehq observablehq--block"><!--:b7abd16d:--></div>
+<div class="observablehq observablehq--block"><!--:3aa6ce6e:--></div>
 </div>
 <!--navigate_measures-->
 <div id="newbie-info"><observablehq-loading></observablehq-loading><!--:682ae75e:--></div>
 <div class="container-description">
-<div class="observablehq observablehq--block"><!--:23597dd4:--></div>
+<div class="observablehq observablehq--block"><!--:3481ff85:--></div>
 <sl-card class="card_measure">
     <div slot="header"><div></div><observablehq-loading></observablehq-loading><!--:49eacbb2:--></div><observablehq-loading></observablehq-loading><!--:a1e5153e:-->
 </sl-card>
@@ -659,31 +731,30 @@ e. g. to add and remove pulsating css to badges
 <p><strong>Favourites</strong></p>
 <div class="observablehq observablehq--block"><!--:c96962a1:--></div>
 <p><sl-alert id="no_favs" open="">No favourites selected yet. You can add favourites with the rating widget:
-<sl-rating max="3" style="--symbol-size: 1rem;"></sl-rating>
+<sl-rating max="3" style="--symbol-size: 1rem;" disabled=""></sl-rating>
 </sl-alert></p>
 <div id="table_favorites">
 <div class="observablehq observablehq--block"><!--:1b82431a:--></div>
-<div class="observablehq observablehq--block"><!--:730b0a42:--></div>
+<div class="observablehq observablehq--block"><!--:90f4bcdc:--></div>
 </div>
 <div class="observablehq observablehq--block"><!--:6c5a44c3:--></div>
 <div class="observablehq observablehq--block"><!--:22e2afed:--></div>
 <p><strong>Matches</strong></p>
-<div class="observablehq observablehq--block"><!--:5ccc08cd:--></div>
+<div class="observablehq observablehq--block"><!--:f57f0aeb:--></div>
 <div class="observablehq observablehq--block"><!--:4d30b7fb:--></div>
+<div class="observablehq observablehq--block"><!--:34da93e2:--></div>
+<div class="observablehq observablehq--block"><!--:680e2c2a:--></div>
 <div class="">
     <strong>Download matches:</strong>
     <div style="text-align:center">
-        <observablehq-loading></observablehq-loading><!--:8477deb7:-->
+        <observablehq-loading></observablehq-loading><!--:f46cda3c:-->
     </div>
 </div>
 </div>
 </div>
-<div class="grid grid-cols-1">
-</div>
-<div class="observablehq observablehq--block"><!--:a60739cd:--></div>
 </main>
 <footer id="observablehq-footer">
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2025-05-15T13:28:20">May 15, 2025</a>.</div>
+<div>Built with Observable</div>
 </footer>
 </div>
 </body>

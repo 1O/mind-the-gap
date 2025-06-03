@@ -165,10 +165,6 @@ const match_count = matches.numRows()
 ```
 
 
-
-
-
-
 ```js
 // save user defined matches and ratings to browser's local storage:
 {localStorage.setItem("adaptation_measures", matches.toCSV())}
@@ -330,14 +326,12 @@ ${H.get_dialog_filter()}
 </sl-details>
 
 </div> <!-- end of left filter card -->
-
-
-
 </div>
 
 
-<div><!-- center column -->
 
+
+<div><!-- center column -->
 
 <div class="navigate_measures">
     <div>
@@ -350,7 +344,12 @@ const back = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-left"
 
 
 <div>
+
+
+
 ${slide} / ${match_count}
+
+
 
 <!--
     <sl-alert id="no_filters" open closable class="alert-closable">
@@ -399,7 +398,8 @@ const decrease_slide = (x) => slide.value > 1 ? slide.value += -1 : false
 ```js
 // extract current row/slide from table "matches"
 // (selected via pager, match list or favourites list)
-const cur_row = matches.object(slide-1) 
+const cur_row = matches.objects()[slide-1]
+
 
 ```
 
@@ -461,9 +461,11 @@ const selected_favorite = (reset_filters, view(H.get_table_favs(matches, ratings
 
 ```js
 // set slide number by selecting from the list of favourites:
-{selected_favorite && set_slide(selected_favorite.no)}
+{selected_favorite && set_slide(
+        1 + matches.array("id").indexOf(selected_favorite.id)
+        )
+}
 ```
-
 
 
 ```js
@@ -486,7 +488,10 @@ header:{measure: "gap"}
 
 ```js
 // set slide number by selecting from the list of matches:
-{selected_match && set_slide(selected_match.no)}
+{    selected_match && set_slide(
+        1 + matches.array("id").indexOf(selected_match.id)
+                       )
+}
 ```
 
 
