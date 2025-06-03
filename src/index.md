@@ -44,7 +44,7 @@ const sector_labels = {
 
 
 ```js
-const data2 = aq.from(await FileAttachment('data/data.csv').csv())
+const data2 = aq.from(await FileAttachment('data/data1.csv').csv())
 // convert 0/1 in csv data to false/true
     .derive({
     "validated": aq.escape(d => d.validated == 1),
