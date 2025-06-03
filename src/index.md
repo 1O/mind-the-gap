@@ -538,6 +538,10 @@ ws_readme.getCell('B8').value = new Date()
 
 const objects_to_string = x => x.map(x => x.choices).join(', ')
 
+const col_criteria = ws_readme.getColumn(2)
+col_criteria.width = 80;
+col_criteria.alignment = {vertical:'top', wrapText: true };
+
 ws_readme.getCell('A10').value = "The results match the following criteria:"
 
 ws_readme.getCell('A11').value = "policy sectors:"
@@ -557,6 +561,8 @@ ws_readme.getCell('B15').value = objects_to_string(selected_climaterisks)
 
 ws_readme.getCell('A16').value = "show locally validated measures only?"
 ws_readme.getCell('B16').value = validated_only
+
+
 
 
 // set col widths for README:
