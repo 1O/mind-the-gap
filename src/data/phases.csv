@@ -1,0 +1,10 @@
+id,phase
+1,Prevention: non-structural
+2,Prevention: structural
+3,Preparedness: tool implementation
+4,Preparedness: tools
+5,Response: tool implementation
+6,Response: tools
+7,Recovery: learning
+8,Recovery: structural
+9,"Cross-cutting, generic"
