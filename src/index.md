@@ -159,7 +159,10 @@ const matches = H.rollup_data(
 )
 .derive({no: aq.op.row_number() - 1})
 
-const match_count = Math.sumPrecise(matches.array("id").map(x => + (typeof(x) !== "undefined")))
+// stores the number of matches; can't simply use .numRows(), 
+// because "undefined" falsely suggest one match:
+const match_count = Math.sumPrecise(matches.array("id")
+    .map(x => + (typeof(x) !== "undefined")))
 
 ```
 
@@ -479,6 +482,14 @@ const selected_favorite = (reset_filters, view(H.get_table_favs(matches, ratings
 
 <strong>Matches</strong>
 
+<div style="text-align:center">
+    ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url_matches}" 
+    download="X-RISK-CC_policy-gaps-results.xlsx"
+        circle><i class="fa fa-download"></i></sl-button>`)}
+</div>
+
+
+
 ```js
 const selected_match = (reset_filters, view(Inputs.table(matches,
 {columns: ["id", "measure"], header: {id: "#", rating: "stars"},
@@ -509,6 +520,7 @@ const wb = new ExcelJS.Workbook();
 const ws_readme = wb.addWorksheet('README');
 const ws = wb.addWorksheet('Results');
 const header_logo = wb.addImage({buffer: img_src, extension: 'png'});
+const objects_to_string = x => x.map(x => x.choices).join(', ')
 
 ws.columns = [
   { header: 'Id', key: 'id', width: 5},
@@ -537,10 +549,6 @@ ws_readme.addImage(header_logo, {
   ext: { width: 600, height: 600/5.464348}
 });
 
-ws_readme.getCell('A8').value = "generated on:"
-ws_readme.getCell('B8').value = new Date()
-
-const objects_to_string = x => x.map(x => x.choices).join(', ')
 
 ws_readme.getColumn(1).alignment = {vertical:'top', wrapText: true };
 
@@ -548,59 +556,65 @@ const col_criteria = ws_readme.getColumn(2)
 col_criteria.width = 80;
 col_criteria.alignment = {vertical:'top', wrapText: true };
 
-ws_readme.getCell('A10').value = "The results match the following criteria:"
 
+const content = {
+    A8: "generated on:",
+    B8: new Date(),
+    A10 : "The results match the following criteria:",
+    A11 : "policy sectors:",
+    B11 : objects_to_string(selected_sectors),
+    A12 :"phases of risk management cycle:",
+    B12 : objects_to_string(selected_phases),
+    A13 : "gap types:",
+    B13 : objects_to_string(selected_gaps),
+    A14 : "risk ownership levels:",
+    B14: objects_to_string(selected_ownership_levels),
+    A15 : "climate risks related to:",
+    B15 : objects_to_string(selected_climaterisks),
+    A16 : "show locally validated measures only?",
+    B16 : validated_only
+}
 
-
-ws_readme.getCell('A11').value = "policy sectors:"
-ws_readme.getCell('B11').value = objects_to_string(selected_sectors)
-
-ws_readme.getCell('A12').value = "phases of risk management cycle:"
-ws_readme.getCell('B12').value = objects_to_string(selected_phases)
-
-ws_readme.getCell('A13').value = "gap types:"
-ws_readme.getCell('B13').value = objects_to_string(selected_gaps)
-
-ws_readme.getCell('A14').value = "risk ownership levels:"
-ws_readme.getCell('B14').value = objects_to_string(selected_ownership_levels)
-
-ws_readme.getCell('A15').value = "climate risks related to:"
-ws_readme.getCell('B15').value = objects_to_string(selected_climaterisks)
-
-ws_readme.getCell('A16').value = "show locally validated measures only?"
-ws_readme.getCell('B16').value = validated_only
-
-
+// fill worksheet cells:
+_.forEach(content, (v, k) => ws_readme.getCell(k).value = v)
 
 
 // set col widths for README:
 Object.entries({A: 20, B: 20})
     .forEach(k => ws_readme.getColumn(k[0]).width = k[1])
 
-// ws_readme.getColumn(2).width = 20
 
-ws.addRows(matches
-// .groupby('id')
-// .rollup({ phases: d => d.phases})
-.objects()
-)
+ws.addRows(matches.objects())
 
 ws.views = [
   {state: 'frozen', xSplit: 2, ySplit: 1}
 ];
 
 const xl_blob = new Blob([await wb.xlsx.writeBuffer()], {type: '.xlsx'})
-const obj_url = URL.createObjectURL(xl_blob);
+//const obj_url = URL.createObjectURL(xl_blob);
 
 ```
 
+```js
+const criteria = {
+    sectors: selected_sectors,
+    phases: selected_phases,
+    gaps: selected_gaps,
+    ownerships: selected_ownership_levels,
+    risks: selected_climaterisks
+}
 
+
+const buffer_matches = await H.get_blob_buffer(matches, criteria, validated_only)
+const obj_url_matches = URL.createObjectURL(new Blob([buffer_matches], {type: ".xlsx"}))
+
+```
 
 
 <div class="">
     <strong>Download matches:</strong>
     <div style="text-align:center">
-        ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" 
+        ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url_matches}" 
         download="X-RISK-CC_policy-gaps-results.xlsx"
          circle><i class="fa fa-download"></i></sl-button>`)}
     </div>

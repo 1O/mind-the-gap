@@ -7,7 +7,10 @@ import {FileAttachment} from "observablehq:stdlib";
 import { setBasePath } from "npm:@shoelace-style/shoelace";
 setBasePath("npm:@shoelace-style/shoelace/dist");
 
+import ExcelJS from "npm:exceljs"
 
+
+const img_src = await FileAttachment('../assets/X-RISK-CC_Logo_Landscape_large.png').arrayBuffer()
 
 const nodes_to_inputs = (tag_name = "sl-button") => {
     // make arbitrary nodes emit an input event so they can be used
@@ -110,9 +113,9 @@ const negate_first_timer = () => {
 const get_brief_per_measure_id = (id, data) => {
     const data_measurement = data.filter(aq.escape(d => d.id == id))
     const get_uniques_as_string = (tag) => _.uniq(data_measurement.array(tag)).join(", ")
-
-
-return html`
+    
+    
+    return html`
 <div class="brief">
     <div><strong>ID:</strong> ${get_uniques_as_string("id")}</div>
     <div><strong>Risk management cycle (stages):</strong> ${get_uniques_as_string("phase")}</div>
@@ -197,7 +200,7 @@ format: {rating: d => html`${Array(d).fill(0).map(() => html`<i class="fa fa-sta
 }
 }
 )
-    }
+}
 
 const get_dialog_filter = () => {
     return html`<sl-dialog label="Filter usage"
@@ -218,12 +221,96 @@ const button_show_dialog_filter = () => {
 const get_newbie_info = (match_count) => {
     return html`
 The entire repository of policy gaps contains ${match_count} entries. Use the filter menu (left) to narrow down your selection.
-
+    
 <hr/>
     <sl-button size="large" variant="primary" onClick="document.querySelector('#newbie-info').style.display='none'">OK</sl-button>
     `
     
 }
+
+const get_blob_buffer = (matches, criteria, validated_only) => {
+    
+    const wb = new ExcelJS.Workbook();
+    const ws_readme = wb.addWorksheet('README');
+    const ws = wb.addWorksheet('Results');
+    const header_logo = wb.addImage({buffer: img_src, extension: 'png'});
+    
+    ws.columns = [
+        { header: 'Id', key: 'id', width: 5},
+        { header: 'Rating', key: 'rating', width: 5 },
+        { header: 'Topic', key: 'cluster', width: 16 },
+        { header: 'Sector', key: 'sector', width: 16 },
+        { header: 'Phases', key: 'phases', width: 16 },
+        { header: 'Gap', key: 'measure', width: 50 },
+        { header: 'Risk ownership level', key: 'ownerships', width: 16 },
+        { header: 'Risk(s) related to', key: 'climaterisks', width: 32 },
+        { header: 'Locally validated', key: 'validated', width: 4 }
+    ];
+    
+    
+    ws.autoFilter = 'A1:I1';
+    
+    // (re)set col widths for results:
+    Object.entries({A: 5, B: 5, C: 20, D: 20, E: 20, 
+        F: 40, G: 20, H: 20, I: 10
+    })
+    .forEach(k => ws.getColumn(k[0]).width = k[1])
+    
+    
+    const objects_to_string = x => x.map(x => x.choices).join(', ')
+    
+    ws_readme.addImage(header_logo, {
+        tl: { col: 0, row: 0 },
+        ext: { width: 600, height: 600/5.464348}
+    });
+    
+    
+    ws_readme.getColumn(1).alignment = {vertical:'top', wrapText: true };
+    
+    const col_criteria = ws_readme.getColumn(2)
+    col_criteria.width = 80;
+    col_criteria.alignment = {vertical:'top', wrapText: true };    
+    
+    const content = {
+        A8: "generated on:",
+        B8: new Date(),
+        A10 : "The results match the following criteria:",
+        A11 : "policy sectors:",
+        B11 : objects_to_string(criteria.sectors),
+        A12 :"phases of risk management cycle:",
+        B12 : objects_to_string(criteria.phases),
+        A13 : "gap types:",
+        B13 : objects_to_string(criteria.gaps),
+        A14 : "risk ownership levels:",
+        B14: objects_to_string(criteria.ownerships),
+        A15 : "climate risks related to:",
+        B15 : objects_to_string(criteria.risks),
+        A16 : "show locally validated measures only?",
+        B16 : validated_only
+    }
+    
+    // fill worksheet cells:
+    _.forEach(content, (v, k) => ws_readme.getCell(k).value = v)
+    
+    
+    
+    // set col widths for README:
+    Object.entries({A: 20, B: 20})
+        .forEach(k => ws_readme.getColumn(k[0]).width = k[1])
+    
+    
+    ws.addRows(matches.objects())
+    
+    ws.views = [{state: 'frozen', xSplit: 2, ySplit: 1}];
+
+    return wb.xlsx.writeBuffer();     
+
+}
+
+
+
+
+
 
 export default {
     nodes_to_inputs,
@@ -232,5 +319,5 @@ export default {
     get_header, get_rater,
     get_sector_colors, get_table_favs, get_dialog_filter, 
     button_show_dialog_filter,
-    get_newbie_info, get_detail
+    get_newbie_info, get_detail, get_blob_buffer
 }

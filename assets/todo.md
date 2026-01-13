@@ -12,7 +12,6 @@ Rest-Liste von der letzten internen Review-Runde:
 
 
 Auf Basis Feedback von Projektpartnern:
-*Achtung, da hab ich mehrmals vorgewarnt, das nicht zu einer Wunschliste zu machen*
 
 - Die angezeigten Steckbrief-Kategorien (Tags) unten sind dynamisch und verändern sich je nach gesetzter Filterkategorie, sollten aber statisch sein. Willkürliches Beispiel: Eintrag sp_4. Ohne Filterauswahl werden unter „Gap types“ alle Kategorien angezeigt; klicke ich im Filter ‚policy design & planning“ an, steht im Factsheet nur noch diese eine ausgewählte Kategorie. Besser wäre es, wenn unabhängig von der Filterauswahl immer alle zutreffenden Kategorien angezeigt würden.
 
@@ -31,5 +30,6 @@ ID: nh_1 Risk management cycle: texttext
 *erledigt*
 
 ·      Wenn es keinen Match für die gewählten Filter gibt, erscheint zwar die Meldung „Oops…“, aber links wird dennoch „1 matches“ angezeigt. Kann man das noch korrigieren?
+*erledigt*
 
 ·      Im Policy Sector „Civil Protection“ fehlen zwei Einträge: cp_20 und cp_51. Das wir hier zwei Einträge weniger haben als  im Excel, ist mir schon früher aufgefallen, ist grundsätzlich aber okay, weil dieselben zwei Gaps jeweils unterschiedlichen Themen zugeordnet wurden und daher doppelt vorhanden waren (die Taggings sind gottseidank ident, daher null Problem hier). Aber vielleicht kann man die Nummerierung noch aktualisieren, damit wir nicht zwei Lücken in der Liste haben? 
