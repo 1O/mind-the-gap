@@ -480,14 +480,12 @@ const selected_favorite = (reset_filters, view(H.get_table_favs(matches, ratings
 ```
 
 
-<strong>Matches</strong>
 
-<div style="text-align:center">
-    ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url_matches}" 
-    download="X-RISK-CC_policy-gaps-results.xlsx"
-        circle><i class="fa fa-download"></i></sl-button>`)}
-</div>
 
+
+${html`<strong>Matches</strong>
+<a href=${obj_url_matches} download="X-RISK-CC_policy-gaps-results.xlsx">(Download)</a>
+     `}
 
 
 ```js
@@ -610,15 +608,6 @@ const obj_url_matches = URL.createObjectURL(new Blob([buffer_matches], {type: ".
 
 ```
 
-
-<div class="">
-    <strong>Download matches:</strong>
-    <div style="text-align:center">
-        ${display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url_matches}" 
-        download="X-RISK-CC_policy-gaps-results.xlsx"
-         circle><i class="fa fa-download"></i></sl-button>`)}
-    </div>
-</div>
 
 </div>
 
