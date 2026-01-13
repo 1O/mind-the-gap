@@ -22,6 +22,45 @@ import ExcelJS from "npm:exceljs"
 
 ```
 
-# Blubb
+```js
 
+
+
+const db = DuckDBClient.of({
+    measures: FileAttachment("data/measures.csv"),
+    sectors: FileAttachment("data/sectors.csv")
+});
+
+// const measures = aq.from(await FileAttachment('data/data2.csv').csv())    
+// const sectors = aq.from(await FileAttachment('data/sectors.csv').csv())
+
+// const fifi = db.SQL`SELECT * FROM measures`
+
+
+//const fifi = db.sql`SELECT * FROM measures`
+
+
+const hugo = JSON.stringify([3, 1])
+```
+
+${hugo}
+
+```js
+
+const qs = "SELECT * FROM measures"
+
+const fifi = db.query`SELECT * FROM measures`
+
+
+```
+
+
+
+```js
+
+```
+
+
+
+${Inputs.table(fifi)}
 

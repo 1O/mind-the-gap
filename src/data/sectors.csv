@@ -1,6 +1,6 @@
-id,sector
-1,Natural Hazard Management
-2,Civil Protection
-3,Spatial Planning
-4,Protection Forest Management
-5,Forest Fire Management
+id,name,label
+1,nh,Natural Hazard Management
+2,cp,Civil Protection
+3,sp,Spatial Planning
+4,pf,Protection Forest Management
+5,ff,Forest Fire Management

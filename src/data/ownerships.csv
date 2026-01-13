@@ -1,6 +1,7 @@
-id,ownership
-1,transnational
-2,national & subnational
-3,local & regional
-4,"private & individual (citizens, households, property owners)",
-5,"multi-level, cross-level, co-owned"
+id,name,label
+1,"trn",transnational
+2,nat,national & subnational
+3,loc,local & regional
+4,pri,"private & individual (citizens, households, property owners)"
+5,"mul","multi-level, cross-level, co-owned"
+

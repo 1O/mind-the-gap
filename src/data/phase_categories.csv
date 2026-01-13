@@ -1,8 +1,7 @@
-id,phase_category
+id,label
 1,non-structural
 2,structural
 3,tools
 4,tool implementation
 5,learning
-6,""
-7,structura
+6,"cross-cutting"

@@ -1,5 +1,6 @@
 import * as aq from "npm:arquero";
 import * as Inputs from "npm:@observablehq/inputs";
+import _ from "npm:lodash";
 import {html} from "npm:htl";
 import {FileAttachment} from "observablehq:stdlib";
 // Set base path for assets
@@ -105,23 +106,30 @@ const negate_first_timer = () => {
 }
 
 
-const get_brief = (cur_row) => {
-    return html`
-    
-    <div class="brief">
-    <div><strong>Gap types:</strong> ${cur_row.gaps.join(", ")}</div>
-    <div><strong>Risk management cycle (stages):</strong> ${cur_row.phases.join(", ")}</div>
-    <div><strong>Risk ownership levels:</strong> ${cur_row.ownerships.join(", ")}</div>
-    <div><strong>Targeted climate risk:</strong> ${cur_row.climaterisks.join(", ")}</div>
-    <div><strong>Locally validated:</strong> ${["no", "yes"][1*cur_row.validated]}</div>
-    </div>
+
+const get_brief_per_measure_id = (id, data) => {
+    const data_measurement = data.filter(aq.escape(d => d.id == id))
+    const get_uniques_as_string = (tag) => _.uniq(data_measurement.array(tag)).join(", ")
+
+
+return html`
+<div class="brief">
+    <div><strong>Gap types:</strong> ${get_uniques_as_string("gap")}</div>
+    <div><strong>Risk management cycle (stages):</strong> ${get_uniques_as_string("phase")}</div>
+    <div><strong>Risk ownership levels:</strong> ${get_uniques_as_string("ownership")}</div>
+    <div><strong>Targeted climate risk:</strong> ${get_uniques_as_string("risk")}</div>
+    <div><strong>Locally validated:</strong> ${["no", "yes"][get_uniques_as_string("validated")]}</div>
+</div>
 `
+    
 }
+
+
+
 
 const get_header = (cur_row) => {
     return html`
-    <div slot="header>
-    
+    <div slot="header>    
     <h1>${"# " + cur_row.no}</h1>
     </div>
     `
@@ -131,6 +139,9 @@ const get_rater = (cur_row) => {
     return html`<sl-rating id=${cur_row.id} value=${cur_row.rating} max=3></sl-rating>`
 }
 
+
+
+const data = aq.from(await FileAttachment('../data/data1.csv').csv())
 
 const get_detail = (cur_row) => {
     
@@ -150,8 +161,8 @@ const get_detail = (cur_row) => {
     <p class="measure">${cur_row.measure}</p>
     <p>&mdash; ${cur_row.id}</p>
     
-    <div slot="footer"> 
-        <div>${get_brief(cur_row)}</div>
+    <div slot="footer">         
+        <div>${get_brief_per_measure_id(cur_row.id, data)}</div>
         <div></div>
     </div>
     `
