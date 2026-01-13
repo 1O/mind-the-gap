@@ -206,10 +206,12 @@ format: {rating: d => html`${Array(d).fill(0).map(() => html`<i class="fa fa-sta
 
 const get_dialog_filter = () => {
     const stuff = P.tt
+    const options_to_html = (options) => {
+        _.forEach(options, (k, v) => {return "asdfasdf"})
+    }
+
     return html`<sl-dialog label="Filter usage"
-    id="dialog_filter_info" 
-    class="dialog-overview">
-    <h1></h1>
+    id="dialog_filter_info" class="dialog-overview">
     <div>
     ${Object.keys(stuff)
         .map(k => {
@@ -219,12 +221,15 @@ const get_dialog_filter = () => {
             <div>
                 ${v.general}
                 <sl-details summary="Options">
-                    tadaa, tadaa
+                    <dl>
+                    ${Object.keys(v.options).map(x => html`
+                        <dt>${x}</dt><dd>${v.options[x]}</dd>
+                        `)}
+                    </dl>
                 </sl-details>
             <div>
             </sl-card>`
         })
-
     }
     </div>
     </sl-dialog>

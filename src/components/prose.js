@@ -3,7 +3,7 @@ const tt = {
     sector: {
         "label": "Sector", 
         "general": "Which sectors should be screened?",
-        "options": {}
+        "options": {"null": ""}
     },
     phases: {
         "label": "Risk management cycle",
@@ -66,7 +66,7 @@ const tt = {
     validation: {
         "label": "Local validation",
         "general": "Has this measure undergone local validation?",
-        "optionis": {}
+        "options": {"null": "null"}
     }
 }
 
