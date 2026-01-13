@@ -1,9 +1,10 @@
 Rest-Liste von der letzten internen Review-Runde:
 
 - Download functionality for favourites!!
+*erledigt*
 
 - Repairing the little bug with the error message at the landing page.
-*Kann keinen entdecken, welcher war gemeint?*
+*Kann keinen mehr entdecken, welcher war gemeint?*
 
 - Adding descriptions of filters (criteria and categories), e.g. by means of an ‘info’ button (pop-up-Fenster). Filterkriterien und Kategorien mit den Beschreibungen hier! file:///Projekte/20000/21104_X_RISK_CC/Public/X-RISK-CC_policy-gap-explorer/Filters_criteria_categories.xlsx
 
@@ -32,4 +33,5 @@ ID: nh_1 Risk management cycle: texttext
 ·      Wenn es keinen Match für die gewählten Filter gibt, erscheint zwar die Meldung „Oops…“, aber links wird dennoch „1 matches“ angezeigt. Kann man das noch korrigieren?
 *erledigt*
 
-·      Im Policy Sector „Civil Protection“ fehlen zwei Einträge: cp_20 und cp_51. Das wir hier zwei Einträge weniger haben als  im Excel, ist mir schon früher aufgefallen, ist grundsätzlich aber okay, weil dieselben zwei Gaps jeweils unterschiedlichen Themen zugeordnet wurden und daher doppelt vorhanden waren (die Taggings sind gottseidank ident, daher null Problem hier). Aber vielleicht kann man die Nummerierung noch aktualisieren, damit wir nicht zwei Lücken in der Liste haben? 
+·      Im Policy Sector „Civil Protection“ fehlen zwei Einträge: cp_20 und cp_51. Das wir hier zwei Einträge weniger haben als  im Excel, ist mir schon früher aufgefallen, ist grundsätzlich aber okay, weil dieselben zwei Gaps jeweils unterschiedlichen Themen zugeordnet wurden und daher doppelt vorhanden waren (die Taggings sind gottseidank ident, daher null Problem hier). Aber vielleicht kann man die Nummerierung noch aktualisieren, damit wir nicht zwei Lücken in der Liste haben?
+*offen*
