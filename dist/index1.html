@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="generator" content="Observable Framework v1.13.2">
+<title>Mind the gap</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="preload" as="style" href="./_observablehq/theme-air.aad62322.css">
+<link rel="preload" as="style" href="./_observablehq/stdlib/inputs.ea9fd553.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="stylesheet" type="text/css" href="./_observablehq/theme-air.aad62322.css">
+<link rel="stylesheet" type="text/css" href="./_observablehq/stdlib/inputs.ea9fd553.css">
+<link rel="modulepreload" href="./_observablehq/client.938b2bc8.js">
+<link rel="modulepreload" href="./_observablehq/runtime.9393ab6d.js">
+<link rel="modulepreload" href="./_observablehq/stdlib.3080ab4f.js">
+<link rel="modulepreload" href="./_npm/arquero@7.2.0/f3eb4e3f.js">
+<link rel="modulepreload" href="./_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js">
+<link rel="modulepreload" href="./_npm/showdown@2.1.0/ed1696ce.js">
+<link rel="modulepreload" href="./_import/components/helpers.1d0122be.js">
+<link rel="modulepreload" href="./_npm/exceljs@4.4.0/222f7a0c.js">
+<link rel="modulepreload" href="./_observablehq/stdlib/duckdb.20461150.js">
+<link rel="modulepreload" href="./_observablehq/stdlib/inputs.b5967c66.js">
+<link rel="modulepreload" href="./_import/components/prose.0813352a.js">
+<link rel="modulepreload" href="./_npm/lodash@4.17.21/cbfa4f05.js">
+<link rel="modulepreload" href="./_npm/htl@0.3.1/063eb405.js">
+<link rel="modulepreload" href="./_npm/d3-dsv@3.0.1/407f7a1f.js">
+<link rel="modulepreload" href="./_npm/@duckdb/duckdb-wasm@1.29.0/d1cf3c5a.js">
+<link rel="modulepreload" href="./_npm/isoformat@0.2.1/c68fbd73.js">
+<link rel="modulepreload" href="./_npm/acorn@8.14.0/6d258ba8.js">
+<link rel="modulepreload" href="./_npm/@uwdata/flechette@1.1.1/df6d503a.js">
+<link rel="modulepreload" href="./_npm/lit@3.2.1/a9c7db3f.js">
+<link rel="modulepreload" href="./_npm/lit@3.2.1/decorators.js.fcd1f26b.js">
+<link rel="modulepreload" href="./_npm/@shoelace-style/localize@3.2.1/a12c53c5.js">
+<link rel="modulepreload" href="./_npm/@floating-ui/dom@1.6.12/d5637756.js">
+<link rel="modulepreload" href="./_npm/lit@3.2.1/directives/class-map.js.0cfabbe4.js">
+<link rel="modulepreload" href="./_npm/composed-offset-position@0.0.6/16846fbe.js">
+<link rel="modulepreload" href="./_npm/lit@3.2.1/directive-helpers.js.703468a9.js">
+<link rel="modulepreload" href="./_npm/lit@3.2.1/directives/if-defined.js.71142b33.js">
+<link rel="modulepreload" href="./_npm/lit@3.2.1/directives/live.js.bbe9eb7e.js">
+<link rel="modulepreload" href="./_npm/lit@3.2.1/directives/when.js.dfcf17d7.js">
+<link rel="modulepreload" href="./_npm/lit@3.2.1/static-html.js.d4d0e1d2.js">
+<link rel="modulepreload" href="./_npm/lit@3.2.1/directives/unsafe-html.js.ea620375.js">
+<link rel="modulepreload" href="./_npm/lit@3.2.1/directives/style-map.js.18165ad5.js">
+<link rel="modulepreload" href="./_npm/qr-creator@1.0.0/1bba10de.js">
+<link rel="modulepreload" href="./_npm/lit@3.2.1/directives/ref.js.dd968e91.js">
+<link rel="modulepreload" href="./_npm/@ctrl/tinycolor@4.1.0/315b22c9.js">
+<link rel="modulepreload" href="./_npm/lit@3.2.1/directives/map.js.4050c59b.js">
+<link rel="modulepreload" href="./_npm/lit@3.2.1/directives/range.js.56377c2f.js">
+<link rel="modulepreload" href="./_npm/@shoelace-style/animations@1.2.0/be6e08f6.js">
+<link rel="modulepreload" href="./_npm/apache-arrow@21.1.0/63de76cd.js">
+<link rel="modulepreload" href="./_npm/@lit/reactive-element@2.0.4/35654262.js">
+<link rel="modulepreload" href="./_npm/lit-html@3.2.1/02f42605.js">
+<link rel="modulepreload" href="./_npm/lit-element@4.1.1/lit-element.js.0f45aa27.js">
+<link rel="modulepreload" href="./_npm/lit-html@3.2.1/is-server.js.d63f4955.js">
+<link rel="modulepreload" href="./_npm/@lit/reactive-element@2.0.4/decorators/custom-element.js.56edefc2.js">
+<link rel="modulepreload" href="./_npm/@lit/reactive-element@2.0.4/decorators/property.js.46436dfa.js">
+<link rel="modulepreload" href="./_npm/@lit/reactive-element@2.0.4/decorators/state.js.d7981ea7.js">
+<link rel="modulepreload" href="./_npm/@lit/reactive-element@2.0.4/decorators/event-options.js.c79389f6.js">
+<link rel="modulepreload" href="./_npm/@lit/reactive-element@2.0.4/decorators/query.js.122c484e.js">
+<link rel="modulepreload" href="./_npm/@lit/reactive-element@2.0.4/decorators/query-all.js.89bab0fa.js">
+<link rel="modulepreload" href="./_npm/@lit/reactive-element@2.0.4/decorators/query-async.js.1bb60a59.js">
+<link rel="modulepreload" href="./_npm/@lit/reactive-element@2.0.4/decorators/query-assigned-elements.js.2db6355b.js">
+<link rel="modulepreload" href="./_npm/@lit/reactive-element@2.0.4/decorators/query-assigned-nodes.js.dc9eaf05.js">
+<link rel="modulepreload" href="./_npm/@floating-ui/core@1.6.8/2d6722b1.js">
+<link rel="modulepreload" href="./_npm/@floating-ui/utils@0.2.8/8e92bffe.js">
+<link rel="modulepreload" href="./_npm/@floating-ui/utils@0.2.8/dom.c5d971f5.js">
+<link rel="modulepreload" href="./_npm/lit-html@3.2.1/directives/class-map.js.ac399c5b.js">
+<link rel="modulepreload" href="./_npm/lit-html@3.2.1/directive-helpers.js.3a6f7c92.js">
+<link rel="modulepreload" href="./_npm/lit-html@3.2.1/directives/if-defined.js.065d2226.js">
+<link rel="modulepreload" href="./_npm/lit-html@3.2.1/directives/live.js.8328442f.js">
+<link rel="modulepreload" href="./_npm/lit-html@3.2.1/directives/when.js.777bf979.js">
+<link rel="modulepreload" href="./_npm/lit-html@3.2.1/static.js.03039b99.js">
+<link rel="modulepreload" href="./_npm/lit-html@3.2.1/directives/unsafe-html.js.ed6e7997.js">
+<link rel="modulepreload" href="./_npm/lit-html@3.2.1/directives/style-map.js.387bbac0.js">
+<link rel="modulepreload" href="./_npm/lit-html@3.2.1/directives/ref.js.72e3e53b.js">
+<link rel="modulepreload" href="./_npm/lit-html@3.2.1/directives/map.js.e28c73b2.js">
+<link rel="modulepreload" href="./_npm/lit-html@3.2.1/directives/range.js.544168c4.js">
+<link rel="modulepreload" href="./_npm/tslib@2.8.1/b62a9c4a.js">
+<link rel="modulepreload" href="./_npm/flatbuffers@25.9.23/c82700c2.js">
+<link rel="icon" href="./_file/observable.1af93621.png" type="image/png" sizes="32x32">
+<script type="module">
+
+import {define} from "./_observablehq/client.938b2bc8.js";
+import {registerFile} from "./_observablehq/stdlib.3080ab4f.js";
+
+registerFile("./assets/X-RISK-CC_Logo_Landscape_large.png", {"name":"./assets/X-RISK-CC_Logo_Landscape_large.png","mimeType":"image/png","path":"./_file/assets/X-RISK-CC_Logo_Landscape_large.a73a7cd9.png","lastModified":1748765280700,"size":64926});
+registerFile("./data/data1.csv", {"name":"./data/data1.csv","mimeType":"text/csv","path":"./_file/data/data1.19e0ebeb.csv","lastModified":1768240924733,"size":942372});
+registerFile("./data/measures.csv", {"name":"./data/measures.csv","mimeType":"text/csv","path":"./_file/data/measures.91d8bbca.csv","lastModified":1768251788224,"size":649859});
+registerFile("./data/sectors.csv", {"name":"./data/sectors.csv","mimeType":"text/csv","path":"./_file/data/sectors.5c9b9b33.csv","lastModified":1768238853418,"size":151});
+
+define({id: "e8d61a27", outputs: ["aq","setBasePath","showdown","H","ExcelJS"], body: async () => {
+const [aq, {setBasePath}, {default: showdown}, {default: H}, {default: ExcelJS}] = await Promise.all([import("./_npm/arquero@7.2.0/f3eb4e3f.js"), import("./_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js"), import("./_npm/showdown@2.1.0/ed1696ce.js"), import("./_import/components/helpers.1d0122be.js"), import("./_npm/exceljs@4.4.0/222f7a0c.js")]);
+
+// Set base path for assets
+setBasePath("npm:@shoelace-style/shoelace/dist");
+
+
+ // H for helper functions
+
+
+return {aq,setBasePath,showdown,H,ExcelJS};
+}});
+
+define({id: "bea89b11", inputs: ["DuckDBClient","FileAttachment"], outputs: ["db","hugo"], body: (DuckDBClient,FileAttachment) => {
+
+
+const db = DuckDBClient.of({
+    measures: FileAttachment("./data/measures.csv"),
+    sectors: FileAttachment("./data/sectors.csv")
+});
+
+// const measures = aq.from(await FileAttachment('data/data2.csv').csv())    
+// const sectors = aq.from(await FileAttachment('data/sectors.csv').csv())
+
+// const fifi = db.SQL`SELECT * FROM measures`
+
+
+//const fifi = db.sql`SELECT * FROM measures`
+
+
+const hugo = JSON.stringify([3, 1])
+return {db,hugo};
+}});
+
+define({id: "0478721f", mode: "inline", inputs: ["hugo","display"], body: async (hugo,display) => {
+display(await(
+hugo
+))
+}});
+
+define({id: "220d782b", inputs: ["db"], outputs: ["qs","fifi"], body: (db) => {
+const qs = "SELECT * FROM measures"
+
+const fifi = db.query`SELECT * FROM measures`
+
+
+return {qs,fifi};
+}});
+
+define({id: "01ba4719", body: () => {
+
+}});
+
+define({id: "94a4c1b3", mode: "inline", inputs: ["Inputs","fifi","display"], body: async (Inputs,fifi,display) => {
+display(await(
+Inputs.table(fifi)
+))
+}});
+
+</script>
+</head>
+<body>
+<div id="observablehq-center">
+<main id="observablehq-main" class="observablehq">
+<link rel="stylesheet" href="./_file/custom.ae6710e3.css">
+<link rel="stylesheet" href="./_file/assets/shoelace-light.48932bd1.css">
+    <script defer="" src="./_import/assets/fontawesome/fontawesome.565e2865.js"></script>
+<script defer="" src="./_import/assets/fontawesome/solid.a24bd8d2.js"></script>
+<div class="observablehq observablehq--block"><!--:e8d61a27:--></div>
+<div class="observablehq observablehq--block"><!--:bea89b11:--></div>
+<p><observablehq-loading></observablehq-loading><!--:0478721f:--></p>
+<div class="observablehq observablehq--block"><!--:220d782b:--></div>
+<div class="observablehq observablehq--block"><!--:01ba4719:--></div>
+<p><observablehq-loading></observablehq-loading><!--:94a4c1b3:--></p>
+</main>
+<footer id="observablehq-footer">
+<div>Built with Observable</div>
+</footer>
+</div>
+</body>
+</html>

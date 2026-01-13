@@ -247,8 +247,8 @@ let dummy = H.animate_badge()
 <div class="card">
 
 <div style="display:grid; grid-template-columns:90% 10%; justify-content: space-between;">
-Narrow your search with the filters below.
-${H.button_show_dialog_filter()}
+Narrow your search with the filters below.<a href="#" onclick="document.querySelector('#dialog_filter_info').show()">Help</a>
+<!-- ${H.button_show_dialog_filter()} -->
 </div>
 <div style="display:grid; grid-template-columns:50% 50%;">
 <div>

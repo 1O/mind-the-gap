@@ -12,17 +12,18 @@
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
 <link rel="stylesheet" type="text/css" href="./_observablehq/theme-air.aad62322.css">
 <link rel="stylesheet" type="text/css" href="./_observablehq/stdlib/inputs.ea9fd553.css">
-<link rel="modulepreload" href="./_observablehq/client.1f32af9d.js">
+<link rel="modulepreload" href="./_observablehq/client.938b2bc8.js">
 <link rel="modulepreload" href="./_observablehq/runtime.9393ab6d.js">
-<link rel="modulepreload" href="./_observablehq/stdlib.d4a7cb81.js">
+<link rel="modulepreload" href="./_observablehq/stdlib.3080ab4f.js">
 <link rel="modulepreload" href="./_npm/arquero@7.2.0/f3eb4e3f.js">
 <link rel="modulepreload" href="./_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js">
 <link rel="modulepreload" href="./_npm/showdown@2.1.0/ed1696ce.js">
-<link rel="modulepreload" href="./_import/components/helpers.b98f5cc2.js">
+<link rel="modulepreload" href="./_import/components/helpers.1d0122be.js">
+<link rel="modulepreload" href="./_import/components/prose.0813352a.js">
 <link rel="modulepreload" href="./_npm/exceljs@4.4.0/222f7a0c.js">
 <link rel="modulepreload" href="./_npm/lodash@4.17.21/cbfa4f05.js">
 <link rel="modulepreload" href="./_npm/htl@0.3.1/063eb405.js">
-<link rel="modulepreload" href="./_observablehq/stdlib/inputs.ff6354fc.js">
+<link rel="modulepreload" href="./_observablehq/stdlib/inputs.b5967c66.js">
 <link rel="modulepreload" href="./_npm/d3-dsv@3.0.1/407f7a1f.js">
 <link rel="modulepreload" href="./_npm/isoformat@0.2.1/c68fbd73.js">
 <link rel="modulepreload" href="./_npm/acorn@8.14.0/6d258ba8.js">
@@ -76,23 +77,24 @@
 <link rel="icon" href="./_file/observable.1af93621.png" type="image/png" sizes="32x32">
 <script type="module">
 
-import {define} from "./_observablehq/client.1f32af9d.js";
-import {registerFile} from "./_observablehq/stdlib.d4a7cb81.js";
+import {define} from "./_observablehq/client.938b2bc8.js";
+import {registerFile} from "./_observablehq/stdlib.3080ab4f.js";
 
 registerFile("./assets/X-RISK-CC_Logo_Landscape_large.png", {"name":"./assets/X-RISK-CC_Logo_Landscape_large.png","mimeType":"image/png","path":"./_file/assets/X-RISK-CC_Logo_Landscape_large.a73a7cd9.png","lastModified":1748765280700,"size":64926});
-registerFile("./data/data1.csv", {"name":"./data/data1.csv","mimeType":"text/csv","path":"./_file/data/data1.a64a1e36.csv","lastModified":1748944749886,"size":941411});
+registerFile("./data/data1.csv", {"name":"./data/data1.csv","mimeType":"text/csv","path":"./_file/data/data1.19e0ebeb.csv","lastModified":1768240924733,"size":942372});
 
-define({id: "e8d61a27", outputs: ["aq","setBasePath","showdown","H","ExcelJS"], body: async () => {
-const [aq, {setBasePath}, {default: showdown}, {default: H}, {default: ExcelJS}] = await Promise.all([import("./_npm/arquero@7.2.0/f3eb4e3f.js"), import("./_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js"), import("./_npm/showdown@2.1.0/ed1696ce.js"), import("./_import/components/helpers.b98f5cc2.js"), import("./_npm/exceljs@4.4.0/222f7a0c.js")]);
+define({id: "bcb45fdb", outputs: ["aq","setBasePath","showdown","H","P","ExcelJS"], body: async () => {
+const [aq, {setBasePath}, {default: showdown}, {default: H}, {default: P}, {default: ExcelJS}] = await Promise.all([import("./_npm/arquero@7.2.0/f3eb4e3f.js"), import("./_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js"), import("./_npm/showdown@2.1.0/ed1696ce.js"), import("./_import/components/helpers.1d0122be.js"), import("./_import/components/prose.0813352a.js"), import("./_npm/exceljs@4.4.0/222f7a0c.js")]);
 
 // Set base path for assets
 setBasePath("npm:@shoelace-style/shoelace/dist");
 
 
  // H for helper functions
+ // for help texts etc.
 
 
-return {aq,setBasePath,showdown,H,ExcelJS};
+return {aq,setBasePath,showdown,H,P,ExcelJS};
 }});
 
 define({id: "b4a7b048", inputs: ["Mutable"], outputs: ["is_newbie","unset_newbie","sector_labels"], body: (Mutable) => {
@@ -202,7 +204,7 @@ const row_count = (colname) => {return unique_entries[colname].numRows()}
 return {row_count};
 }});
 
-define({id: "7f9cddaf", inputs: ["H","data2","aq","selected_sectors","selected_phases","selected_gaps","selected_ownership_levels","selected_climaterisks","validated_only"], outputs: ["matches","match_count"], body: (H,data2,aq,selected_sectors,selected_phases,selected_gaps,selected_ownership_levels,selected_climaterisks,validated_only) => {
+define({id: "1b8ef882", inputs: ["H","data2","aq","selected_sectors","selected_phases","selected_gaps","selected_ownership_levels","selected_climaterisks","validated_only"], outputs: ["matches","match_count"], body: (H,data2,aq,selected_sectors,selected_phases,selected_gaps,selected_ownership_levels,selected_climaterisks,validated_only) => {
 const matches = H.rollup_data(
     data2.filter(
         aq.escape(d => aq.op.indexof(selected_sectors.map(x => x.choices), d.sector) > -1 &
@@ -212,14 +214,16 @@ const matches = H.rollup_data(
                   aq.op.indexof(selected_ownership_levels.map(x => x.choices), d.ownership) > -1 &
                   aq.op.indexof(selected_climaterisks.map(x => x.choices), d.risk) > -1 &
                   // filter on "locally validation", depending on user's choice (switch)                  
-                  aq.op.indexof([true, validated_only], d.validated) > -1 &
-                  true
+                  aq.op.indexof([true, validated_only], d.validated) > -1
                   )
     )
 )
 .derive({no: aq.op.row_number() - 1})
 
-const match_count = matches.numRows()
+// stores the number of matches; can't simply use .numRows(), 
+// because "undefined" falsely suggest one match:
+const match_count = Math.sumPrecise(matches.array("id")
+    .map(x => + (typeof(x) !== "undefined")))
 
 return {matches,match_count};
 }});
@@ -245,11 +249,16 @@ const reset_ratings = () => ratings.value = {}
 return {ratings,update_ratings,reset_ratings};
 }});
 
-define({id: "320b11b7", inputs: ["matches","aq","ratings"], outputs: ["favorites"], body: (matches,aq,ratings) => {
+define({id: "8cad87cb", inputs: ["matches","aq","ratings","H","criteria","validated_only"], outputs: ["favorites","buffer_favorites","obj_url_favorites"], body: async (matches,aq,ratings,H,criteria,validated_only) => {
 const favorites = matches
     .derive({rating: aq.escape(d => ratings[d.id])})
     .filter(d => d.rating > 0)
-return {favorites};
+
+
+const buffer_favorites = await H.get_blob_buffer(favorites, criteria, validated_only)
+const obj_url_favorites = URL.createObjectURL(new Blob([buffer_favorites], {type: ".xlsx"}))
+
+return {favorites,buffer_favorites,obj_url_favorites};
 }});
 
 define({id: "8f6dcbbc", outputs: ["refresh_views"], body: () => {
@@ -282,14 +291,9 @@ let dummy = H.animate_badge()
 return {dummy};
 }});
 
-define({id: "8923a462", mode: "inline", inputs: ["H","display"], body: async (H,display) => {
-display(await(
-H.button_show_dialog_filter()
-))
-}});
-
-define({id: "8db1b76e", inputs: ["view","H"], outputs: ["reset_filters"], body: (view,H) => {
+define({id: "9166886b", inputs: ["view","H"], outputs: ["reset_filters"], body: (view,H) => {
 const reset_filters = view(H.get_reset_button_filters());
+
 return {reset_filters};
 }});
 
@@ -492,8 +496,17 @@ document.querySelector("#table_favorites").style.display = any_favs ? "block" : 
 }
 }});
 
-define({id: "1b82431a", inputs: ["view","Inputs","html"], outputs: ["reset_ratings_clicked"], body: (view,Inputs,html) => {
-const reset_ratings_clicked = view(Inputs.button(html`<span class="fas fa-slash" data-fa-mask="fas fa-star" data-fa-transform="up-2.5"></span> clear favourites`))
+define({id: "e8e3f60c", mode: "inline", inputs: ["html","obj_url_favorites","display"], body: async (html,obj_url_favorites,display) => {
+display(await(
+html`<strong>Favourites</strong>
+<a href=${obj_url_favorites} download="X-RISK-CC_policy-gaps-favorites.xlsx">(Download)</a>
+     `
+))
+}});
+
+define({id: "09cfc5f1", inputs: ["view","Inputs","html"], outputs: ["reset_ratings_clicked"], body: (view,Inputs,html) => {
+const reset_ratings_clicked = view(Inputs.button(html`<span class="fas fa-slash" 
+data-fa-mask="fas fa-star" data-fa-transform="up-2.5"></span> clear favourites`))
 return {reset_ratings_clicked};
 }});
 
@@ -512,6 +525,14 @@ define({id: "82530acb", inputs: ["selected_favorite","set_slide","matches"], bod
 
 define({id: "22e2afed", inputs: ["reset_ratings_clicked","reset_ratings"], body: (reset_ratings_clicked,reset_ratings) => {
 {reset_ratings_clicked && reset_ratings()}
+}});
+
+define({id: "10e0379a", mode: "inline", inputs: ["html","obj_url_matches","display"], body: async (html,obj_url_matches,display) => {
+display(await(
+html`<strong>Matches</strong>
+<a href=${obj_url_matches} download="X-RISK-CC_policy-gaps-results.xlsx">(Download)</a>
+     `
+))
 }});
 
 define({id: "f57f0aeb", inputs: ["reset_filters","view","Inputs","matches","html"], outputs: ["selected_match"], body: (reset_filters,view,Inputs,matches,html) => {
@@ -534,106 +555,20 @@ define({id: "b661a268", inputs: ["selected_match","set_slide","matches"], body: 
 }
 }});
 
-define({id: "34da93e2", inputs: ["FileAttachment"], outputs: ["img_src"], body: async (FileAttachment) => {
-const img_src = await FileAttachment("./assets/X-RISK-CC_Logo_Landscape_large.png").arrayBuffer()
-return {img_src};
-}});
-
-define({id: "6e3d0346", inputs: ["ExcelJS","img_src","selected_sectors","selected_phases","selected_gaps","selected_ownership_levels","selected_climaterisks","validated_only","matches"], outputs: ["wb","ws_readme","ws","header_logo","objects_to_string","col_criteria","xl_blob","obj_url"], body: async (ExcelJS,img_src,selected_sectors,selected_phases,selected_gaps,selected_ownership_levels,selected_climaterisks,validated_only,matches) => {
-const wb = new ExcelJS.Workbook();
-const ws_readme = wb.addWorksheet('README');
-const ws = wb.addWorksheet('Results');
-const header_logo = wb.addImage({buffer: img_src, extension: 'png'});
-
-ws.columns = [
-  { header: 'Id', key: 'id', width: 5},
-  { header: 'Rating', key: 'rating', width: 5 },
-  { header: 'Topic', key: 'cluster', width: 16 },
-  { header: 'Sector', key: 'sector', width: 16 },
-  { header: 'Phases', key: 'phases', width: 16 },
-  { header: 'Gap', key: 'measure', width: 50 },
-  { header: 'Risk ownership level', key: 'ownerships', width: 16 },
-  { header: 'Risk(s) related to', key: 'climaterisks', width: 32 },
-  { header: 'Locally validated', key: 'validated', width: 4 }
-];
+define({id: "8220bd7b", inputs: ["selected_sectors","selected_phases","selected_gaps","selected_ownership_levels","selected_climaterisks","H","matches","validated_only"], outputs: ["criteria","buffer_matches","obj_url_matches"], body: async (selected_sectors,selected_phases,selected_gaps,selected_ownership_levels,selected_climaterisks,H,matches,validated_only) => {
+const criteria = {
+    sectors: selected_sectors,
+    phases: selected_phases,
+    gaps: selected_gaps,
+    ownerships: selected_ownership_levels,
+    risks: selected_climaterisks
+}
 
 
-ws.autoFilter = 'A1:I1';
+const buffer_matches = await H.get_blob_buffer(matches, criteria, validated_only)
+const obj_url_matches = URL.createObjectURL(new Blob([buffer_matches], {type: ".xlsx"}))
 
-// (re)set col widths for results:
-Object.entries({A: 5, B: 5, C: 20, D: 20, E: 20, 
-                F: 40, G: 20, H: 20, I: 10
-                })
-    .forEach(k => ws.getColumn(k[0]).width = k[1])
-
-
-ws_readme.addImage(header_logo, {
-  tl: { col: 0, row: 0 },
-  ext: { width: 600, height: 600/5.464348}
-});
-
-ws_readme.getCell('A8').value = "generated on:"
-ws_readme.getCell('B8').value = new Date()
-
-const objects_to_string = x => x.map(x => x.choices).join(', ')
-
-ws_readme.getColumn(1).alignment = {vertical:'top', wrapText: true };
-
-const col_criteria = ws_readme.getColumn(2)
-col_criteria.width = 80;
-col_criteria.alignment = {vertical:'top', wrapText: true };
-
-ws_readme.getCell('A10').value = "The results match the following criteria:"
-
-
-
-ws_readme.getCell('A11').value = "policy sectors:"
-ws_readme.getCell('B11').value = objects_to_string(selected_sectors)
-
-ws_readme.getCell('A12').value = "phases of risk management cycle:"
-ws_readme.getCell('B12').value = objects_to_string(selected_phases)
-
-ws_readme.getCell('A13').value = "gap types:"
-ws_readme.getCell('B13').value = objects_to_string(selected_gaps)
-
-ws_readme.getCell('A14').value = "risk ownership levels:"
-ws_readme.getCell('B14').value = objects_to_string(selected_ownership_levels)
-
-ws_readme.getCell('A15').value = "climate risks related to:"
-ws_readme.getCell('B15').value = objects_to_string(selected_climaterisks)
-
-ws_readme.getCell('A16').value = "show locally validated measures only?"
-ws_readme.getCell('B16').value = validated_only
-
-
-
-
-// set col widths for README:
-Object.entries({A: 20, B: 20})
-    .forEach(k => ws_readme.getColumn(k[0]).width = k[1])
-
-// ws_readme.getColumn(2).width = 20
-
-ws.addRows(matches
-// .groupby('id')
-// .rollup({ phases: d => d.phases})
-.objects()
-)
-
-ws.views = [
-  {state: 'frozen', xSplit: 2, ySplit: 1}
-];
-
-const xl_blob = new Blob([await wb.xlsx.writeBuffer()], {type: '.xlsx'})
-const obj_url = URL.createObjectURL(xl_blob);
-
-return {wb,ws_readme,ws,header_logo,objects_to_string,col_criteria,xl_blob,obj_url};
-}});
-
-define({id: "f46cda3c", mode: "inline", inputs: ["display","html","obj_url"], body: (display,html,obj_url) => {
-display(html`<sl-button aria-label="download suggestions" size="large" href="${obj_url}" 
-        download="X-RISK-CC_policy-gaps-results.xlsx"
-         circle><i class="fa fa-download"></i></sl-button>`)
+return {criteria,buffer_matches,obj_url_matches};
 }});
 
 </script>
@@ -645,7 +580,7 @@ display(html`<sl-button aria-label="download suggestions" size="large" href="${o
 <link rel="stylesheet" href="./_file/assets/shoelace-light.48932bd1.css">
     <script defer="" src="./_import/assets/fontawesome/fontawesome.565e2865.js"></script>
 <script defer="" src="./_import/assets/fontawesome/solid.a24bd8d2.js"></script>
-<div class="observablehq observablehq--block"><!--:e8d61a27:--></div>
+<div class="observablehq observablehq--block"><!--:bcb45fdb:--></div>
 <div class="observablehq observablehq--block"><!--:b4a7b048:--></div>
 <div class="observablehq observablehq--block"><!--:da7664da:--></div>
 <div class="observablehq observablehq--block"><!--:92de464d:--></div>
@@ -659,11 +594,11 @@ display(html`<sl-button aria-label="download suggestions" size="large" href="${o
 <div class="observablehq observablehq--block"><!--:c40d74fd:--></div>
 <div class="observablehq observablehq--block"><!--:bd16f9ee:--></div>
 <div class="observablehq observablehq--block"><!--:520fafb2:--></div>
-<div class="observablehq observablehq--block"><!--:7f9cddaf:--></div>
+<div class="observablehq observablehq--block"><!--:1b8ef882:--></div>
 <div class="observablehq observablehq--block"><!--:8f84fd78:--></div>
 <div class="observablehq observablehq--block"><!--:9da771cf:--></div>
 <div class="observablehq observablehq--block"><!--:36ccc4e4:--></div>
-<div class="observablehq observablehq--block"><!--:320b11b7:--></div>
+<div class="observablehq observablehq--block"><!--:8cad87cb:--></div>
 <div class="observablehq observablehq--block"><!--:8f6dcbbc:--></div>
 <!-- doesn't display anything but listens to changes in "matches",
 e. g. to add and remove pulsating css to badges
@@ -679,25 +614,29 @@ e. g. to add and remove pulsating css to badges
 <div></div><!-- first row, right column -->
 <div><!-- second row, left column: -->
 <div id="badge_container">
-<sl-badge id="badge_matchcount" variant="success" pill="" style="font-size:larger"><observablehq-loading></observablehq-loading><!--:f09d0bf3:--></sl-badge> matches
+<sl-badge id="badge_matchcount" variant="success" pill="" style="font-size:larger">
+    <observablehq-loading></observablehq-loading><!--:f09d0bf3:-->
+</sl-badge> matches
 </div>
 <div class="observablehq observablehq--block"><!--:9fb44b3b:--></div>
 <div class="card">
 <div style="display:grid; grid-template-columns:90% 10%; justify-content: space-between;">
-Narrow your search with the filters below.
-<observablehq-loading></observablehq-loading><!--:8923a462:-->
+Narrow your search with the filters below.<a href="#" onclick="document.querySelector('#dialog_filter_info').show()">Help</a>
+<!-- ${H.button_show_dialog_filter()} -->
 </div>
 <div style="display:grid; grid-template-columns:50% 50%;">
 <div>
-<div class="observablehq observablehq--block"><!--:8db1b76e:--></div>
+<div class="observablehq observablehq--block"><!--:9166886b:--></div>
 <div class="observablehq observablehq--block"><!--:4c919417:--></div>
 </div>
 <div>
 <observablehq-loading></observablehq-loading><!--:17ffd657:-->
 </div>
 </div>
-<sl-details>
-    <div slot="summary">Policy sector (<observablehq-loading></observablehq-loading><!--:5122b9c5:--> / <observablehq-loading></observablehq-loading><!--:47d51e96:-->)</div>
+<sl-details>    
+    <div slot="summary">
+    Policy sector (<observablehq-loading></observablehq-loading><!--:5122b9c5:--> / <observablehq-loading></observablehq-loading><!--:47d51e96:-->)
+    </div>
 <div class="observablehq observablehq--block"><!--:3dac6e30:--></div>
 </sl-details>
 <sl-details>
@@ -735,17 +674,6 @@ Narrow your search with the filters below.
 </div>
 <div>
 <p><observablehq-loading></observablehq-loading><!--:b8a7e24e:--> / <observablehq-loading></observablehq-loading><!--:f09d0bf3-1:--></p>
-<!--
-    <sl-alert id="no_filters" open closable class="alert-closable">
-    <sl-icon slot="icon" name="info-circle"></sl-icon>
-    Currently, all ${match_count} available measures will be displayed.<br>You can use the filter menu (left) to narrow down your selection.
-
-```js
-// hide the "use filters" alert if appropriate:
-{match_count < measure_count && document.querySelector("#no_filters").removeAttribute("open")}
-
-```
--->
 </div>
 <div>
 <div class="observablehq observablehq--block"><!--:5a3cf462:--></div>
@@ -761,35 +689,30 @@ Narrow your search with the filters below.
 <div id="newbie-info"><observablehq-loading></observablehq-loading><!--:682ae75e:--></div>
 <div class="container-description">
 <div class="observablehq observablehq--block"><!--:3481ff85:--></div>
+<!-- ========================== main information per measure ================= -->
 <sl-card class="card_measure">
-    <div slot="header"><div></div><observablehq-loading></observablehq-loading><!--:49eacbb2:--></div><observablehq-loading></observablehq-loading><!--:a1e5153e:-->
+    <div slot="header" style="float:right"><observablehq-loading></observablehq-loading><!--:49eacbb2:--></div>
+    <div><observablehq-loading></observablehq-loading><!--:a1e5153e:--></div>
 </sl-card>
 </div>
 </div><!-- end of center column -->
 <!-- right column: -->
 <div>
-<p><strong>Favourites</strong></p>
 <div class="observablehq observablehq--block"><!--:c96962a1:--></div>
 <p><sl-alert id="no_favs" open="">No favourites selected yet. You can add favourites with the rating widget:
 <sl-rating max="3" style="--symbol-size: 1rem;" disabled=""></sl-rating>
 </sl-alert></p>
+<p><observablehq-loading></observablehq-loading><!--:e8e3f60c:--></p>
 <div id="table_favorites">
-<div class="observablehq observablehq--block"><!--:1b82431a:--></div>
+<div class="observablehq observablehq--block"><!--:09cfc5f1:--></div>
 <div class="observablehq observablehq--block"><!--:90f4bcdc:--></div>
 </div>
 <div class="observablehq observablehq--block"><!--:82530acb:--></div>
 <div class="observablehq observablehq--block"><!--:22e2afed:--></div>
-<p><strong>Matches</strong></p>
+<p><observablehq-loading></observablehq-loading><!--:10e0379a:--></p>
 <div class="observablehq observablehq--block"><!--:f57f0aeb:--></div>
 <div class="observablehq observablehq--block"><!--:b661a268:--></div>
-<div class="observablehq observablehq--block"><!--:34da93e2:--></div>
-<div class="observablehq observablehq--block"><!--:6e3d0346:--></div>
-<div class="">
-    <strong>Download matches:</strong>
-    <div style="text-align:center">
-        <observablehq-loading></observablehq-loading><!--:f46cda3c:-->
-    </div>
-</div>
+<div class="observablehq observablehq--block"><!--:8220bd7b:--></div>
 </div>
 </div>
 </main>
