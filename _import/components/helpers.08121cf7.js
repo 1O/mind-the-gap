@@ -134,7 +134,7 @@ const get_detail = (cur_row) => {
     const html_no_match = html`<sl-alert variant="warning" open>
   <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
   <h3>oops &hellip;</strong></h3>
-  No matches for this specific query. Try another filter combination or clear filters altogether.
+  No matches for this specific query. Try another filter combination or ${Inputs.button()} clear filters altogether.
 </sl-alert>`
 
     return typeof(cur_row.id) === "undefined" ? html_no_match : html_if_match

@@ -255,6 +255,7 @@ ${H.button_show_dialog_filter()}
 
 ```js
 const reset_filters = view(H.get_reset_button_filters());
+
 ``` 
 
 ```js

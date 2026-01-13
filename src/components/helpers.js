@@ -171,14 +171,12 @@ const get_detail = (cur_row) => {
     `
     
     const html_no_match = html`<sl-alert variant="warning" open>
-  <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
-  <h3>oops &hellip;</strong></h3>
-  No matches for this specific query. Try another filter combination or clear filters altogether.
-</sl-alert>`
+    <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
+    <h3>oops &hellip;</strong></h3>
+    No matches for this specific query. Try another filter combination or clear filters altogether.
+    </sl-alert>`
     
-    return typeof(cur_row.id) === "undefined" ? html_no_match : html_if_match
-    
-    
+    return typeof(cur_row.id) === "undefined" ? html_no_match : html_if_match    
 }
 
 
@@ -211,16 +209,18 @@ const get_dialog_filter = () => {
     }
 
     return html`<sl-dialog label="Filter usage"
-    id="dialog_filter_info" class="dialog-overview">
+    id="dialog_filter_info" class="dialog-overview" 
+    style="--width: 30vw;"
+    >
     <div>
     ${Object.keys(stuff)
         .map(k => {
             const v = stuff[k]
-            return html`<sl-card style="width:100%; margin-bottom:2em">
-            <div slot="header">${v.label}</div>
+            return html`<sl-card style="width:100%; margin-bottom: 2em;">
+            <div slot="header">Filter: <strong>${v.label}</strong></div>
             <div>
-                ${v.general}
-                <sl-details summary="Options">
+                Filter criterion: <i>${v.general}</i>
+                <sl-details summary="Filter options" style="padding: 0em">
                     <dl>
                     ${Object.keys(v.options).map(x => html`
                         <dt>${x}</dt><dd>${v.options[x]}</dd>
