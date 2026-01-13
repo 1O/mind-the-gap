@@ -191,6 +191,11 @@ const reset_ratings = () => ratings.value = {}
 const favorites = matches
     .derive({rating: aq.escape(d => ratings[d.id])})
     .filter(d => d.rating > 0)
+
+
+const buffer_favorites = await H.get_blob_buffer(favorites, criteria, validated_only)
+const obj_url_favorites = URL.createObjectURL(new Blob([buffer_favorites], {type: ".xlsx"}))
+
 ```
 
 
@@ -439,10 +444,6 @@ the_rater.addEventListener("sl-change", (e) => {
 <!-- right column: -->
 <div>
 
-<strong>Favourites</strong>
-
-
-
 ```js
 {
 let any_favs = Object.keys(ratings).length
@@ -454,11 +455,21 @@ document.querySelector("#table_favorites").style.display = any_favs ? "block" : 
 <sl-rating max=3 style="--symbol-size: 1rem;" disabled></sl-rating>
 </sl-alert>
 
+
+
+${html`<strong>Favourites</strong>
+<a href=${obj_url_favorites} download="X-RISK-CC_policy-gaps-favorites.xlsx">(Download)</a>
+     `}
+
+
 <div id="table_favorites">
 
 ```js
-const reset_ratings_clicked = view(Inputs.button(html`<span class="fas fa-slash" data-fa-mask="fas fa-star" data-fa-transform="up-2.5"></span> clear favourites`))
+const reset_ratings_clicked = view(Inputs.button(html`<span class="fas fa-slash" 
+data-fa-mask="fas fa-star" data-fa-transform="up-2.5"></span> clear favourites`))
 ```
+
+
 
 ```js
 const selected_favorite = (reset_filters, view(H.get_table_favs(matches, ratings)))
