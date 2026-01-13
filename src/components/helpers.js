@@ -9,6 +9,8 @@ setBasePath("npm:@shoelace-style/shoelace/dist");
 
 import ExcelJS from "npm:exceljs"
 
+import P from "./prose.js"; // for help texts etc.
+
 
 const img_src = await FileAttachment('../assets/X-RISK-CC_Logo_Landscape_large.png').arrayBuffer()
 
@@ -203,11 +205,28 @@ format: {rating: d => html`${Array(d).fill(0).map(() => html`<i class="fa fa-sta
 }
 
 const get_dialog_filter = () => {
+    const stuff = P.tt
     return html`<sl-dialog label="Filter usage"
     id="dialog_filter_info" 
     class="dialog-overview">
-    <h1>Use the filters like this:</h1>
-&hellip;
+    <h1></h1>
+    <div>
+    ${Object.keys(stuff)
+        .map(k => {
+            const v = stuff[k]
+            return html`<sl-card style="width:100%; margin-bottom:2em">
+            <div slot="header">${v.label}</div>
+            <div>
+                ${v.general}
+                <sl-details summary="Options">
+                    tadaa, tadaa
+                </sl-details>
+            <div>
+            </sl-card>`
+        })
+
+    }
+    </div>
     </sl-dialog>
     `
 }

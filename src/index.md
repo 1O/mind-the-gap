@@ -17,6 +17,7 @@ setBasePath("npm:@shoelace-style/shoelace/dist");
 import showdown from "npm:showdown";
 
 import H from "./components/helpers.js"; // H for helper functions
+import P from "./components/prose.js"; // for help texts etc.
 
 import ExcelJS from "npm:exceljs"
 
@@ -267,18 +268,18 @@ ${H.get_dialog_filter()}
 </div>
 </div>
 
-
-<sl-details>
-    <div slot="summary">Policy sector (${selected_sectors.length} / ${row_count('sector')})</div>
-    
+<sl-details>    
+    <div slot="summary">
+    Policy sector (${selected_sectors.length} / ${row_count('sector')})
+    </div>
 
 ```js
     const selected_sectors = (reset_filters, view(Inputs.table(unique_entries.sector, 
     {required: true, header: {choices: "Policy sector"}}
     ))); 
 ```  
-
 </sl-details>
+
 <sl-details>
     <div slot="summary">Risk management cycle (${selected_phases.length} / ${row_count('phase')})</div>
         <div class="grid-cols-2">
@@ -358,19 +359,6 @@ const back = (reset_filters, view(Inputs.button(html`<i class="fa fa-caret-left"
 
 ${slide} / ${match_count}
 
-
-
-<!--
-    <sl-alert id="no_filters" open closable class="alert-closable">
-    <sl-icon slot="icon" name="info-circle"></sl-icon>
-    Currently, all ${match_count} available measures will be displayed.<br>You can use the filter menu (left) to narrow down your selection.
-
-```js
-// hide the "use filters" alert if appropriate:
-{match_count < measure_count && document.querySelector("#no_filters").removeAttribute("open")}
-
-```
--->
 
 </div>
 
@@ -516,11 +504,6 @@ header:{measure: "gap"}
         1 + matches.array("id").indexOf(selected_match.id)
                        )
 }
-```
-
-
-```js
-const img_src = await FileAttachment('./assets/X-RISK-CC_Logo_Landscape_large.png').arrayBuffer()
 ```
 
 ```js
