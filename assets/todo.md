@@ -14,23 +14,21 @@ Rest-Liste von der letzten internen Review-Runde:
 Auf Basis Feedback von Projektpartnern:
 *Achtung, da hab ich mehrmals vorgewarnt, das nicht zu einer Wunschliste zu machen*
 
-- Die angezeigten Steckbrief-Kategorien (Tags) unten sind dynamisch und verändern sich je nach gesetzter Filterkategorie, sollten aber statisch sein. Willkürliches Beispiel: Eintrag sp_4.
+- Die angezeigten Steckbrief-Kategorien (Tags) unten sind dynamisch und verändern sich je nach gesetzter Filterkategorie, sollten aber statisch sein. Willkürliches Beispiel: Eintrag sp_4. Ohne Filterauswahl werden unter „Gap types“ alle Kategorien angezeigt; klicke ich im Filter ‚policy design & planning“ an, steht im Factsheet nur noch diese eine ausgewählte Kategorie. Besser wäre es, wenn unabhängig von der Filterauswahl immer alle zutreffenden Kategorien angezeigt würden.
 
-*Kann ich, anhand sp_4 nicht nachvollziehen. Allerdings wird die angezeigte Auswahl bei Filteränderung zurückgesetzt, z. B. wird statt sp_4 dann wieder sp_1 angezeigt. Vielleicht daher der Eindruck des tag-Wechsels?*
+*erledigt* 
 
-- Ohne Filterauswahl werden unter „Gap types“ alle Kategorien angezeigt; klicke ich im Filter ‚policy design & planning“ an, steht im Factsheet nur noch diese eine ausgewählte Kategorie. Besser wäre es, wenn unabhängig von der Filterauswahl immer alle zutreffenden Kategorien angezeigt würden.
-* 
-
-- Die „Topics“ in der zweiten Zeile der Gap-Factsheets hängen etwas in der Luft; ist für externe User schwer nachvollziehbar, was es mit den Schlagworten auf sich hat.
-Simple  Lösung: bitte einfach „Topic:“ vor die Keywords setzen.
+- Die „Topics“ in der zweiten Zeile der Gap-Factsheets hängen etwas in der Luft; ist für externe User schwer nachvollziehbar, was es mit den Schlagworten auf sich hat. Simple  Lösung: bitte einfach „Topic:“ vor die Keywords setzen.
+*erledigt*
 
 - Steckbriefangaben unterhalb der Gap-Beschreibung:
 
-o  Die ID am besten auch hier einbauen, gerne an oberster Stelle. Sähe dann so aus:
-ID: nh_1
-Risk management cycle: texttext
+-- Die ID am besten auch hier einbauen, gerne an oberster Stelle. Sähe dann so aus:
+ID: nh_1 Risk management cycle: texttext
+*erledigt*
 
-o  Reihenfolge der Kategorien „Gap types“ und „Risk Mnagement Cycle“ tauschen. Entspricht dann genau der Reihenfolge wie im Filter.
+- Reihenfolge der Kategorien „Gap types“ und „Risk Mnagement Cycle“ tauschen. Entspricht dann genau der Reihenfolge wie im Filter.
+*erledigt*
 
 ·      Wenn es keinen Match für die gewählten Filter gibt, erscheint zwar die Meldung „Oops…“, aber links wird dennoch „1 matches“ angezeigt. Kann man das noch korrigieren?
 

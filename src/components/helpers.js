@@ -114,8 +114,9 @@ const get_brief_per_measure_id = (id, data) => {
 
 return html`
 <div class="brief">
-    <div><strong>Gap types:</strong> ${get_uniques_as_string("gap")}</div>
+    <div><strong>ID:</strong> ${get_uniques_as_string("id")}</div>
     <div><strong>Risk management cycle (stages):</strong> ${get_uniques_as_string("phase")}</div>
+    <div><strong>Gap types:</strong> ${get_uniques_as_string("gap")}</div>
     <div><strong>Risk ownership levels:</strong> ${get_uniques_as_string("ownership")}</div>
     <div><strong>Targeted climate risk:</strong> ${get_uniques_as_string("risk")}</div>
     <div><strong>Locally validated:</strong> ${["no", "yes"][get_uniques_as_string("validated")]}</div>
@@ -123,9 +124,6 @@ return html`
 `
     
 }
-
-
-
 
 const get_header = (cur_row) => {
     return html`
@@ -156,11 +154,11 @@ const get_detail = (cur_row) => {
     <h3>
     <span class="tag" style="background-color:${get_sector_colors()[cur_row.sector]}">${cur_row.sector}</span>
     </h3>
-    <h4 class="tag">${cur_row.cluster}</strong></h4>
+    <hr/>
+    <h4 class="tag">Topics: ${cur_row.cluster}</strong></h4>
     <hr/>
     <p class="measure">${cur_row.measure}</p>
-    <p>&mdash; ${cur_row.id}</p>
-    
+        
     <div slot="footer">         
         <div>${get_brief_per_measure_id(cur_row.id, data)}</div>
         <div></div>
@@ -231,7 +229,7 @@ export default {
     nodes_to_inputs,
     get_reset_button_filters,
     rollup_data, animate_badge, negate_first_timer,
-    get_header, get_rater, get_brief, 
+    get_header, get_rater,
     get_sector_colors, get_table_favs, get_dialog_filter, 
     button_show_dialog_filter,
     get_newbie_info, get_detail

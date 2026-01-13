@@ -153,14 +153,13 @@ const matches = H.rollup_data(
                   aq.op.indexof(selected_ownership_levels.map(x => x.choices), d.ownership) > -1 &
                   aq.op.indexof(selected_climaterisks.map(x => x.choices), d.risk) > -1 &
                   // filter on "locally validation", depending on user's choice (switch)                  
-                  aq.op.indexof([true, validated_only], d.validated) > -1 &
-                  true
+                  aq.op.indexof([true, validated_only], d.validated) > -1
                   )
     )
 )
 .derive({no: aq.op.row_number() - 1})
 
-const match_count = matches.numRows()
+const match_count = Math.sumPrecise(matches.array("id").map(x => + (typeof(x) !== "undefined")))
 
 ```
 
@@ -227,7 +226,9 @@ e. g. to add and remove pulsating css to badges
 
 
 <div id="badge_container">
-<sl-badge id="badge_matchcount" variant="success" pill style="font-size:larger">${match_count}</sl-badge> matches
+<sl-badge id="badge_matchcount" variant="success" pill style="font-size:larger">
+    ${match_count}
+</sl-badge> matches
 </div>
 
 ```js
@@ -421,9 +422,12 @@ the_rater.addEventListener("sl-change", (e) => {
     });
 ```
 
+<!-- ========================== main information per measure ================= -->
+
 
 <sl-card class="card_measure">
-    <div slot="header"><div></div>${the_rater}</div>${H.get_detail(cur_row)}
+    <div slot="header" style="float:right">${the_rater}</div>
+    <div>${H.get_detail(cur_row)}</div>
 </sl-card>
 </div>
 
