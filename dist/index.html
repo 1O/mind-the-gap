@@ -204,7 +204,7 @@ const row_count = (colname) => {return unique_entries[colname].numRows()}
 return {row_count};
 }});
 
-define({id: "1b8ef882", inputs: ["H","data2","aq","selected_sectors","selected_phases","selected_gaps","selected_ownership_levels","selected_climaterisks","validated_only"], outputs: ["matches","match_count"], body: (H,data2,aq,selected_sectors,selected_phases,selected_gaps,selected_ownership_levels,selected_climaterisks,validated_only) => {
+define({id: "b49df4d2", inputs: ["H","data2","aq","selected_sectors","selected_phases","selected_gaps","selected_ownership_levels","selected_climaterisks","validated_only"], outputs: ["matches"], body: (H,data2,aq,selected_sectors,selected_phases,selected_gaps,selected_ownership_levels,selected_climaterisks,validated_only) => {
 const matches = H.rollup_data(
     data2.filter(
         aq.escape(d => aq.op.indexof(selected_sectors.map(x => x.choices), d.sector) > -1 &
@@ -219,13 +219,15 @@ const matches = H.rollup_data(
     )
 )
 .derive({no: aq.op.row_number() - 1})
+return {matches};
+}});
 
+define({id: "e5bbd342", inputs: ["matches"], outputs: ["match_count"], body: async (matches) => {
 // stores the number of matches; can't simply use .numRows(), 
 // because "undefined" falsely suggest one match:
-const match_count = Math.sumPrecise(matches.array("id")
+const match_count = await Math.sumPrecise(matches.array("id")
     .map(x => + (typeof(x) !== "undefined")))
-
-return {matches,match_count};
+return {match_count};
 }});
 
 define({id: "8f84fd78", inputs: ["localStorage","matches"], body: (localStorage,matches) => {
@@ -594,7 +596,8 @@ return {criteria,buffer_matches,obj_url_matches};
 <div class="observablehq observablehq--block"><!--:c40d74fd:--></div>
 <div class="observablehq observablehq--block"><!--:bd16f9ee:--></div>
 <div class="observablehq observablehq--block"><!--:520fafb2:--></div>
-<div class="observablehq observablehq--block"><!--:1b8ef882:--></div>
+<div class="observablehq observablehq--block"><!--:b49df4d2:--></div>
+<div class="observablehq observablehq--block"><!--:e5bbd342:--></div>
 <div class="observablehq observablehq--block"><!--:8f84fd78:--></div>
 <div class="observablehq observablehq--block"><!--:9da771cf:--></div>
 <div class="observablehq observablehq--block"><!--:36ccc4e4:--></div>

@@ -159,12 +159,13 @@ const matches = H.rollup_data(
     )
 )
 .derive({no: aq.op.row_number() - 1})
+```
 
+```js
 // stores the number of matches; can't simply use .numRows(), 
 // because "undefined" falsely suggest one match:
-const match_count = Math.sumPrecise(matches.array("id")
+const match_count = await Math.sumPrecise(matches.array("id")
     .map(x => + (typeof(x) !== "undefined")))
-
 ```
 
 
