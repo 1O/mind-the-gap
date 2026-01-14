@@ -25,7 +25,7 @@ export default {
   // Some additional configuration options and their defaults:
   // theme: "default", // try "light", "dark", "slate", etc.
   // header: '<h1>Policy gap explorer</h1>', // what to show in the header (HTML)
-   footer: "Built with Observable", // what to show in the footer (HTML)
+   footer: 'Built with Observable by <a href="https://orcid.org/0000-0001-5793-6641">Ivo Offenthaler</a>', // what to show in the footer (HTML)
    sidebar: false, // whether to show the sidebar
    toc: false, // whether to show the table of contents
    pager: false, // whether to show previous & next links in the footer

@@ -23,10 +23,11 @@ const md = {
 // ---------------------------
 
 
-
 import ExcelJS from "../../_npm/exceljs@4.4.0/222f7a0c.js"
-
 import P from "./prose.0813352a.js"; // for help texts etc.
+
+// import the actual data:
+const data = aq.from(await FileAttachment({"name":"../../data/data.csv","mimeType":"text/csv","path":"../../_file/data/data.a831442b.csv","lastModified":1768399926598,"size":942781}, import.meta.url).csv())
 
 
 const img_src = await FileAttachment({"name":"../../assets/X-RISK-CC_Logo_Landscape_large.png","mimeType":"image/png","path":"../../_file/assets/X-RISK-CC_Logo_Landscape_large.a73a7cd9.png","lastModified":1748765280700,"size":64926}, import.meta.url).arrayBuffer()
@@ -164,9 +165,6 @@ const get_rater = (cur_row) => {
     return html_rater
 }
 
-
-
-const data = aq.from(await FileAttachment({"name":"../../data/data1.csv","mimeType":"text/csv","path":"../../_file/data/data1.19e0ebeb.csv","lastModified":1768240924733,"size":942372}, import.meta.url).csv())
 
 const get_detail = (cur_row) => {
     
@@ -363,6 +361,7 @@ const get_blob_buffer = (matches, criteria, validated_only) => {
 
 
 export default {
+    data,
     nodes_to_inputs,
     get_reset_button_filters,
     rollup_data, animate_badge, negate_first_timer,
