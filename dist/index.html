@@ -17,13 +17,13 @@
 <link rel="modulepreload" href="./_observablehq/stdlib.3080ab4f.js">
 <link rel="modulepreload" href="./_npm/arquero@7.2.0/f3eb4e3f.js">
 <link rel="modulepreload" href="./_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js">
-<link rel="modulepreload" href="./_npm/showdown@2.1.0/ed1696ce.js">
-<link rel="modulepreload" href="./_import/components/helpers.1d0122be.js">
+<link rel="modulepreload" href="./_import/components/helpers.20bc5593.js">
 <link rel="modulepreload" href="./_import/components/prose.0813352a.js">
 <link rel="modulepreload" href="./_npm/exceljs@4.4.0/222f7a0c.js">
 <link rel="modulepreload" href="./_npm/lodash@4.17.21/cbfa4f05.js">
 <link rel="modulepreload" href="./_npm/htl@0.3.1/063eb405.js">
 <link rel="modulepreload" href="./_observablehq/stdlib/inputs.b5967c66.js">
+<link rel="modulepreload" href="./_npm/markdown-it@14.1.0/65e786b3.js">
 <link rel="modulepreload" href="./_npm/d3-dsv@3.0.1/407f7a1f.js">
 <link rel="modulepreload" href="./_npm/isoformat@0.2.1/c68fbd73.js">
 <link rel="modulepreload" href="./_npm/acorn@8.14.0/6d258ba8.js">
@@ -47,6 +47,11 @@
 <link rel="modulepreload" href="./_npm/lit@3.2.1/directives/map.js.4050c59b.js">
 <link rel="modulepreload" href="./_npm/lit@3.2.1/directives/range.js.56377c2f.js">
 <link rel="modulepreload" href="./_npm/@shoelace-style/animations@1.2.0/be6e08f6.js">
+<link rel="modulepreload" href="./_npm/mdurl@2.0.0/aef6a40d.js">
+<link rel="modulepreload" href="./_npm/uc.micro@2.1.0/dd459d80.js">
+<link rel="modulepreload" href="./_npm/entities@4.5.0/3d89244b.js">
+<link rel="modulepreload" href="./_npm/linkify-it@5.0.0/d2373fe7.js">
+<link rel="modulepreload" href="./_npm/punycode.js@2.3.1/2a286fcb.js">
 <link rel="modulepreload" href="./_npm/@lit/reactive-element@2.0.4/35654262.js">
 <link rel="modulepreload" href="./_npm/lit-html@3.2.1/02f42605.js">
 <link rel="modulepreload" href="./_npm/lit-element@4.1.1/lit-element.js.0f45aa27.js">
@@ -81,10 +86,11 @@ import {define} from "./_observablehq/client.938b2bc8.js";
 import {registerFile} from "./_observablehq/stdlib.3080ab4f.js";
 
 registerFile("./assets/X-RISK-CC_Logo_Landscape_large.png", {"name":"./assets/X-RISK-CC_Logo_Landscape_large.png","mimeType":"image/png","path":"./_file/assets/X-RISK-CC_Logo_Landscape_large.a73a7cd9.png","lastModified":1748765280700,"size":64926});
+registerFile("./data/data.csv", {"name":"./data/data.csv","mimeType":"text/csv","path":"./_file/data/data.e28ab778.csv","lastModified":1768384740978,"size":942377});
 registerFile("./data/data1.csv", {"name":"./data/data1.csv","mimeType":"text/csv","path":"./_file/data/data1.19e0ebeb.csv","lastModified":1768240924733,"size":942372});
 
-define({id: "bcb45fdb", outputs: ["aq","setBasePath","showdown","H","P","ExcelJS"], body: async () => {
-const [aq, {setBasePath}, {default: showdown}, {default: H}, {default: P}, {default: ExcelJS}] = await Promise.all([import("./_npm/arquero@7.2.0/f3eb4e3f.js"), import("./_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js"), import("./_npm/showdown@2.1.0/ed1696ce.js"), import("./_import/components/helpers.1d0122be.js"), import("./_import/components/prose.0813352a.js"), import("./_npm/exceljs@4.4.0/222f7a0c.js")]);
+define({id: "39c759c0", outputs: ["aq","setBasePath","H","P","ExcelJS"], body: async () => {
+const [aq, {setBasePath}, {default: H}, {default: P}, {default: ExcelJS}] = await Promise.all([import("./_npm/arquero@7.2.0/f3eb4e3f.js"), import("./_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js"), import("./_import/components/helpers.20bc5593.js"), import("./_import/components/prose.0813352a.js"), import("./_npm/exceljs@4.4.0/222f7a0c.js")]);
 
 // Set base path for assets
 setBasePath("npm:@shoelace-style/shoelace/dist");
@@ -94,7 +100,7 @@ setBasePath("npm:@shoelace-style/shoelace/dist");
  // for help texts etc.
 
 
-return {aq,setBasePath,showdown,H,P,ExcelJS};
+return {aq,setBasePath,H,P,ExcelJS};
 }});
 
 define({id: "b4a7b048", inputs: ["Mutable"], outputs: ["is_newbie","unset_newbie","sector_labels"], body: (Mutable) => {
@@ -113,8 +119,8 @@ const sector_labels = {
 return {is_newbie,unset_newbie,sector_labels};
 }});
 
-define({id: "da7664da", inputs: ["aq","FileAttachment","sector_labels"], outputs: ["data2","measure_count"], body: async (aq,FileAttachment,sector_labels) => {
-const data2 = aq.from(await FileAttachment("./data/data1.csv").csv())
+define({id: "0fdd53a8", inputs: ["aq","FileAttachment","sector_labels"], outputs: ["data2","measure_count"], body: async (aq,FileAttachment,sector_labels) => {
+const data2 = aq.from(await FileAttachment("./data/data.csv").csv())
 // convert 0/1 in csv data to false/true
     .derive({
     "validated": aq.escape(d => d.validated == 1),
@@ -222,11 +228,14 @@ const matches = H.rollup_data(
 return {matches};
 }});
 
-define({id: "e5bbd342", inputs: ["matches"], outputs: ["match_count"], body: async (matches) => {
+define({id: "4e998cba", inputs: ["matches"], outputs: ["match_count"], body: async (matches) => {
 // stores the number of matches; can't simply use .numRows(), 
 // because "undefined" falsely suggest one match:
-const match_count = await Math.sumPrecise(matches.array("id")
-    .map(x => + (typeof(x) !== "undefined")))
+// const match_count = await Math.sumPrecise(matches.array("id")
+//     .map(x => + (typeof(x) !== "undefined")))
+
+const match_count = await matches.array("id")
+    .filter(x => typeof(x) !== "undefined").length
 return {match_count};
 }});
 
@@ -582,9 +591,9 @@ return {criteria,buffer_matches,obj_url_matches};
 <link rel="stylesheet" href="./_file/assets/shoelace-light.48932bd1.css">
     <script defer="" src="./_import/assets/fontawesome/fontawesome.565e2865.js"></script>
 <script defer="" src="./_import/assets/fontawesome/solid.a24bd8d2.js"></script>
-<div class="observablehq observablehq--block"><!--:bcb45fdb:--></div>
+<div class="observablehq observablehq--block"><!--:39c759c0:--></div>
 <div class="observablehq observablehq--block"><!--:b4a7b048:--></div>
-<div class="observablehq observablehq--block"><!--:da7664da:--></div>
+<div class="observablehq observablehq--block"><!--:0fdd53a8:--></div>
 <div class="observablehq observablehq--block"><!--:92de464d:--></div>
 <div class="grid grid-cols-4" style="width:90%; font-family:sans; align-items:start">
   <div class="grid-colspan-2"><h1>Mind the gap!</h1>
@@ -597,7 +606,7 @@ return {criteria,buffer_matches,obj_url_matches};
 <div class="observablehq observablehq--block"><!--:bd16f9ee:--></div>
 <div class="observablehq observablehq--block"><!--:520fafb2:--></div>
 <div class="observablehq observablehq--block"><!--:b49df4d2:--></div>
-<div class="observablehq observablehq--block"><!--:e5bbd342:--></div>
+<div class="observablehq observablehq--block"><!--:4e998cba:--></div>
 <div class="observablehq observablehq--block"><!--:8f84fd78:--></div>
 <div class="observablehq observablehq--block"><!--:9da771cf:--></div>
 <div class="observablehq observablehq--block"><!--:36ccc4e4:--></div>

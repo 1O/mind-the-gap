@@ -23,10 +23,11 @@ const md = {
 // ---------------------------
 
 
-
 import ExcelJS from "npm:exceljs"
-
 import P from "./prose.js"; // for help texts etc.
+
+// import the actual data:
+const data = aq.from(await FileAttachment('../data/data.csv').csv())
 
 
 const img_src = await FileAttachment('../assets/X-RISK-CC_Logo_Landscape_large.png').arrayBuffer()
@@ -164,9 +165,6 @@ const get_rater = (cur_row) => {
     return html_rater
 }
 
-
-
-const data = aq.from(await FileAttachment('../data/data1.csv').csv())
 
 const get_detail = (cur_row) => {
     
@@ -363,6 +361,7 @@ const get_blob_buffer = (matches, criteria, validated_only) => {
 
 
 export default {
+    data,
     nodes_to_inputs,
     get_reset_button_filters,
     rollup_data, animate_badge, negate_first_timer,

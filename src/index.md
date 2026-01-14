@@ -44,7 +44,7 @@ const sector_labels = {
 
 
 ```js
-const data2 = aq.from(await FileAttachment('data/data.csv').csv())
+const data = H.data
 // convert 0/1 in csv data to false/true
     .derive({
     "validated": aq.escape(d => d.validated == 1),
@@ -59,14 +59,14 @@ const data2 = aq.from(await FileAttachment('data/data.csv').csv())
     .orderby('sector_order')
 
 
-const measure_count = 475 //data2.dedupe("id").array("id").length
+const measure_count = 475 //data.dedupe("id").array("id").length
 
 ```
 
 
 
 ```js
-const data2_rolled_up = H.rollup_data(data2)
+const data_rolled_up = H.rollup_data(data)
 ```
 
 
@@ -85,8 +85,8 @@ const data2_rolled_up = H.rollup_data(data2)
 // Example: unique_entries["sector"] has one column named "choices" containing
 // all distinct values of data's column "sector"
 const unique_entries = _.zipObject(
-    data2.columnNames(),
-    data2.columnNames().map(x => aq.table({"choices": _.uniq(data2.array(x))}))
+    data.columnNames(),
+    data.columnNames().map(x => aq.table({"choices": _.uniq(data.array(x))}))
 )
 
 ```
@@ -145,7 +145,7 @@ const row_count = (colname) => {return unique_entries[colname].numRows()}
 
 ```js
 const matches = H.rollup_data(
-    data2.filter(
+    data.filter(
         aq.escape(d => aq.op.indexof(selected_sectors.map(x => x.choices), d.sector) > -1 &
                   // aq.op.indexof(selected_clusters.map(x => x.choices), d.cluster) > -1 &
                   aq.op.indexof(selected_phases.map(x => x.choices), d.phase) > -1 &

@@ -7,6 +7,23 @@ import {FileAttachment} from "../../_observablehq/stdlib.3080ab4f.js";
 import { setBasePath } from "../../_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js";
 setBasePath("npm:@shoelace-style/shoelace/dist");
 
+
+// to render markdown to HTML
+// use like: md.unsafe(`**important**`)
+import markdownit from "../../_npm/markdown-it@14.1.0/65e786b3.js"; 
+const Markdown = new markdownit({html: true});
+
+const md = {
+  unsafe(string) {
+    const template = document.createElement("template");
+    template.innerHTML = Markdown.render(string);
+    return template.content.cloneNode(true);
+  }
+};
+// ---------------------------
+
+
+
 import ExcelJS from "../../_npm/exceljs@4.4.0/222f7a0c.js"
 
 import P from "./prose.0813352a.js"; // for help texts etc.
@@ -139,7 +156,12 @@ const get_header = (cur_row) => {
 }
 
 const get_rater = (cur_row) => {
-    return html`<sl-rating id=${cur_row.id} value=${cur_row.rating} max=3></sl-rating>`
+    let html_rater = html`<span></span>`
+    if(typeof(cur_row.id) !== "undefined"){
+        html_rater = html`<sl-rating id=${cur_row.id} value=${cur_row.rating} max=3>
+        </sl-rating>`
+    }
+    return html_rater
 }
 
 
@@ -152,31 +174,35 @@ const get_detail = (cur_row) => {
     // update ratings for the displayed slide
     the_rater.addEventListener("sl-change", (e) => {
         update_ratings({[e.target.id]: e.target.value})    
-    });    
+    });
     
-    
-    const html_if_match = html`
-    <h3>
-    <span class="tag" style="background-color:${get_sector_colors()[cur_row.sector]}">${cur_row.sector}</span>
-    </h3>
-    <hr/>
-    <h4 class="tag">Topics: ${cur_row.cluster}</strong></h4>
-    <hr/>
-    <p class="measure">${cur_row.measure}</p>
-        
-    <div slot="footer">         
-        <div>${get_brief_per_measure_id(cur_row.id, data)}</div>
-        <div></div>
-    </div>
-    `
-    
-    const html_no_match = html`<sl-alert variant="warning" open>
-    <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
-    <h3>oops &hellip;</strong></h3>
-    No matches for this specific query. Try another filter combination or clear filters altogether.
-    </sl-alert>`
-    
-    return typeof(cur_row.id) === "undefined" ? html_no_match : html_if_match    
+    let content = ""
+   
+    if(!cur_row.id){ // cur_row.id is null, i. e. no match
+        content = html`<sl-alert variant="warning" open>
+            <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
+            <h3>oops &hellip;</strong></h3>
+            No matches for this specific query. Try another filter combination or clear filters altogether.
+            </sl-alert>`        
+    } else {
+        content = html`
+            <h3>
+            <span class="tag" style="background-color:${get_sector_colors()[cur_row.sector]}">${cur_row.sector}</span>
+            </h3>
+            <hr/>
+            <h4 class="tag">Topics: ${cur_row.cluster}</strong></h4>
+            <hr/>
+            <!-- md.unsafe converts markdown to HTML -->
+            <p class="measure">${md.unsafe(cur_row.measure)}</p>
+                
+            <div slot="footer">         
+                <div>${get_brief_per_measure_id(cur_row.id, data)}</div>
+                <div></div>
+            </div>
+            `        
+    }
+       
+    return content
 }
 
 
