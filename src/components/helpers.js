@@ -7,6 +7,23 @@ import {FileAttachment} from "observablehq:stdlib";
 import { setBasePath } from "npm:@shoelace-style/shoelace";
 setBasePath("npm:@shoelace-style/shoelace/dist");
 
+
+// to render markdown to HTML
+// use like: md.unsafe(`**important**`)
+import markdownit from "npm:markdown-it"; 
+const Markdown = new markdownit({html: true});
+
+const md = {
+  unsafe(string) {
+    const template = document.createElement("template");
+    template.innerHTML = Markdown.render(string);
+    return template.content.cloneNode(true);
+  }
+};
+// ---------------------------
+
+
+
 import ExcelJS from "npm:exceljs"
 
 import P from "./prose.js"; // for help texts etc.
@@ -162,7 +179,8 @@ const get_detail = (cur_row) => {
     <hr/>
     <h4 class="tag">Topics: ${cur_row.cluster}</strong></h4>
     <hr/>
-    <p class="measure">${cur_row.measure}</p>
+    <!-- md.unsafe converts markdown to HTML -->
+    <p class="measure">${md.unsafe(cur_row.measure)}</p>
         
     <div slot="footer">         
         <div>${get_brief_per_measure_id(cur_row.id, data)}</div>

@@ -14,7 +14,6 @@ import * as aq from "npm:arquero";
 import { setBasePath } from "npm:@shoelace-style/shoelace";
 setBasePath("npm:@shoelace-style/shoelace/dist");
 
-import showdown from "npm:showdown";
 
 import H from "./components/helpers.js"; // H for helper functions
 import P from "./components/prose.js"; // for help texts etc.
@@ -45,7 +44,7 @@ const sector_labels = {
 
 
 ```js
-const data2 = aq.from(await FileAttachment('data/data1.csv').csv())
+const data2 = aq.from(await FileAttachment('data/data.csv').csv())
 // convert 0/1 in csv data to false/true
     .derive({
     "validated": aq.escape(d => d.validated == 1),
@@ -164,8 +163,11 @@ const matches = H.rollup_data(
 ```js
 // stores the number of matches; can't simply use .numRows(), 
 // because "undefined" falsely suggest one match:
-const match_count = await Math.sumPrecise(matches.array("id")
-    .map(x => + (typeof(x) !== "undefined")))
+// const match_count = await Math.sumPrecise(matches.array("id")
+//     .map(x => + (typeof(x) !== "undefined")))
+
+const match_count = await matches.array("id")
+    .filter(x => typeof(x) !== "undefined").length
 ```
 
 
@@ -212,7 +214,6 @@ const refresh_views = (matches) => {
     
     }    
 ```
-
 
 <!-- doesn't display anything but listens to changes in "matches",
 e. g. to add and remove pulsating css to badges
