@@ -490,11 +490,16 @@ ${html`<strong>Matches</strong>
      `}
 
 
+
+
 ```js
 const selected_match = (reset_filters, view(Inputs.table(matches,
 {columns: ["id", "measure"], header: {id: "#", rating: "stars"},
 select: true, multiple: false, width: {no: "2em"},
-format: {measure: d => html`<span style="">${d}</span`},
+//format: {measure: d => html`<span style="">${d}</span`},
+format: {measure: d => htl.html`
+<span onpointerover="console.log('')">${d}</span>
+`},
 width: {id: "4em"},
 header:{measure: "gap"}
 }
