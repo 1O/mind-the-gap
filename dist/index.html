@@ -545,11 +545,14 @@ html`<strong>Matches</strong>
 ))
 }});
 
-define({id: "f57f0aeb", inputs: ["reset_filters","view","Inputs","matches","html"], outputs: ["selected_match"], body: (reset_filters,view,Inputs,matches,html) => {
+define({id: "3abf9833", inputs: ["reset_filters","view","Inputs","matches","htl"], outputs: ["selected_match"], body: (reset_filters,view,Inputs,matches,htl) => {
 const selected_match = (reset_filters, view(Inputs.table(matches,
 {columns: ["id", "measure"], header: {id: "#", rating: "stars"},
 select: true, multiple: false, width: {no: "2em"},
-format: {measure: d => html`<span style="">${d}</span`},
+//format: {measure: d => html`<span style="">${d}</span`},
+format: {measure: d => htl.html`
+<span onpointerover="console.log('')">${d}</span>
+`},
 width: {id: "4em"},
 header:{measure: "gap"}
 }
@@ -721,7 +724,7 @@ Narrow your search with the filters below.<a href="#" onclick="document.querySel
 <div class="observablehq observablehq--block"><!--:82530acb:--></div>
 <div class="observablehq observablehq--block"><!--:22e2afed:--></div>
 <p><observablehq-loading></observablehq-loading><!--:10e0379a:--></p>
-<div class="observablehq observablehq--block"><!--:f57f0aeb:--></div>
+<div class="observablehq observablehq--block"><!--:3abf9833:--></div>
 <div class="observablehq observablehq--block"><!--:b661a268:--></div>
 <div class="observablehq observablehq--block"><!--:8220bd7b:--></div>
 </div>
