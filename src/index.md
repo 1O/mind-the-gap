@@ -70,13 +70,14 @@ const data_rolled_up = H.rollup_data(data)
 ```
 
 
-<div class="grid grid-cols-4" style="width:90%; font-family:sans; align-items:start; 
-    align-items: center;
- grid-template-columns: 2fr 1fr 1fr 2fr">
+<div class="grid grid-cols-4" style="font-family:sans;  
+    align-items: center; grid-template-columns: 2fr 1fr .8fr 2fr; margin-right: 5rem">
     <div><h1>Mind the gap!</h1><h2>the X-RISK-CC policy gap explorer</h2></div>
     <div><h1 style="align:middle">X-RISK-CC</h1></div>
-    <div><img src="assets/uba.png"></div>
-    <div><img src="assets/X-RISK-CC_Logo_Landscape_large.png"></div>
+    <div><a href="https://www.umweltbundesamt.at/en/"><img src="assets/uba.png" width=150></div></a>
+    <div style="float:right;">
+    <a href="www.alpine-space.eu/project/x-risk-cc/"><img src="assets/X-RISK-CC_Logo_Landscape_large.png"></a>
+    </div>
 </div>
 
 
