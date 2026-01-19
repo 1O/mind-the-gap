@@ -24,7 +24,7 @@ const md = {
 
 
 import ExcelJS from "../../_npm/exceljs@4.4.0/222f7a0c.js"
-import P from "./prose.0813352a.js"; // for help texts etc.
+import P from "./prose.13e6960d.js"; // for help texts etc.
 
 // import the actual data:
 const data = aq.from(await FileAttachment({"name":"../../data/data.csv","mimeType":"text/csv","path":"../../_file/data/data.a831442b.csv","lastModified":1768399926598,"size":942781}, import.meta.url).csv())
@@ -57,16 +57,11 @@ const get_sector_colors = () => {
     }
 }
 
-
-
 const get_reset_button_filters = () => {
     return Inputs.button(
         html`<span class="fas fa-slash" data-fa-mask="fas fa-filter" data-fa-transform="up-2.5"></span> clear filters`
     )
 }
-
-
-
 
 const rollup_data = (data) => {
     
@@ -188,7 +183,7 @@ const get_detail = (cur_row) => {
             <span class="tag" style="background-color:${get_sector_colors()[cur_row.sector]}">${cur_row.sector}</span>
             </h3>
             <hr/>
-            <h4 class="tag">Topics: ${cur_row.cluster}</strong></h4>
+            <h4 class="tag">Topic: ${cur_row.cluster}</strong></h4>
             <hr/>
             <!-- md.unsafe converts markdown to HTML -->
             <p class="measure">${md.unsafe(cur_row.measure)}</p>
@@ -243,7 +238,7 @@ const get_dialog_filter = () => {
             return html`<sl-card style="width:100%; margin-bottom: 2em;">
             <div slot="header">Filter: <strong>${v.label}</strong></div>
             <div>
-                Filter criterion: <i>${v.general}</i>
+                Guiding question: <i>${v.general}</i>
                 <sl-details summary="Filter options" style="padding: 0em">
                     <dl>
                     ${Object.keys(v.options).map(x => html`
@@ -311,17 +306,23 @@ const get_blob_buffer = (matches, criteria, validated_only) => {
         tl: { col: 0, row: 0 },
         ext: { width: 600, height: 600/5.464348}
     });
-    
-    
+        
     ws_readme.getColumn(1).alignment = {vertical:'top', wrapText: true };
     
+
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const date_formatted = `${year}-${month}-${day}`;
+
     const col_criteria = ws_readme.getColumn(2)
     col_criteria.width = 80;
     col_criteria.alignment = {vertical:'top', wrapText: true };    
     
     const content = {
-        A8: "generated on:",
-        B8: new Date(),
+        A8: `generated with the X-RISK-CC Policy Gap Explorer on:`,
+        B8: `${date_formatted}`,
         A10 : "The results match the following criteria:",
         A11 : "policy sectors:",
         B11 : objects_to_string(criteria.sectors),

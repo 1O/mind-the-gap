@@ -17,8 +17,8 @@
 <link rel="modulepreload" href="./_observablehq/stdlib.3080ab4f.js">
 <link rel="modulepreload" href="./_npm/arquero@7.2.0/f3eb4e3f.js">
 <link rel="modulepreload" href="./_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js">
-<link rel="modulepreload" href="./_import/components/helpers.88bcdd67.js">
-<link rel="modulepreload" href="./_import/components/prose.0813352a.js">
+<link rel="modulepreload" href="./_import/components/helpers.73485008.js">
+<link rel="modulepreload" href="./_import/components/prose.13e6960d.js">
 <link rel="modulepreload" href="./_npm/exceljs@4.4.0/222f7a0c.js">
 <link rel="modulepreload" href="./_npm/lodash@4.17.21/cbfa4f05.js">
 <link rel="modulepreload" href="./_npm/htl@0.3.1/063eb405.js">
@@ -89,7 +89,7 @@ registerFile("./assets/X-RISK-CC_Logo_Landscape_large.png", {"name":"./assets/X-
 registerFile("./data/data.csv", {"name":"./data/data.csv","mimeType":"text/csv","path":"./_file/data/data.a831442b.csv","lastModified":1768399926598,"size":942781});
 
 define({id: "39c759c0", outputs: ["aq","setBasePath","H","P","ExcelJS"], body: async () => {
-const [aq, {setBasePath}, {default: H}, {default: P}, {default: ExcelJS}] = await Promise.all([import("./_npm/arquero@7.2.0/f3eb4e3f.js"), import("./_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js"), import("./_import/components/helpers.88bcdd67.js"), import("./_import/components/prose.0813352a.js"), import("./_npm/exceljs@4.4.0/222f7a0c.js")]);
+const [aq, {setBasePath}, {default: H}, {default: P}, {default: ExcelJS}] = await Promise.all([import("./_npm/arquero@7.2.0/f3eb4e3f.js"), import("./_npm/@shoelace-style/shoelace@2.19.0/41f6f18a.js"), import("./_import/components/helpers.73485008.js"), import("./_import/components/prose.13e6960d.js"), import("./_npm/exceljs@4.4.0/222f7a0c.js")]);
 
 // Set base path for assets
 setBasePath("npm:@shoelace-style/shoelace/dist");
@@ -118,7 +118,7 @@ const sector_labels = {
 return {is_newbie,unset_newbie,sector_labels};
 }});
 
-define({id: "cbc7107f", inputs: ["H","aq","sector_labels"], outputs: ["data","measure_count"], body: (H,aq,sector_labels) => {
+define({id: "e80b44bf", inputs: ["H","aq","sector_labels"], outputs: ["data","measure_count"], body: (H,aq,sector_labels) => {
 const data = H.data
 // convert 0/1 in csv data to false/true
     .derive({
@@ -134,8 +134,7 @@ const data = H.data
     .orderby('sector_order')
 
 
-const measure_count = 475 //data.dedupe("id").array("id").length
-
+const measure_count = data.dedupe("id").array("id").length
 return {data,measure_count};
 }});
 
@@ -595,14 +594,16 @@ return {criteria,buffer_matches,obj_url_matches};
 <script defer="" src="./_import/assets/fontawesome/solid.a24bd8d2.js"></script>
 <div class="observablehq observablehq--block"><!--:39c759c0:--></div>
 <div class="observablehq observablehq--block"><!--:b4a7b048:--></div>
-<div class="observablehq observablehq--block"><!--:cbc7107f:--></div>
+<div class="observablehq observablehq--block"><!--:e80b44bf:--></div>
 <div class="observablehq observablehq--block"><!--:ef34b9e9:--></div>
-<div class="grid grid-cols-4" style="width:90%; font-family:sans; align-items:start">
-  <div class="grid-colspan-2"><h1>Mind the gap!</h1>
-   <h2>the X-RISK-CC policy gap explorer</h2>
-  </div>
-  <div style="text-align:right"><h1 style="align:middle">X-Risk-CC</h1></div>
-  <div style="text-align:right"><img src="./_file/assets/X-RISK-CC_Logo_Landscape_large.a73a7cd9.png" width="300"></div>
+<div class="grid grid-cols-4" style="font-family:sans;  
+    align-items: center; grid-template-columns: 2fr 1fr .8fr 2fr; margin-right: 5rem">
+    <div><h1>Mind the gap!</h1><h2>the X-RISK-CC policy gap explorer</h2></div>
+    <div><h1 style="align:middle">X-RISK-CC</h1></div>
+    <div><a href="https://www.umweltbundesamt.at/en/" target="_blank" rel="noopener noreferrer"><img src="./_file/assets/uba.ca57b468.png" width="150"></a></div>
+    <div style="float:right;">
+    <a href="https://www.alpine-space.eu/project/x-risk-cc/" target="_blank" rel="noopener noreferrer"><img src="./_file/assets/X-RISK-CC_Logo_Landscape_large.a73a7cd9.png"></a>
+    </div>
 </div>
 <div class="observablehq observablehq--block"><!--:34978ed4:--></div>
 <div class="observablehq observablehq--block"><!--:bd16f9ee:--></div>
@@ -731,7 +732,15 @@ Narrow your search with the filters below.<a href="#" onclick="document.querySel
 </div>
 </main>
 <footer id="observablehq-footer">
-<div>Built with Observable by <a href="https://orcid.org/0000-0001-5793-6641" target="_blank" rel="noopener noreferrer">Ivo Offenthaler</a></div>
+<div>
+  <div class="grid grid-cols-4" style="grid-template-columns: 1fr 1fr 1fr">
+    <div>This tool gives access to the results of the analysis of transnational policy gaps related to the climate risk management of weather extremes
+      conducted in the X-RISK-CC project.
+    </div>
+    <div>Analysis of policy gaps conducted, and contents compiled by: <a href="https://www.umweltbundesamt.at/en/" target="_blank" rel="noopener noreferrer">Environment Agency Austria</a>. Built with Observable by <a href="https://orcid.org/0000-0001-5793-6641" target="_blank" rel="noopener noreferrer">I. Offenthaler</a></div>
+    <div>The <a href="https://www.alpine-space.eu/project/x-risk-cc/" target="_blank" rel="noopener noreferrer">X-RISK-CC project</a> is co-funded by the European Union through the Interreg Alpine Space programme.</div>
+  </div>
+</div>
 </footer>
 </div>
 </body>

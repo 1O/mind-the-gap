@@ -1,13 +1,13 @@
 // tooltip contents:
 const tt = {
     sector: {
-        "label": "Sector", 
-        "general": "Which sectors should be screened?",
-        "options": {"null": ""}
+        "label": "Policy sector", 
+        "general": "Which policy fields should be screened?",
+        "options": {"Key policy fields relevant to the management of climate-related risks from weather extremes": "select as appropriate"}
     },
     phases: {
         "label": "Risk management cycle",
-        "general": "To what phases, categories and aspects of the risk management cycle, according to the RRMA scheme, does the gap issue mostly relate to?",
+        "general": "To what phases, categories and aspects of the risk management cycle, according to the RRMA scheme, does the gap issue mostly relate to? Structuring of the risk management cycle follows the scheme of the Rapid Risk Management Appraisal (RRMA).",
         "options": {
             "Prevention: structural": "Active grey, green and hybrid measures to mitigate or control hazards; structural protection measures, technical protection infrastructure, incl. related protection concepts that are part of protection systems; nature-based, bio-engineered, or hybrid protection measures; object-related structural protection measures at property level (presence, design events, effectiveness, adequacy for magnitude and frequency of current and future hazard events, condition, maintenance)",
             "Prevention: non-structural": "Measures to reduce exposure and vulnerability; hazard and risk assessments; hazard and risk maps; contingency plans and implementation; passive risk prevention by spatial planning, land use management & ecosystem-based adaptation services; insurance-based incentives for prevention; information & communication",
@@ -22,7 +22,7 @@ const tt = {
     },
     gaps: {
         "label": "Policy gaps",
-        "general": "What are the prevailing root causes of the gap? To what dimensions do these main causes and needs for action predominantly belong?",
+        "general": "What are the prevailing root causes of the gap? To what domains do these main causes and action needs predominantly belong?",
         "options": {
             "Knowledge, data & evidence": "Lacking or insufficient data, information, evidence and assessments (e.g. related to climate, hazards, risk, management options) prevents more effective risk management policies and actions; uncertainties; monitoring & early warning systems and forecasting tools missing or not fit-for-purpose; complexity of climate-hazard-impact-event-management interactions and of compound and cascading risk; too little knowledge exchange & transfer",
             "Awareness & recognition": "Issues and (emerging) challenges not recognized or not perceived as urgent enough; problems and solutions have not entered policy agendas yet or have too little priority; lack of political will to act; available knowledge about key risks and management options not known or not acccessible to decision-makers; lacking familiarity with existing plans, rules and procedures",
@@ -66,7 +66,7 @@ const tt = {
     validation: {
         "label": "Local validation",
         "general": "Has this measure undergone local validation?",
-        "options": {"null": "null"}
+        "options": {"Has the gap been identified or confirmed at local level in project pilot areas?": "(yes / no)"}
     }
 }
 
