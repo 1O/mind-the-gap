@@ -243,7 +243,7 @@ const get_dialog_filter = () => {
             return html`<sl-card style="width:100%; margin-bottom: 2em;">
             <div slot="header">Filter: <strong>${v.label}</strong></div>
             <div>
-                Filter criterion: <i>${v.general}</i>
+                Guiding question: <i>${v.general}</i>
                 <sl-details summary="Filter options" style="padding: 0em">
                     <dl>
                     ${Object.keys(v.options).map(x => html`
@@ -311,17 +311,23 @@ const get_blob_buffer = (matches, criteria, validated_only) => {
         tl: { col: 0, row: 0 },
         ext: { width: 600, height: 600/5.464348}
     });
-    
-    
+        
     ws_readme.getColumn(1).alignment = {vertical:'top', wrapText: true };
     
+
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const date_formatted = `${year}-${month}-${day}`;
+
     const col_criteria = ws_readme.getColumn(2)
     col_criteria.width = 80;
     col_criteria.alignment = {vertical:'top', wrapText: true };    
     
     const content = {
-        A8: "generated on:",
-        B8: new Date(),
+        A8: `generated with the X-RISK-CC Policy Gap Explorer on:`,
+        B8: `${date_formatted}`,
         A10 : "The results match the following criteria:",
         A11 : "policy sectors:",
         B11 : objects_to_string(criteria.sectors),

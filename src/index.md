@@ -59,8 +59,7 @@ const data = H.data
     .orderby('sector_order')
 
 
-const measure_count = 475 //data.dedupe("id").array("id").length
-
+const measure_count = data.dedupe("id").array("id").length
 ```
 
 
@@ -76,7 +75,7 @@ const data_rolled_up = H.rollup_data(data)
     <div><h1 style="align:middle">X-RISK-CC</h1></div>
     <div><a href="https://www.umweltbundesamt.at/en/"><img src="assets/uba.png" width=150></div></a>
     <div style="float:right;">
-    <a href="www.alpine-space.eu/project/x-risk-cc/"><img src="assets/X-RISK-CC_Logo_Landscape_large.png"></a>
+    <a href="https://www.alpine-space.eu/project/x-risk-cc/"><img src="assets/X-RISK-CC_Logo_Landscape_large.png"></a>
     </div>
 </div>
 

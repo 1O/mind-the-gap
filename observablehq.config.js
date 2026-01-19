@@ -6,7 +6,7 @@ const impressum = `
       conducted in the X-RISK-CC project.
     </div>
     <div>Analysis of policy gaps conducted, and contents compiled by: <a href="https://www.umweltbundesamt.at/en/">Environment Agency Austria</a>. Built with Observable by <a href="https://orcid.org/0000-0001-5793-6641">I. Offenthaler</a></div>
-    <div>The <a href="www.alpine-space.eu/project/x-risk-cc/">X-RISK-CC project</a> is co-funded by the European Union through the Interreg Alpine Space programme.</div>
+    <div>The <a href="https://www.alpine-space.eu/project/x-risk-cc/">X-RISK-CC project</a> is co-funded by the European Union through the Interreg Alpine Space programme.</div>
   </div>
 `
 export default {
