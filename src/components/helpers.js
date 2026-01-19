@@ -30,7 +30,8 @@ import P from "./prose.js"; // for help texts etc.
 const data = aq.from(await FileAttachment('../data/data.csv').csv())
 
 
-const img_src = await FileAttachment('../assets/X-RISK-CC_Logo_Landscape_large.png').arrayBuffer()
+const img_src_alpinespace = await FileAttachment('../assets/X-RISK-CC_Logo_Landscape_large.png').arrayBuffer()
+const img_src_uba = await FileAttachment('../assets/uba.png').arrayBuffer()
 
 const nodes_to_inputs = (tag_name = "sl-button") => {
     // make arbitrary nodes emit an input event so they can be used
@@ -276,8 +277,9 @@ const get_blob_buffer = (matches, criteria, validated_only) => {
     const wb = new ExcelJS.Workbook();
     const ws_readme = wb.addWorksheet('README');
     const ws = wb.addWorksheet('Results');
-    const header_logo = wb.addImage({buffer: img_src, extension: 'png'});
-    
+    const header_logo = wb.addImage({buffer: img_src_alpinespace, extension: 'png'});
+    const header_uba = wb.addImage({buffer: img_src_uba, extension: 'png'});
+
     ws.columns = [
         { header: 'Id', key: 'id', width: 5},
         { header: 'Rating', key: 'rating', width: 5 },
@@ -303,9 +305,12 @@ const get_blob_buffer = (matches, criteria, validated_only) => {
     const objects_to_string = x => x.map(x => x.choices).join(', ')
     
     ws_readme.addImage(header_logo, {
-        tl: { col: 0, row: 0 },
-        ext: { width: 600, height: 600/5.464348}
+        tl: { col: 0, row: 0 }, ext: { width: 600, height: 600/5.464348}
     });
+    ws_readme.addImage(header_uba, {
+        tl: { col: 0, row: 7 }, ext: { width: 250, height: 250 * 52/199}
+    });
+        
         
     ws_readme.getColumn(1).alignment = {vertical:'top', wrapText: true };
     
@@ -321,26 +326,25 @@ const get_blob_buffer = (matches, criteria, validated_only) => {
     col_criteria.alignment = {vertical:'top', wrapText: true };    
     
     const content = {
-        A8: `generated with the X-RISK-CC Policy Gap Explorer on:`,
-        B8: `${date_formatted}`,
-        A10 : "The results match the following criteria:",
-        A11 : "policy sectors:",
-        B11 : objects_to_string(criteria.sectors),
-        A12 :"phases of risk management cycle:",
-        B12 : objects_to_string(criteria.phases),
-        A13 : "gap types:",
-        B13 : objects_to_string(criteria.gaps),
-        A14 : "risk ownership levels:",
-        B14: objects_to_string(criteria.ownerships),
-        A15 : "climate risks related to:",
-        B15 : objects_to_string(criteria.risks),
-        A16 : "show locally validated measures only?",
-        B16 : validated_only
+        A12: `generated with the X-RISK-CC Policy Gap Explorer on:`,
+        B12: `${date_formatted}`,
+        A14 : "The results match the following criteria:",
+        A15 : "policy sectors:",
+        B15 : objects_to_string(criteria.sectors),
+        A16 :"phases of risk management cycle:",
+        B16 : objects_to_string(criteria.phases),
+        A17 : "gap types:",
+        B17 : objects_to_string(criteria.gaps),
+        A18 : "risk ownership levels:",
+        B18: objects_to_string(criteria.ownerships),
+        A19 : "climate risks related to:",
+        B19 : objects_to_string(criteria.risks),
+        A20 : "show locally validated measures only?",
+        B20 : validated_only
     }
     
     // fill worksheet cells:
     _.forEach(content, (v, k) => ws_readme.getCell(k).value = v)
-    
     
     
     // set col widths for README:
