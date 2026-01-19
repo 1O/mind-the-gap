@@ -57,16 +57,11 @@ const get_sector_colors = () => {
     }
 }
 
-
-
 const get_reset_button_filters = () => {
     return Inputs.button(
         html`<span class="fas fa-slash" data-fa-mask="fas fa-filter" data-fa-transform="up-2.5"></span> clear filters`
     )
 }
-
-
-
 
 const rollup_data = (data) => {
     
@@ -188,7 +183,7 @@ const get_detail = (cur_row) => {
             <span class="tag" style="background-color:${get_sector_colors()[cur_row.sector]}">${cur_row.sector}</span>
             </h3>
             <hr/>
-            <h4 class="tag">Topics: ${cur_row.cluster}</strong></h4>
+            <h4 class="tag">Topic: ${cur_row.cluster}</strong></h4>
             <hr/>
             <!-- md.unsafe converts markdown to HTML -->
             <p class="measure">${md.unsafe(cur_row.measure)}</p>
