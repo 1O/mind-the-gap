@@ -70,12 +70,13 @@ const data_rolled_up = H.rollup_data(data)
 ```
 
 
-<div class="grid grid-cols-4" style="width:90%; font-family:sans; align-items:start">
-  <div class="grid-colspan-2"><h1>Mind the gap!</h1>
-   <h2>the X-RISK-CC policy gap explorer</h2    >
-  </div>
-  <div style="text-align:right"><h1 style="align:middle">X-Risk-CC</h1></div>
-  <div style="text-align:right"><img src="assets/X-RISK-CC_Logo_Landscape_large.png" width="300"></div>
+<div class="grid grid-cols-4" style="width:90%; font-family:sans; align-items:start; 
+    align-items: center;
+ grid-template-columns: 2fr 1fr 1fr 2fr">
+    <div><h1>Mind the gap!</h1><h2>the X-RISK-CC policy gap explorer</h2></div>
+    <div><h1 style="align:middle">X-RISK-CC</h1></div>
+    <div><img src="assets/uba.png"></div>
+    <div><img src="assets/X-RISK-CC_Logo_Landscape_large.png"></div>
 </div>
 
 
