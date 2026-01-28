@@ -243,10 +243,13 @@ define({id: "8f84fd78", inputs: ["localStorage","matches"], body: (localStorage,
 {localStorage.setItem("adaptation_measures", matches.toCSV())}
 }});
 
-define({id: "9da771cf", inputs: ["aq","localStorage"], outputs: ["storage_data"], body: (aq,localStorage) => {
+define({id: "df2f6ef1", inputs: ["localStorage","aq"], outputs: ["csv_storage_data"], body: (localStorage,aq) => {
 // retrieve user defined matches (if necessary)
-const storage_data = aq.fromCSV(localStorage.getItem("adaptation_measures"))
-return {storage_data};
+// this functionality is not yet used.
+const csv_storage_data = localStorage.getItem("adaptation_measures")
+if(csv_storage_data) {const storage_data = aq.fromCSV(csv_storage_data)}
+
+return {csv_storage_data};
 }});
 
 define({id: "36ccc4e4", inputs: ["Mutable"], outputs: ["ratings","update_ratings","reset_ratings"], body: (Mutable) => {
@@ -612,7 +615,7 @@ return {criteria,buffer_matches,obj_url_matches};
 <div class="observablehq observablehq--block"><!--:f84ea650:--></div>
 <div class="observablehq observablehq--block"><!--:4e998cba:--></div>
 <div class="observablehq observablehq--block"><!--:8f84fd78:--></div>
-<div class="observablehq observablehq--block"><!--:9da771cf:--></div>
+<div class="observablehq observablehq--block"><!--:df2f6ef1:--></div>
 <div class="observablehq observablehq--block"><!--:36ccc4e4:--></div>
 <div class="observablehq observablehq--block"><!--:8cad87cb:--></div>
 <div class="observablehq observablehq--block"><!--:8f6dcbbc:--></div>
