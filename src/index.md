@@ -179,7 +179,10 @@ const match_count = await matches.array("id")
 
 ```js
 // retrieve user defined matches (if necessary)
-const storage_data = aq.fromCSV(localStorage.getItem("adaptation_measures"))
+// this functionality is not yet used.
+const csv_storage_data = localStorage.getItem("adaptation_measures")
+if(csv_storage_data) {const storage_data = aq.fromCSV(csv_storage_data)}
+
 ```
 
 
